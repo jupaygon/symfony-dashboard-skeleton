@@ -64,6 +64,11 @@
     margin-bottom: 14px;
     color: var(--jarvis-sidebar-accent, #38bdf8);
 }
+.landing__feature-icon img {
+    width: 28px;
+    height: 28px;
+    filter: brightness(0) saturate(100%) invert(68%) sepia(57%) saturate(1000%) hue-rotate(170deg) brightness(104%) contrast(97%);
+}
 
 .landing__feature-title {
     margin: 0 0 8px;

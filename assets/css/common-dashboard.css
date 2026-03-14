@@ -829,3 +829,33 @@ table.datagrid .form-switch .form-check-input:checked {
     background-color: #38bdf8 !important;
     border-color: #38bdf8 !important;
 }
+
+/* ── Dashboard welcome placeholder ── */
+.dashboard-welcome {
+    max-width: 700px;
+    margin: 60px auto;
+    text-align: center;
+    color: var(--jarvis-content-text-muted, #7a8599);
+}
+.dashboard-welcome__icon {
+    font-size: 3rem;
+    margin-bottom: 16px;
+}
+.dashboard-welcome__title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--jarvis-content-heading, #e2e8f4);
+    margin-bottom: 12px;
+}
+.dashboard-welcome__text {
+    font-size: 1rem;
+    line-height: 1.7;
+    margin-bottom: 16px;
+}
+.dashboard-welcome__text code {
+    background: rgba(56, 189, 248, 0.1);
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    color: var(--jarvis-sidebar-accent, #38bdf8);
+}
