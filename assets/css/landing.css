@@ -107,3 +107,102 @@
         font-size: 1.6rem;
     }
 }
+
+/* ══════════════════════════════════════════════════════════════
+   Login Page
+   ══════════════════════════════════════════════════════════════ */
+
+.login {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--jarvis-login-bg, #0f172a);
+    color: var(--jarvis-login-text, #e2e8f0);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.login-card {
+    background: var(--jarvis-login-box-bg, #1e293b);
+    border: 1px solid var(--jarvis-login-box-border, #334155);
+    border-radius: 12px;
+    padding: 40px;
+    width: 100%;
+    max-width: 400px;
+}
+
+.login-logo {
+    display: block;
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 20px;
+    filter: drop-shadow(0 0 16px rgba(56, 189, 248, 0.3));
+}
+
+.login-card h1 {
+    font-size: 1.5rem;
+    margin-bottom: 24px;
+    text-align: center;
+    color: var(--jarvis-sidebar-accent, #38bdf8);
+}
+
+.login .form-group { margin-bottom: 16px; }
+
+.login .form-group label {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--jarvis-login-label, #94a3b8);
+    margin-bottom: 6px;
+}
+
+.login .form-group input {
+    width: 100%;
+    padding: 10px 14px;
+    background: var(--jarvis-login-input-bg, #0f172a);
+    border: 1px solid var(--jarvis-login-input-border, #334155);
+    border-radius: 8px;
+    color: var(--jarvis-login-text, #e2e8f0);
+    font-size: 0.95rem;
+}
+
+.login .form-group input:focus {
+    outline: none;
+    border-color: var(--jarvis-login-input-focus-border, #38bdf8);
+}
+
+.login .btn-login {
+    width: 100%;
+    padding: 12px;
+    background: var(--jarvis-login-btn-bg, #22b8cf);
+    color: var(--jarvis-login-btn-text, #0f172a);
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 8px;
+}
+
+.login .btn-login:hover {
+    background: var(--jarvis-login-btn-bg-hover, #1ca3b8);
+}
+
+.login .error {
+    background: var(--jarvis-login-error-bg, rgba(248,113,113,0.1));
+    border: 1px solid var(--jarvis-login-error-border, rgba(248,113,113,0.3));
+    color: var(--jarvis-login-error-text, #f87171);
+    padding: 10px 14px;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    font-size: 0.88rem;
+}
+
+.login .remember {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 12px;
+    color: var(--jarvis-login-label, #94a3b8);
+    font-size: 0.85rem;
+}
