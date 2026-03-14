@@ -822,10 +822,10 @@ body.ea select.form-select {
 
 /* ── Boolean switch — green when active ── */
 .form-switch .form-check-input:checked {
-    background-color: #22c55e !important;
-    border-color: #22c55e !important;
+    background-color: #38bdf8 !important;
+    border-color: #38bdf8 !important;
 }
 table.datagrid .form-switch .form-check-input:checked {
-    background-color: #22c55e !important;
-    border-color: #22c55e !important;
+    background-color: #38bdf8 !important;
+    border-color: #38bdf8 !important;
 }

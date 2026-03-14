@@ -33,7 +33,8 @@ class OrganizationCrudController extends AbstractCrudController
             ->setEntityLabelInPlural('Organizations')
             ->showEntityActionsInlined()
             ->setPaginatorPageSize(10)
-            ->setDefaultSort(['name' => 'ASC']);
+            ->setDefaultSort(['name' => 'ASC'])
+            ->setPageTitle(Crud::PAGE_EDIT, 'Organization: %entity_as_string%');
     }
 
     public function configureActions(Actions $actions): Actions
@@ -53,33 +54,25 @@ class OrganizationCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
-        // Tab: General Information
-        yield FormField::addTab('General Information', 'fas fa-info-circle');
-        yield BooleanField::new('active')->setColumns(12);
+        yield BooleanField::new('active')->setColumns(2);
         yield FormField::addRow();
         yield TextField::new('name')->setColumns(4);
         yield UrlField::new('web')->setColumns(4)->hideOnIndex();
         yield FormField::addRow();
         yield TextField::new('legalName', 'Legal Name')->setColumns(4)->hideOnIndex();
         yield TextField::new('vatNumber', 'VAT Number')->setColumns(4)->hideOnIndex();
-
-        // Tab: Address
-        yield FormField::addTab('Address', 'fas fa-map-marker-alt');
+        yield FormField::addFieldset('Address', 'fas fa-map-marker-alt')->hideOnIndex();
         yield TextField::new('address')->setColumns(4);
         yield TextField::new('city')->setColumns(2);
         yield FormField::addRow();
         yield TextField::new('state')->setColumns(4);
         yield TextField::new('zip')->setColumns(2);
         yield TextField::new('country')->setColumns(4);
-
-        // Tab: Team
-        yield FormField::addTab('Team', 'fas fa-users');
+        yield FormField::addFieldset('Notes', 'fas fa-sticky-note')->hideOnIndex();
+        yield TextareaField::new('comments')->setColumns(6)->hideOnIndex();
+        yield FormField::addFieldset('Team', 'fas fa-users');
         yield IntegerField::new('teamCount', 'Members')->onlyOnIndex();
         yield AssociationField::new('users', 'Team Members')->hideOnIndex();
-
-        // Tab: Notes
-        yield FormField::addTab('Notes', 'fas fa-sticky-note');
-        yield TextareaField::new('comments')->setColumns(6)->hideOnIndex();
         yield DateTimeField::new('createdAt')->hideOnForm();
     }
 }

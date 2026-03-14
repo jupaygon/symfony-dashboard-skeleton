@@ -32,6 +32,13 @@
             width: 100%;
             max-width: 400px;
         }
+        .login-logo {
+            display: block;
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            filter: drop-shadow(0 0 16px rgba(56, 189, 248, 0.3));
+        }
         .login-card h1 {
             font-size: 1.5rem;
             margin-bottom: 24px;
@@ -81,6 +88,7 @@
 </head>
 <body>
     <div class="login-card">
+        <img src="{{ asset('images/logo.svg') }}" alt="Logo" class="login-logo">
         <h1>Sign In</h1>
 
         {% if error %}

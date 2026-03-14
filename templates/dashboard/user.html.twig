@@ -1,0 +1,14 @@
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block content_title %}Dashboard{% endblock %}
+
+{% block main %}
+<div style="max-width: 700px; margin: 60px auto; text-align: center; color: #64748b;">
+    <div style="font-size: 3rem; margin-bottom: 16px;">&#128075;</div>
+    <h2 style="font-size: 1.5rem; font-weight: 600; color: #e2e8f0; margin-bottom: 12px;">Welcome, {{ app.user.name }}</h2>
+    <p style="font-size: 1rem; line-height: 1.7;">
+        This is the user dashboard. Customize it in<br>
+        <code style="background: rgba(56,189,248,0.1); padding: 3px 8px; border-radius: 4px; font-size: 0.9rem; color: #38bdf8;">templates/dashboard/user.html.twig</code>
+    </p>
+</div>
+{% endblock %}

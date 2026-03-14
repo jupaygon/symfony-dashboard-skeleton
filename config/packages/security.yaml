@@ -26,14 +26,15 @@ security:
                 default_target_path: /admin
             logout:
                 path: app_logout
-                target: app_login
+                target: app_index
             remember_me:
                 secret: '%kernel.secret%'
                 lifetime: 604800
-            switch_user:
-                role: ROLE_ADMIN
+            switch_user: { role: ROLE_ADMIN, parameter: _switch_user }
 
     access_control:
+        - { path: ^/$, roles: PUBLIC_ACCESS }
         - { path: ^/login, roles: PUBLIC_ACCESS }
         - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/dashboard, roles: ROLE_USER }
         - { path: ^/, roles: ROLE_USER }

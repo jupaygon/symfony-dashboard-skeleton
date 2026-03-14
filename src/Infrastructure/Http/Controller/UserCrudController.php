@@ -4,11 +4,19 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Http\Controller;
 
+use App\Domain\Model\Organization;
 use App\Domain\Model\User;
+use Doctrine\ORM\QueryBuilder;
+use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
+use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Config\KeyValueStore;
+use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
+use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
@@ -16,12 +24,15 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 /** @extends AbstractCrudController<User> */
 class UserCrudController extends AbstractCrudController
 {
+    use OrgAccessTrait;
+
     public function __construct(
         private readonly UserPasswordHasherInterface $passwordHasher,
     ) {
@@ -39,7 +50,8 @@ class UserCrudController extends AbstractCrudController
             ->setEntityLabelInPlural('Users')
             ->showEntityActionsInlined()
             ->setPaginatorPageSize(10)
-            ->setDefaultSort(['name' => 'ASC']);
+            ->setDefaultSort(['name' => 'ASC'])
+            ->setPageTitle(Crud::PAGE_EDIT, 'User: %entity_as_string%');
     }
 
     public function configureActions(Actions $actions): Actions
@@ -47,10 +59,12 @@ class UserCrudController extends AbstractCrudController
         $impersonate = Action::new('impersonate', false, 'fa-solid fa-user-secret')
             ->setHtmlAttributes(['title' => 'Impersonate'])
             ->linkToUrl(function (User $user): string {
-                return '?_switch_user=' . $user->getEmail();
+                $target = in_array('ROLE_ADMIN', $user->getRoles(), true) ? '/admin' : '/dashboard';
+                return $target . '?_switch_user=' . $user->getEmail();
             })
             ->displayIf(function (User $user): bool {
-                return !$user->isSuperAdmin();
+                return !$user->isSuperAdmin()
+                    && $user !== $this->getUser();
             });
 
         return $actions
@@ -75,19 +89,23 @@ class UserCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
-        // Tab: Profile
-        yield FormField::addTab('Profile', 'fas fa-user');
+        $orgIds = $this->getAllowedOrgIds();
+
         yield BooleanField::new('active')->setColumns(2);
         yield FormField::addRow();
-        yield EmailField::new('email')->setColumns(3);
-        yield TextField::new('name', 'Full Name')->setColumns(3);
-
-        // Tab: Security
-        yield FormField::addTab('Security', 'fas fa-shield-alt');
+        yield TextField::new('name', 'Full Name')->setColumns(4);
+        yield FormField::addRow();
+        yield EmailField::new('email')->setColumns(4);
+        yield FormField::addRow();
         yield TextField::new('password')
             ->onlyWhenCreating()
-            ->setColumns(3)
+            ->setColumns(4)
             ->setHelp('Plain text — will be hashed automatically');
+        yield TextField::new('plainPassword', 'New Password')
+            ->onlyWhenUpdating()
+            ->setColumns(4)
+            ->setRequired(false)
+            ->setHelp('Leave empty to keep current password');
         yield FormField::addRow();
 
         $roleChoices = [
@@ -108,13 +126,75 @@ class UserCrudController extends AbstractCrudController
             ->setChoices($roleChoices)
             ->allowMultipleChoices()
             ->renderAsBadges($roleBadges);
+        yield FormField::addRow();
 
-        // Tab: Organizations
-        yield FormField::addTab('Organizations', 'fas fa-building');
-        yield AssociationField::new('organizations')->setColumns(4);
+        $orgField = AssociationField::new('organizations')
+            ->setColumns(4)
+            ->formatValue(function ($value, User $entity) use ($orgIds) {
+                $orgs = $entity->getOrganizations();
+                if ($orgIds !== null) {
+                    $orgs = $orgs->filter(fn(Organization $o) => in_array($o->getId(), $orgIds, true));
+                }
+                $badges = $orgs->map(
+                    fn(Organization $o) => sprintf('<span class="badge badge-info">%s</span>', htmlspecialchars($o->getName()))
+                )->toArray();
 
-        // Index-only fields
+                return implode(' ', $badges);
+            });
+
+        if ($orgIds !== null) {
+            $orgField->setQueryBuilder(function (QueryBuilder $qb) use ($orgIds) {
+                $qb->andWhere('entity.id IN (:orgIds)')
+                    ->setParameter('orgIds', $orgIds);
+            });
+        }
+
+        yield $orgField;
+        yield FormField::addRow();
         yield DateTimeField::new('createdAt')->hideOnForm();
+    }
+
+    public function createIndexQueryBuilder(SearchDto $searchDto, EntityDto $entityDto, FieldCollection $fields, FilterCollection $filters): QueryBuilder
+    {
+        $qb = parent::createIndexQueryBuilder($searchDto, $entityDto, $fields, $filters);
+        $orgIds = $this->getAllowedOrgIds();
+
+        // Non-super-admins: only see users in their orgs, and never see super admins
+        if ($orgIds !== null) {
+            $qb->innerJoin('entity.organizations', 'orgs')
+                ->andWhere('orgs.id IN (:orgIds)')
+                ->setParameter('orgIds', $orgIds)
+                ->andWhere('entity.roles NOT LIKE :superAdmin')
+                ->setParameter('superAdmin', '%ROLE_SUPER_ADMIN%');
+        }
+
+        // Role-priority ordering (replaces default sort)
+        $qb->resetDQLPart('orderBy')
+            ->addSelect("CASE
+                WHEN entity.roles LIKE '%ROLE_SUPER_ADMIN%' THEN 0
+                WHEN entity.roles LIKE '%ROLE_ADMIN%' THEN 1
+                ELSE 2
+            END AS HIDDEN role_priority")
+            ->orderBy('role_priority', 'ASC')
+            ->addOrderBy('entity.name', 'ASC');
+
+        return $qb;
+    }
+
+    public function detail(AdminContext $context): KeyValueStore|Response
+    {
+        $this->denyAccessToSuperAdmin();
+        $this->denyAccessUnlessSharedOrg();
+
+        return parent::detail($context);
+    }
+
+    public function edit(AdminContext $context): KeyValueStore|Response
+    {
+        $this->denyAccessToSuperAdmin();
+        $this->denyAccessUnlessSharedOrg();
+
+        return parent::edit($context);
     }
 
     public function persistEntity($entityManager, $entityInstance): void
@@ -127,12 +207,75 @@ class UserCrudController extends AbstractCrudController
         parent::persistEntity($entityManager, $entityInstance);
     }
 
+    public function updateEntity($entityManager, $entityInstance): void
+    {
+        if ($entityInstance instanceof User && $entityInstance->isSuperAdmin() && !$this->isGranted('ROLE_SUPER_ADMIN')) {
+            throw new AccessDeniedHttpException('Only super admins can edit super admin users.');
+        }
+
+        if ($entityInstance instanceof User && $entityInstance->getPlainPassword()) {
+            $hashed = $this->passwordHasher->hashPassword($entityInstance, $entityInstance->getPlainPassword());
+            $entityInstance->setPassword($hashed);
+        }
+
+        if ($entityInstance instanceof User) {
+            $this->preserveHiddenOrganizations($entityInstance);
+        }
+
+        parent::updateEntity($entityManager, $entityInstance);
+    }
+
     public function deleteEntity($entityManager, $entityInstance): void
     {
         if ($entityInstance instanceof User && $entityInstance->isSuperAdmin()) {
             throw new AccessDeniedHttpException('Super admin users cannot be deleted.');
         }
 
+        if ($entityInstance instanceof User) {
+            $this->denyUnlessUserSharesOrg($entityInstance);
+        }
+
         parent::deleteEntity($entityManager, $entityInstance);
+    }
+
+    private function denyAccessToSuperAdmin(): void
+    {
+        $entity = $this->getContext()?->getEntity()?->getInstance();
+
+        if ($entity instanceof User && $entity->isSuperAdmin() && !$this->isGranted('ROLE_SUPER_ADMIN')) {
+            throw new AccessDeniedHttpException('Only super admins can access super admin users.');
+        }
+    }
+
+    private function denyAccessUnlessSharedOrg(): void
+    {
+        $entity = $this->getContext()?->getEntity()?->getInstance();
+
+        if ($entity instanceof User) {
+            $this->denyUnlessUserSharesOrg($entity);
+        }
+    }
+
+    private function preserveHiddenOrganizations(User $user): void
+    {
+        $orgIds = $this->getAllowedOrgIds();
+
+        if ($orgIds === null) {
+            return;
+        }
+
+        $em = $this->container->get('doctrine')->getManager();
+        $originalOrgs = $em->getRepository(Organization::class)->findBy([
+            'id' => $em->getConnection()->fetchFirstColumn(
+                'SELECT organization_id FROM user_organization WHERE user_id = ?',
+                [$user->getId()]
+            ),
+        ]);
+
+        foreach ($originalOrgs as $org) {
+            if (!in_array($org->getId(), $orgIds, true)) {
+                $user->addOrganization($org);
+            }
+        }
     }
 }

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="{{ asset('brands/default/css/custom-dashboard.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/landing.css') }}">
+</head>
+<body class="landing">
+    <div class="landing__container">
+        <header class="landing__header">
+            <img src="{{ asset('images/logo.svg') }}" alt="Logo" class="landing__logo">
+            <h1 class="landing__title">Dashboard Skeleton</h1>
+            <p class="landing__subtitle">Admin panel powered by Symfony 8 + EasyAdmin 5</p>
+        </header>
+
+        <section class="landing__features">
+            <div class="landing__feature">
+                <div class="landing__feature-icon">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                    </svg>
+                </div>
+                <h3 class="landing__feature-title">Multi-tenant</h3>
+                <p class="landing__feature-text">Organizations, roles, and user management with admin isolation per organization.</p>
+            </div>
+            <div class="landing__feature">
+                <div class="landing__feature-icon">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
+                    </svg>
+                </div>
+                <h3 class="landing__feature-title">Hexagonal Architecture</h3>
+                <p class="landing__feature-text">Clean separation: Domain, Application, Infrastructure. Ready to scale.</p>
+            </div>
+            <div class="landing__feature">
+                <div class="landing__feature-icon">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+                    </svg>
+                </div>
+                <h3 class="landing__feature-title">Brand Skinning</h3>
+                <p class="landing__feature-text">Host-based branding with CSS variables. Switch themes per domain.</p>
+            </div>
+        </section>
+
+        <div class="landing__cta">
+            <a href="{{ path('app_login') }}" class="landing__btn">Sign in</a>
+        </div>
+    </div>
+</body>
+</html>

@@ -12,8 +12,8 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 use Symfony\Component\HttpFoundation\Response;
 
-#[AdminDashboard(routePath: '/admin', routeName: 'app_admin')]
-class DashboardController extends AbstractDashboardController
+#[AdminDashboard(routePath: '/dashboard', routeName: 'app_dashboard')]
+class UserDashboardController extends AbstractDashboardController
 {
     public function __construct(
         private readonly BrandContext $brandContext,
@@ -22,7 +22,7 @@ class DashboardController extends AbstractDashboardController
 
     public function index(): Response
     {
-        return $this->render('dashboard/index.html.twig');
+        return $this->render('dashboard/user.html.twig');
     }
 
     public function configureDashboard(): Dashboard
@@ -31,19 +31,19 @@ class DashboardController extends AbstractDashboardController
 
         return Dashboard::new()
             ->setTitle('<img src="/images/logo.svg" style="width:42px;height:42px;vertical-align:middle;margin-right:10px"><span style="font-size:1.3rem;font-weight:700;color:#38bdf8;letter-spacing:0.05em">DS</span>')
-            ->setFaviconPath('images/logo.svg')
-            ->setTranslationDomain('admin')
-            ->setLocales(['en' => 'English', 'es' => 'Español']);
+            ->setFaviconPath('images/logo.svg');
     }
 
     public function configureMenuItems(): iterable
     {
-        yield MenuItem::linkToDashboard('Admin Dashboard', 'fa fa-home');
-        yield MenuItem::section('Management');
-        yield MenuItem::linkTo(OrganizationCrudController::class, 'Organizations', 'fas fa-building');
-        yield MenuItem::linkTo(UserCrudController::class, 'Users', 'fas fa-users');
+        yield MenuItem::linkToDashboard('User Dashboard', 'fa fa-home');
+
+        if ($this->isGranted('ROLE_ADMIN')) {
+            yield MenuItem::section();
+            yield MenuItem::linkToRoute('Admin Dashboard', 'fa fa-cogs', 'app_admin');
+        }
+
         yield MenuItem::section();
-        yield MenuItem::linkToRoute('User Dashboard', 'fa fa-tachometer-alt', 'app_dashboard');
         yield MenuItem::linkToLogout('Logout', 'fa fa-sign-out');
     }
 
