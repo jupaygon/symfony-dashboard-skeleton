@@ -8,6 +8,10 @@ security:
                 class: App\Domain\Model\User
                 property: email
 
+    role_hierarchy:
+        ROLE_ADMIN: ROLE_USER
+        ROLE_SUPER_ADMIN: ROLE_ADMIN
+
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -26,6 +30,8 @@ security:
             remember_me:
                 secret: '%kernel.secret%'
                 lifetime: 604800
+            switch_user:
+                role: ROLE_ADMIN
 
     access_control:
         - { path: ^/login, roles: PUBLIC_ACCESS }

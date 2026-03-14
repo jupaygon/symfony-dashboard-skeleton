@@ -1,56 +1,821 @@
-/* ══════════════════════════════════════════════════════════════
-   Common Dashboard Styles
-   Shared across all brands/skins. Uses CSS variables defined
-   in each brand's custom-dashboard.css.
-   ══════════════════════════════════════════════════════════════ */
+/* Overrides for EasyAdmin default styles — uses variables from skin.css */
 
-body.ea {
-    background: var(--bg-body, #f8f9fa) !important;
-    color: var(--text-primary, #1e293b) !important;
-    font-family: var(--font-family, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif) !important;
+/* ── Sidebar ── */
+.sidebar {
+    background: var(--jarvis-sidebar-bg) !important;
+    border-right: 1px solid var(--jarvis-border-subtle) !important;
+    box-shadow: none !important;
 }
 
-/* Sidebar */
-.ea-sidebar {
-    background: var(--sidebar-bg, #1e293b) !important;
+/* Logo area */
+#header-logo {
+    text-align: center;
+    padding: 20px 16px 12px;
+    border-bottom: 1px solid var(--jarvis-sidebar-border);
+}
+#header-logo .logo {
+    display: inline-block;
+}
+#header-logo .logo-custom img {
+    width: 70%;
+    height: auto;
+    border-radius: 50%;
+    box-shadow: var(--jarvis-sidebar-logo-glow);
 }
 
-.ea-sidebar .main-menu a {
-    color: var(--sidebar-text, #94a3b8) !important;
+/* Menu items */
+#main-menu .menu .menu-header {
+    color: var(--jarvis-sidebar-accent) !important;
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    opacity: 0.7;
+    padding-top: 14px;
 }
 
-.ea-sidebar .main-menu a:hover,
-.ea-sidebar .main-menu .active > a {
-    color: var(--sidebar-text-active, #ffffff) !important;
-    background: var(--sidebar-item-active-bg, rgba(56,189,248,0.15)) !important;
+#main-menu .menu .menu-item {
+    margin: 1px 6px;
+    border-radius: 6px;
+    transition: background 0.2s;
+}
+#main-menu .menu .menu-item .menu-item-contents {
+    color: var(--jarvis-sidebar-text) !important;
+    padding: 7px 4px;
+}
+#main-menu .menu .menu-item .menu-icon,
+#main-menu .menu .menu-item .menu-icon svg {
+    color: var(--jarvis-sidebar-text) !important;
+    transition: color 0.2s;
 }
 
-/* Content */
-.ea-content {
-    background: var(--bg-content, #f1f5f9) !important;
+#main-menu .menu .menu-item:hover {
+    background: var(--jarvis-sidebar-accent-dim) !important;
+}
+#main-menu .menu .menu-item:hover .menu-item-contents {
+    color: var(--jarvis-sidebar-text-bright) !important;
+}
+#main-menu .menu .menu-item:hover .menu-icon,
+#main-menu .menu .menu-item:hover .menu-icon svg {
+    color: var(--jarvis-sidebar-text-bright) !important;
 }
 
-/* Cards */
-.card {
-    background: var(--bg-card, #ffffff) !important;
-    border-color: var(--border-color, #e2e8f0) !important;
+#main-menu .menu .menu-item.active {
+    background: var(--jarvis-sidebar-accent-dim) !important;
+    box-shadow: inset 3px 0 0 var(--jarvis-sidebar-accent);
+}
+#main-menu .menu .menu-item.active .menu-item-contents,
+#main-menu .menu .menu-item.active .menu-item-label {
+    color: var(--jarvis-sidebar-accent) !important;
+    font-weight: 600;
+}
+#main-menu .menu .menu-item.active .menu-icon,
+#main-menu .menu .menu-item.active .menu-icon svg {
+    color: var(--jarvis-sidebar-accent) !important;
 }
 
-/* Buttons */
-.btn-primary {
-    background-color: var(--btn-primary-bg, #3b82f6) !important;
-    border-color: var(--btn-primary-bg, #3b82f6) !important;
-    color: var(--btn-primary-text, #ffffff) !important;
+/* Sidebar resizer */
+#sidebar-resizer-handler {
+    background: var(--jarvis-sidebar-border) !important;
+    width: 1px !important;
 }
 
-/* Tables */
-.table thead th {
-    background: var(--table-header-bg, #f8fafc) !important;
-    color: var(--table-header-text, #64748b) !important;
+/* ── Flash messages — reposition below search bar ── */
+#flash-messages {
+    position: fixed;
+    top: auto;
+    bottom: 20px;
+    right: 20px;
+    left: auto;
+    z-index: 1050;
+    max-width: 600px;
+    width: calc(100% - 40px);
+}
+#flash-messages .alert {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3) !important;
+    border-radius: 8px !important;
+    margin-bottom: 8px !important;
 }
 
-/* Top bar */
-.ea-header {
-    background: var(--topbar-bg, #ffffff) !important;
-    border-bottom-color: var(--border-color, #e2e8f0) !important;
+/* ── Content area ── */
+.content-wrapper, .main-content, .content-top, .content-header {
+    background: var(--jarvis-content-bg) !important;
+}
+
+/* Subtle separators — EA uses box-shadow for content-top border */
+.content-top {
+    box-shadow: 0 1px 0 var(--jarvis-border-separator) !important;
+}
+.content-wrapper, .main-content {
+    color: var(--jarvis-content-text) !important;
+}
+
+/* ── Top bar (search + user menu) ── */
+.navbar-custom-menu {
+    margin-left: auto !important;
+}
+
+/* User menu (top-right corner) */
+.user-menu-wrapper .dropdown-toggle {
+    color: var(--jarvis-sidebar-accent) !important;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+.user-menu-wrapper .user-avatar,
+.user-menu-wrapper .user-avatar svg {
+    color: var(--jarvis-sidebar-accent) !important;
+    fill: var(--jarvis-sidebar-accent) !important;
+}
+.user-menu-wrapper .dropdown-menu .dropdown-item .icon,
+.user-menu-wrapper .dropdown-menu .dropdown-item .icon svg {
+    color: var(--jarvis-sidebar-text) !important;
+    fill: var(--jarvis-sidebar-text) !important;
+}
+.user-menu-wrapper .user-name {
+    color: var(--jarvis-sidebar-accent) !important;
+}
+.user-menu-wrapper .dropdown-menu {
+    background: var(--jarvis-sidebar-bg) !important;
+    border: 1px solid var(--jarvis-crud-btn-border) !important;
+    border-radius: 8px !important;
+    box-shadow: var(--jarvis-sidebar-dropdown-shadow) !important;
+}
+.user-menu-wrapper .dropdown-menu .dropdown-divider,
+.user-menu-wrapper .dropdown-menu hr {
+    border-color: var(--jarvis-crud-btn-border) !important;
+    opacity: 0.4;
+}
+.user-menu-wrapper .dropdown-menu .dropdown-item {
+    color: var(--jarvis-sidebar-text) !important;
+    font-size: 0.8rem;
+}
+.user-menu-wrapper .dropdown-menu .dropdown-item:hover {
+    background: var(--jarvis-sidebar-accent-dim) !important;
+    color: var(--jarvis-sidebar-text-bright) !important;
+}
+
+/* ── Search bar ── */
+.content-top {
+    padding: 14px 20px !important;
+}
+.content-search {
+    max-width: 400px;
+}
+.form-action-search {
+    position: relative;
+}
+.form-action-search .content-search-icon {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--jarvis-crud-search-icon) !important;
+    z-index: 1;
+    pointer-events: none;
+    line-height: 0 !important;
+}
+.form-action-search .content-search-icon svg {
+    width: 14px !important;
+    height: 14px !important;
+    display: block !important;
+}
+.form-action-search .form-control[type="search"] {
+    background: var(--jarvis-crud-search-bg) !important;
+    border: 1px solid var(--jarvis-crud-search-border) !important;
+    border-radius: 6px !important;
+    color: var(--jarvis-crud-search-text) !important;
+    font-size: 0.8rem !important;
+    padding: 6px 10px 6px 30px !important;
+    height: auto !important;
+}
+.form-action-search .form-control[type="search"]::placeholder {
+    color: var(--jarvis-crud-search-placeholder) !important;
+}
+.form-action-search .form-control[type="search"]:focus {
+    box-shadow: 0 0 0 2px var(--jarvis-sidebar-accent-glow) !important;
+}
+.content-search-reset {
+    color: var(--jarvis-crud-search-placeholder) !important;
+}
+.content-search-reset:hover {
+    color: var(--jarvis-crud-search-text) !important;
+}
+
+/* ── Content header (page title + actions) ── */
+.content-header {
+    border-bottom: none !important;
+}
+.content-header-title .title {
+    font-size: 1.15rem !important;
+    font-weight: 600 !important;
+    color: var(--jarvis-content-heading) !important;
+}
+
+/* ── CRUD list wrapper — glass effect ── */
+.content-panel,
+body .content-panel {
+    background: #141f35 !important;
+    border: 1px solid rgba(56,189,248,0.08) !important;
+    border-radius: 10px !important;
+    overflow: hidden !important;
+    box-shadow: none !important;
+}
+
+/* ── CRUD list / datagrid ── */
+table.datagrid {
+    border-top-left-radius: 10px !important;
+    border-top-right-radius: 10px !important;
+    border-bottom-left-radius: 10px !important;
+    border-bottom-right-radius: 10px !important;
+    overflow: hidden !important;
+}
+/* When followed by paginator, remove bottom radius and border from table */
+table.datagrid:has(~ .content-panel-footer) {
+    border-bottom-left-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+    border-bottom: none !important;
+}
+table.datagrid thead tr:first-child th:first-child {
+    border-top-left-radius: 10px !important;
+}
+table.datagrid thead tr:first-child th:last-child {
+    border-top-right-radius: 10px !important;
+}
+
+/* Table — override ALL Bootstrap table CSS custom properties */
+table.datagrid {
+    margin-bottom: 0 !important;
+    background: #141f35 !important;
+    border: 1px solid rgba(56,189,248,0.08) !important;
+    border-collapse: separate !important;
+    border-spacing: 0 !important;
+    --bs-table-bg: #141f35 !important;
+    --bs-table-hover-bg: rgba(56,189,248,0.06) !important;
+    --bs-table-striped-bg: #141f35 !important;
+    --bs-table-accent-bg: #141f35 !important;
+    --bs-table-bg-state: #141f35 !important;
+}
+
+/* Kill Bootstrap's box-shadow on tbody (from .table > :not(caption) > *) */
+table.datagrid * {
+    box-shadow: none !important;
+}
+.table > :not(caption) > * {
+    box-shadow: none !important;
+    border-color: rgba(56,189,248,0.08) !important;
+}
+
+/* Header — compact */
+table.datagrid thead th {
+    background: #141f35 !important;
+    color: rgba(56,189,248,0.5) !important;
+    font-size: 0.72rem !important;
+    font-weight: 500 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.06em !important;
+    border-bottom: 1px solid rgba(56,189,248,0.08) !important;
+    padding: 22px 14px !important;
+    white-space: nowrap;
+    line-height: 1.3 !important;
+}
+table.datagrid thead th a {
+    color: inherit !important;
+    text-decoration: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+table.datagrid thead th:hover {
+    color: rgba(56,189,248,0.7) !important;
+}
+
+/* Body rows */
+table.datagrid tbody tr {
+    background: #141f35 !important;
+    transition: background 0.15s !important;
+    --bs-table-bg-state: #141f35 !important;
+    --bs-table-accent-bg: #141f35 !important;
+}
+table.datagrid tbody {
+    box-shadow: none !important;
+}
+
+/* Body cells */
+table.datagrid tbody td {
+    font-size: 0.82rem !important;
+    padding: 10px 14px !important;
+    border-bottom: 1px solid rgba(56,189,248,0.05) !important;
+    vertical-align: middle !important;
+    color: rgba(255,255,255,0.85) !important;
+    background: #141f35 !important;
+}
+table.datagrid tbody td a {
+    color: rgba(56,189,248,0.7) !important;
+}
+table.datagrid tbody tr:last-child td {
+    border-bottom: 1px solid rgba(56,189,248,0.05) !important;
+}
+
+/* Hover */
+table.datagrid tbody tr:hover,
+table.datagrid tbody tr:hover > *,
+.table-hover > tbody > tr:hover,
+.table-hover > tbody > tr:hover > * {
+    background: rgba(56,189,248,0.04) !important;
+    --bs-table-bg-state: rgba(56,189,248,0.04) !important;
+    --bs-table-accent-bg: rgba(56,189,248,0.04) !important;
+}
+table.datagrid tbody tr:hover td {
+    background: rgba(56,189,248,0.04) !important;
+    --bs-table-bg-state: rgba(56,189,248,0.04) !important;
+}
+
+/* Inline action icons */
+table.datagrid td.actions {
+    white-space: nowrap;
+}
+table.datagrid td.actions .btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 28px !important;
+    height: 28px !important;
+    padding: 0 !important;
+    border-radius: 6px !important;
+    background: var(--jarvis-crud-search-bg) !important;
+    border: 1px solid var(--jarvis-crud-search-border) !important;
+    color: var(--jarvis-sidebar-accent) !important;
+    text-decoration: none !important;
+    margin-right: 4px;
+    font-size: 0.7rem;
+    opacity: 1 !important;
+    transition: background 0.15s, color 0.15s;
+}
+table.datagrid td.actions .btn .btn-icon,
+table.datagrid td.actions .btn svg {
+    color: var(--jarvis-sidebar-accent) !important;
+    opacity: 1 !important;
+}
+table.datagrid td.actions .btn:hover {
+    background: var(--jarvis-sidebar-accent-dim) !important;
+    color: var(--jarvis-sidebar-text-bright) !important;
+}
+table.datagrid td.actions .btn:hover .btn-icon,
+table.datagrid td.actions .btn:hover svg {
+    color: var(--jarvis-sidebar-text-bright) !important;
+}
+/* Delete action button — red variant */
+table.datagrid td.actions .btn.action-delete,
+table.datagrid td.actions form .btn {
+    border-color: var(--bs-danger) !important;
+    color: var(--bs-danger) !important;
+}
+table.datagrid td.actions .btn.action-delete .btn-icon,
+table.datagrid td.actions .btn.action-delete svg,
+table.datagrid td.actions form .btn .btn-icon,
+table.datagrid td.actions form .btn svg {
+    color: var(--bs-danger) !important;
+}
+table.datagrid td.actions .btn.action-delete:hover,
+table.datagrid td.actions form .btn:hover {
+    background: var(--jarvis-crud-action-delete-hover-bg) !important;
+    border-color: var(--bs-danger) !important;
+    color: var(--bs-danger) !important;
+}
+/* Delete action is a form wrapping a button */
+table.datagrid td.actions form {
+    display: inline !important;
+}
+
+/* Filter button */
+.action-filters .btn {
+    background: var(--jarvis-crud-card-bg) !important;
+    border: 1px solid var(--jarvis-crud-card-border) !important;
+    color: var(--jarvis-crud-header-text) !important;
+    font-size: 0.8rem !important;
+    border-radius: 6px !important;
+}
+.action-filters .btn:hover {
+    border-color: var(--jarvis-crud-input-focus-border) !important;
+}
+
+/* Checkbox column */
+table.datagrid th.checkbox-column,
+table.datagrid td.checkbox-column {
+    background: inherit !important;
+}
+table.datagrid .form-check-input {
+    background-color: transparent !important;
+    border-color: rgba(56,189,248,0.2) !important;
+}
+table.datagrid .form-check-input:checked {
+    background-color: var(--jarvis-sidebar-accent) !important;
+    border-color: var(--jarvis-sidebar-accent) !important;
+}
+
+/* Badges inside table */
+table.datagrid .badge {
+    font-size: 0.72rem !important;
+}
+/* Super Admin badge — dark background needs visible border */
+table.datagrid .badge.badge-dark,
+.detail-panel .badge.badge-dark {
+    border: 1px solid currentColor !important;
+}
+/* Association field — hide outer badge wrapper, show only inner badges */
+table.datagrid td .badge.badge-secondary:has(.badge) {
+    background: transparent !important;
+    padding: 0 !important;
+    border: none !important;
+}
+.detail-panel .badge.badge-secondary:has(.badge) {
+    background: transparent !important;
+    padding: 0 !important;
+    border: none !important;
+}
+
+/* Paginator — rounded bottom corners */
+.content-panel-footer {
+    background: #141f35 !important;
+    border: 1px solid rgba(56,189,248,0.08) !important;
+    border-top: none !important;
+    color: rgba(56,189,248,0.4) !important;
+    border-bottom-left-radius: 10px !important;
+    border-bottom-right-radius: 10px !important;
+}
+.content-panel-footer .list-pagination-counter {
+    color: rgba(56,189,248,0.4) !important;
+    padding-left: 14px !important;
+}
+.content-panel-footer .page-link {
+    background: transparent !important;
+    border-color: rgba(56,189,248,0.1) !important;
+    color: rgba(56,189,248,0.6) !important;
+}
+.content-panel-footer .page-item.active .page-link {
+    background: rgba(56,189,248,0.15) !important;
+    border-color: rgba(56,189,248,0.3) !important;
+    color: rgba(56,189,248,0.9) !important;
+}
+.content-panel-footer .page-item.disabled .page-link {
+    background: transparent !important;
+    color: rgba(56,189,248,0.2) !important;
+}
+
+/* ── CRUD forms (new/edit) ── */
+.ea-new .content-body,
+.ea-edit .content-body {
+    background: #141f35 !important;
+    border: 1px solid rgba(56,189,248,0.08) !important;
+    border-radius: 10px !important;
+    box-shadow: none !important;
+    padding: 24px 28px !important;
+}
+.ea-new .form-control,
+.ea-edit .form-control,
+.ea-new .form-select,
+.ea-edit .form-select {
+    background: rgba(56,189,248,0.05) !important;
+    border: 1px solid rgba(56,189,248,0.1) !important;
+    border-radius: 6px !important;
+    font-size: 0.85rem !important;
+    padding: 8px 12px !important;
+    color: var(--jarvis-crud-search-text) !important;
+}
+.ea-new .form-control::-webkit-calendar-picker-indicator,
+.ea-edit .form-control::-webkit-calendar-picker-indicator {
+    filter: invert(0.6) sepia(1) saturate(3) hue-rotate(170deg) !important;
+}
+.ea-new .form-control:focus,
+.ea-edit .form-control:focus,
+.ea-new .form-select:focus,
+.ea-edit .form-select:focus {
+    border-color: var(--jarvis-crud-input-focus-border) !important;
+    box-shadow: var(--jarvis-crud-input-focus-shadow) !important;
+}
+.ea-new .form-label,
+.ea-edit .form-label,
+.ea-new label,
+.ea-edit label {
+    font-size: 0.8rem !important;
+    font-weight: 500 !important;
+    color: rgba(56,189,248,0.5) !important;
+}
+.ea-new .form-help,
+.ea-edit .form-help {
+    font-size: 0.75rem !important;
+    color: var(--jarvis-content-text-muted) !important;
+}
+
+/* ── Tom Select — Jarvis dark theme ── */
+/* Wrapper — border goes here (outer) */
+body.ea .ts-wrapper {
+    background: rgba(56,189,248,0.05) !important;
+    border: 1px solid rgba(56,189,248,0.1) !important;
+    border-radius: 6px !important;
+    box-shadow: none !important;
+}
+body.ea .ts-wrapper.focus {
+    border-color: var(--jarvis-sidebar-accent) !important;
+}
+
+/* Main control (input area) — no border (wrapper has it) */
+body.ea .ts-wrapper .ts-control,
+body.ea .ts-wrapper.single.input-active .ts-control {
+    background: transparent !important;
+    border: none !important;
+    border-radius: 6px !important;
+    color: var(--jarvis-crud-search-text) !important;
+    padding: 6px 10px !important;
+    box-shadow: none !important;
+}
+body.ea .ts-wrapper.focus .ts-control {
+    border: none !important;
+    box-shadow: none !important;
+}
+
+/* Text input inside control */
+body.ea .ts-control input {
+    color: var(--jarvis-crud-search-text) !important;
+    border: none !important;
+    outline: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+body.ea .ts-control input::placeholder {
+    color: var(--jarvis-sidebar-text) !important;
+}
+
+/* Dropdown */
+body.ea .ts-wrapper .ts-dropdown {
+    background: #141f35 !important;
+    border: 1px solid rgba(56,189,248,0.08) !important;
+    border-radius: 6px !important;
+    box-shadow: var(--jarvis-sidebar-dropdown-shadow) !important;
+}
+
+/* Dropdown options */
+body.ea .ts-dropdown .option,
+body.ea .ts-dropdown [data-selectable] {
+    background: transparent !important;
+    color: var(--jarvis-sidebar-text) !important;
+    padding: 8px 12px !important;
+    font-size: 0.85rem !important;
+}
+body.ea .ts-dropdown .option:hover,
+body.ea .ts-dropdown .option.active,
+body.ea .ts-dropdown [data-selectable]:hover {
+    background: var(--jarvis-sidebar-accent-dim) !important;
+    color: var(--jarvis-sidebar-text-bright) !important;
+}
+body.ea .ts-dropdown .option.selected {
+    background: var(--jarvis-sidebar-accent-dim) !important;
+    color: var(--jarvis-sidebar-accent) !important;
+}
+body.ea .ts-dropdown .no-results {
+    color: var(--jarvis-content-text-muted) !important;
+    padding: 8px 12px !important;
+}
+
+/* Dropdown search input */
+body.ea .ts-dropdown .dropdown-input-wrap {
+    background: rgba(56,189,248,0.05) !important;
+    border: none !important;
+    border-bottom: 1px solid rgba(56,189,248,0.08) !important;
+    padding: 6px !important;
+}
+body.ea .ts-dropdown .dropdown-input,
+body.ea .ts-wrapper .ts-dropdown input {
+    background: rgba(56,189,248,0.05) !important;
+    border: none !important;
+    color: var(--jarvis-crud-search-text) !important;
+    padding: 6px 8px !important;
+    font-size: 0.85rem !important;
+    box-shadow: none !important;
+    outline: none !important;
+}
+body.ea .ts-dropdown .dropdown-input:focus,
+body.ea .ts-wrapper .ts-dropdown input:focus {
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+}
+body.ea .ts-dropdown .dropdown-input::placeholder,
+body.ea .ts-wrapper .ts-dropdown input::placeholder {
+    color: var(--jarvis-sidebar-text) !important;
+}
+
+/* Selected items/tags in multi-select — secondary button style */
+body.ea .ts-control .item {
+    background: var(--jarvis-btn-secondary-bg) !important;
+    color: var(--jarvis-sidebar-accent) !important;
+    border: 1px solid var(--jarvis-sidebar-accent) !important;
+    border-radius: 4px !important;
+    padding: 2px 8px !important;
+    font-size: 0.8rem !important;
+    font-weight: 600 !important;
+}
+body.ea .ts-control .item .remove {
+    color: var(--jarvis-sidebar-accent) !important;
+    border: none !important;
+}
+body.ea .ts-control .item .remove:hover {
+    background: transparent !important;
+    color: var(--jarvis-sidebar-text-bright) !important;
+}
+
+/* Single-select display value */
+body.ea .ts-control > .item:only-child {
+    background: transparent !important;
+    color: var(--jarvis-crud-search-text) !important;
+    padding: 0 !important;
+    border: none !important;
+}
+
+/* Dropdown content wrapper */
+body.ea .ts-dropdown-content {
+    max-height: 200px !important;
+    overflow-y: auto !important;
+}
+
+/* Native select fallback */
+body.ea select.form-select {
+    background-color: var(--jarvis-crud-search-bg) !important;
+    color: var(--jarvis-crud-search-text) !important;
+}
+
+/* Form action buttons — EA renders submit as <button class="btn-primary"> (no .btn class) */
+.btn-primary,
+.ea-new .btn-primary,
+.ea-edit .btn-primary {
+    background: var(--jarvis-crud-btn-bg) !important;
+    border: 1px solid var(--jarvis-crud-btn-border) !important;
+    color: var(--jarvis-crud-btn-text) !important;
+    border-radius: 6px !important;
+    font-size: 0.8rem !important;
+}
+.btn-primary:hover,
+.ea-new .btn-primary:hover,
+.ea-edit .btn-primary:hover {
+    background: var(--jarvis-crud-btn-bg-hover) !important;
+    border-color: var(--jarvis-crud-btn-border) !important;
+}
+
+/* ── CRUD detail ── */
+.ea-detail .content-panel,
+.ea-detail .content-body {
+    background: #141f35 !important;
+    border: 1px solid rgba(56,189,248,0.08) !important;
+    border-radius: 10px !important;
+    box-shadow: none !important;
+    padding: 24px 28px !important;
+}
+.ea-detail .content-body .field-group .field-label {
+    color: rgba(56,189,248,0.5) !important;
+}
+.ea-detail .content-body .field-group .field-value {
+    color: rgba(255,255,255,0.85) !important;
+}
+
+/* Detail page action buttons — uniform height and alignment */
+.page-actions .btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+    padding: 6px 14px !important;
+    font-size: 0.8rem !important;
+    line-height: 1.4 !important;
+    border-radius: 6px !important;
+    vertical-align: middle !important;
+}
+/* Delete button — override EasyAdmin button-danger variables for Jarvis theme */
+:root {
+    --button-danger-bg: var(--jarvis-crud-action-delete-bg);
+    --button-danger-color: var(--jarvis-crud-action-delete-color);
+    --button-danger-icon-color: var(--jarvis-crud-action-delete-color);
+    --button-danger-border-color: var(--jarvis-crud-action-delete-color);
+    --button-danger-box-shadow: none;
+    --button-danger-hover-bg: var(--jarvis-crud-action-delete-hover-bg);
+    --button-danger-hover-color: var(--jarvis-crud-action-delete-color);
+    --button-danger-hover-border-color: var(--jarvis-crud-action-delete-color);
+    --button-danger-active-bg: var(--jarvis-crud-action-delete-hover-bg);
+    --button-danger-active-color: var(--jarvis-crud-action-delete-color);
+    --button-danger-active-border-color: var(--jarvis-crud-action-delete-color);
+    --button-danger-active-box-shadow: none;
+    --button-invisible-danger-color: var(--jarvis-crud-action-delete-color);
+    --button-invisible-danger-hover-icon-color: var(--jarvis-crud-action-delete-color);
+    --button-invisible-danger-hover-color: var(--jarvis-crud-action-delete-color);
+    --button-invisible-danger-hover-hover-bg: var(--jarvis-crud-action-delete-hover-bg);
+    --button-invisible-danger-active-color: var(--jarvis-crud-action-delete-color);
+    --button-invisible-danger-hover-active-bg: var(--jarvis-crud-action-delete-hover-bg);
+}
+.btn.btn-danger,
+.btn-invisible.btn-danger {
+    --button-bg: var(--jarvis-crud-action-delete-bg) !important;
+    --button-color: var(--jarvis-crud-action-delete-color) !important;
+    --button-border-color: var(--jarvis-crud-action-delete-color) !important;
+    --button-icon-color: var(--jarvis-crud-action-delete-color) !important;
+    --button-invisible-bg: var(--jarvis-crud-action-delete-bg) !important;
+    --button-invisible-color: var(--jarvis-crud-action-delete-color) !important;
+    --button-invisible-border-color: var(--jarvis-crud-action-delete-color) !important;
+    --button-invisible-icon-color: var(--jarvis-crud-action-delete-color) !important;
+    --button-invisible-hover-bg: var(--jarvis-crud-action-delete-hover-bg) !important;
+    --button-invisible-hover-color: var(--jarvis-crud-action-delete-color) !important;
+    --button-invisible-hover-border-color: var(--jarvis-crud-action-delete-color) !important;
+    background: var(--jarvis-crud-action-delete-bg) !important;
+    color: var(--jarvis-crud-action-delete-color) !important;
+    border: 1px solid var(--jarvis-crud-action-delete-color) !important;
+}
+.btn.btn-danger:hover,
+.btn-invisible.btn-danger:hover {
+    background: var(--jarvis-crud-action-delete-hover-bg) !important;
+    color: var(--jarvis-crud-action-delete-color) !important;
+    border-color: var(--jarvis-crud-action-delete-color) !important;
+}
+.btn.btn-danger .btn-icon,
+.btn-invisible.btn-danger .btn-icon,
+.btn.btn-danger .action-icon,
+.btn-invisible.btn-danger .action-icon {
+    color: var(--jarvis-crud-action-delete-color) !important;
+}
+
+/* Page actions — secondary buttons (Back to list, etc.)
+   EA Button component: <a class="btn btn-secondary btn-invisible action-index"> */
+.action-index.btn {
+    --button-bg: var(--jarvis-btn-secondary-bg) !important;
+    --button-color: var(--jarvis-sidebar-accent) !important;
+    --button-border-color: var(--jarvis-sidebar-accent) !important;
+    --button-invisible-bg: var(--jarvis-btn-secondary-bg) !important;
+    --button-invisible-color: var(--jarvis-sidebar-accent) !important;
+    --button-invisible-border-color: var(--jarvis-sidebar-accent) !important;
+    --button-invisible-hover-bg: var(--jarvis-crud-btn-bg-hover) !important;
+    --button-invisible-hover-color: var(--jarvis-sidebar-accent) !important;
+    --button-invisible-hover-border-color: var(--jarvis-sidebar-accent) !important;
+    background: var(--jarvis-btn-secondary-bg) !important;
+    color: var(--jarvis-sidebar-accent) !important;
+    border-color: var(--jarvis-sidebar-accent) !important;
+    border-radius: 6px !important;
+    font-size: 0.8rem !important;
+}
+.action-index.btn:hover {
+    background: var(--jarvis-crud-btn-bg-hover) !important;
+    color: var(--jarvis-sidebar-accent) !important;
+    border-color: var(--jarvis-sidebar-accent) !important;
+}
+
+/* ── Global action buttons (New, etc.) ── */
+.global-actions .btn:not(.btn-danger) {
+    background: var(--jarvis-crud-btn-bg) !important;
+    border: 1px solid var(--jarvis-crud-btn-border) !important;
+    color: var(--jarvis-crud-btn-text) !important;
+    border-radius: 6px !important;
+    font-size: 0.8rem !important;
+}
+.global-actions .btn:hover {
+    background: var(--jarvis-crud-btn-bg-hover) !important;
+    border-color: var(--jarvis-crud-btn-border) !important;
+}
+
+/* ── Admin dashboard table ── */
+.jarvis-admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.82rem;
+}
+
+.jarvis-admin-table thead th {
+    padding: 10px 14px;
+    text-align: left;
+    color: rgba(56,189,248,0.5) !important;
+    font-weight: 500;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    border-bottom: 1px solid rgba(56,189,248,0.08);
+    background: transparent;
+}
+
+.jarvis-admin-table tbody td {
+    padding: 10px 14px;
+    color: rgba(255,255,255,0.85) !important;
+    border-bottom: 1px solid rgba(56,189,248,0.05);
+    background: transparent;
+}
+
+.jarvis-admin-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.jarvis-admin-table tbody tr:hover td {
+    background: rgba(56,189,248,0.04);
+}
+
+.jarvis-admin-table__repo {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    color: rgba(56,189,248,0.5) !important;
+}
+
+/* ── Responsive header (mobile) ── */
+#responsive-header-logo img {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
 }

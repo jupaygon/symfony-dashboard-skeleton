@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Domain\Model;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -12,6 +14,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[ORM\Table(name: '`user`')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
+    public const ROLE_SUPER_ADMIN = 'ROLE_SUPER_ADMIN';
     public const ROLE_ADMIN = 'ROLE_ADMIN';
     public const ROLE_USER = 'ROLE_USER';
 
@@ -21,7 +24,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
-    private string $email;
+    private string $email = '';
 
     /** @var list<string> */
     #[ORM\Column(type: 'json')]
@@ -30,11 +33,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private string $password = '';
 
-    #[ORM\Column(length: 100)]
-    private string $name;
-
-    #[ORM\Column(length: 100, nullable: true)]
-    private ?string $surname = null;
+    #[ORM\Column(length: 200)]
+    private string $name = '';
 
     #[ORM\Column]
     private bool $active = true;
@@ -42,11 +42,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private \DateTimeImmutable $createdAt;
 
-    public function __construct(string $email, string $name)
+    /** @var Collection<int, Organization> */
+    #[ORM\ManyToMany(targetEntity: Organization::class, inversedBy: 'users')]
+    #[ORM\JoinTable(name: 'user_organization')]
+    private Collection $organizations;
+
+    public function __construct()
     {
-        $this->email = $email;
-        $this->name = $name;
         $this->createdAt = new \DateTimeImmutable();
+        $this->organizations = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -84,6 +88,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->roles = $roles;
     }
 
+    public function isSuperAdmin(): bool
+    {
+        return in_array(self::ROLE_SUPER_ADMIN, $this->roles, true);
+    }
+
     public function getPassword(): string
     {
         return $this->password;
@@ -108,21 +117,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->name = $name;
     }
 
-    public function getSurname(): ?string
-    {
-        return $this->surname;
-    }
-
-    public function setSurname(?string $surname): void
-    {
-        $this->surname = $surname;
-    }
-
-    public function getFullName(): string
-    {
-        return trim($this->name . ' ' . ($this->surname ?? ''));
-    }
-
     public function isActive(): bool
     {
         return $this->active;
@@ -138,8 +132,26 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->createdAt;
     }
 
+    /** @return Collection<int, Organization> */
+    public function getOrganizations(): Collection
+    {
+        return $this->organizations;
+    }
+
+    public function addOrganization(Organization $organization): void
+    {
+        if (!$this->organizations->contains($organization)) {
+            $this->organizations->add($organization);
+        }
+    }
+
+    public function removeOrganization(Organization $organization): void
+    {
+        $this->organizations->removeElement($organization);
+    }
+
     public function __toString(): string
     {
-        return $this->getFullName();
+        return $this->name ?: $this->email;
     }
 }
