@@ -1,0 +1,56 @@
+/* ══════════════════════════════════════════════════════════════
+   Common Dashboard Styles
+   Shared across all brands/skins. Uses CSS variables defined
+   in each brand's custom-dashboard.css.
+   ══════════════════════════════════════════════════════════════ */
+
+body.ea {
+    background: var(--bg-body, #f8f9fa) !important;
+    color: var(--text-primary, #1e293b) !important;
+    font-family: var(--font-family, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif) !important;
+}
+
+/* Sidebar */
+.ea-sidebar {
+    background: var(--sidebar-bg, #1e293b) !important;
+}
+
+.ea-sidebar .main-menu a {
+    color: var(--sidebar-text, #94a3b8) !important;
+}
+
+.ea-sidebar .main-menu a:hover,
+.ea-sidebar .main-menu .active > a {
+    color: var(--sidebar-text-active, #ffffff) !important;
+    background: var(--sidebar-item-active-bg, rgba(56,189,248,0.15)) !important;
+}
+
+/* Content */
+.ea-content {
+    background: var(--bg-content, #f1f5f9) !important;
+}
+
+/* Cards */
+.card {
+    background: var(--bg-card, #ffffff) !important;
+    border-color: var(--border-color, #e2e8f0) !important;
+}
+
+/* Buttons */
+.btn-primary {
+    background-color: var(--btn-primary-bg, #3b82f6) !important;
+    border-color: var(--btn-primary-bg, #3b82f6) !important;
+    color: var(--btn-primary-text, #ffffff) !important;
+}
+
+/* Tables */
+.table thead th {
+    background: var(--table-header-bg, #f8fafc) !important;
+    color: var(--table-header-text, #64748b) !important;
+}
+
+/* Top bar */
+.ea-header {
+    background: var(--topbar-bg, #ffffff) !important;
+    border-bottom-color: var(--border-color, #e2e8f0) !important;
+}

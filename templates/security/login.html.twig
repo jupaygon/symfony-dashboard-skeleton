@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        :root {
+            --login-bg: #0f172a;
+            --login-card-bg: #1e293b;
+            --login-accent: #38bdf8;
+            --login-text: #e2e8f0;
+            --login-text-dim: #94a3b8;
+            --login-border: #334155;
+            --login-error: #f87171;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--login-bg);
+            color: var(--login-text);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .login-card {
+            background: var(--login-card-bg);
+            border: 1px solid var(--login-border);
+            border-radius: 12px;
+            padding: 40px;
+            width: 100%;
+            max-width: 400px;
+        }
+        .login-card h1 {
+            font-size: 1.5rem;
+            margin-bottom: 24px;
+            text-align: center;
+            color: var(--login-accent);
+        }
+        .form-group { margin-bottom: 16px; }
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--login-text-dim);
+            margin-bottom: 6px;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 10px 14px;
+            background: var(--login-bg);
+            border: 1px solid var(--login-border);
+            border-radius: 8px;
+            color: var(--login-text);
+            font-size: 0.95rem;
+        }
+        .form-group input:focus { outline: none; border-color: var(--login-accent); }
+        .btn-login {
+            width: 100%;
+            padding: 12px;
+            background: var(--login-accent);
+            color: var(--login-bg);
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 8px;
+        }
+        .btn-login:hover { opacity: 0.9; }
+        .error {
+            background: rgba(248,113,113,0.1);
+            color: var(--login-error);
+            padding: 10px 14px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            font-size: 0.88rem;
+        }
+        .remember { display: flex; align-items: center; gap: 8px; margin-top: 12px; color: var(--login-text-dim); font-size: 0.85rem; }
+    </style>
+</head>
+<body>
+    <div class="login-card">
+        <h1>Sign In</h1>
+
+        {% if error %}
+            <div class="error">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        {% endif %}
+
+        <form method="post">
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="_username" value="{{ last_username }}" required autofocus>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="_password" required>
+            </div>
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+            <label class="remember">
+                <input type="checkbox" name="_remember_me"> Remember me
+            </label>
+            <button type="submit" class="btn-login">Sign In</button>
+        </form>
+    </div>
+</body>
+</html>

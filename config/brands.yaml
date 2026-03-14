@@ -1,0 +1,11 @@
+parameters:
+    brands_default: 'default'
+    brands_map:
+        # hostname: brand_key
+        # 'dashboard.example.com': 'default'
+        # 'client.example.com': 'topnav'
+    brands_defs:
+        default:
+            name: 'Dashboard'
+        topnav:
+            name: 'Dashboard (Top Nav)'

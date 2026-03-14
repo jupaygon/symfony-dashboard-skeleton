@@ -1,3 +1,6 @@
+imports:
+    - { resource: brands.yaml }
+
 parameters:
 
 services:
@@ -10,8 +13,19 @@ services:
         exclude:
             - '../src/DependencyInjection/'
             - '../src/Domain/Model/'
+            - '../src/Domain/ValueObject/'
             - '../src/Kernel.php'
 
-    # Bind domain port interfaces to infrastructure implementations
+    # Domain port bindings
     App\Domain\Port\DemoRepositoryInterface:
         alias: App\Infrastructure\Persistence\Doctrine\DemoRepository
+
+    App\Domain\Port\UserRepositoryInterface:
+        alias: App\Infrastructure\Persistence\Doctrine\UserRepository
+
+    # Branding
+    App\Infrastructure\Branding\BrandResolver:
+        arguments:
+            $brandDefs: '%brands_defs%'
+            $brandMap: '%brands_map%'
+            $defaultBrand: '%brands_default%'

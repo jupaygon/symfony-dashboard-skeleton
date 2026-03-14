@@ -1,0 +1,96 @@
+/* ══════════════════════════════════════════════════════════════
+   Skin: Top Nav
+   Horizontal menu bar instead of sidebar.
+   Requires layout.html.twig override in templates/bundles/.
+   ══════════════════════════════════════════════════════════════ */
+
+:root {
+    /* General */
+    --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --bg-body: #101214;
+    --bg-content: #181b20;
+    --bg-card: #1e2228;
+    --text-primary: #e8eaf0;
+    --text-secondary: #8b919a;
+    --border-color: #2a2e36;
+
+    /* Top navigation bar */
+    --topbar-h: 56px;
+    --topbar-bg: #191c20;
+    --topbar-text: #8b919a;
+    --topbar-text-active: #ffffff;
+    --topbar-item-active-bg: rgba(14, 165, 233, 0.15);
+
+    /* Sidebar (hidden in this skin) */
+    --sidebar-bg: transparent;
+
+    /* Buttons */
+    --btn-primary-bg: #0ea5e9;
+    --btn-primary-text: #ffffff;
+
+    /* Tables */
+    --table-header-bg: #1e2228;
+    --table-header-text: #8b919a;
+
+    /* Accent */
+    --accent: #0ea5e9;
+}
+
+/* ── Hide sidebar, use top nav ── */
+.ea-sidebar {
+    display: none !important;
+}
+
+.ea-wrapper {
+    display: block !important;
+}
+
+.ea-content {
+    margin-left: 0 !important;
+}
+
+/* ── Top navigation bar ── */
+.top-nav {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    height: var(--topbar-h);
+    padding: 0 24px;
+    background: var(--topbar-bg);
+    border-bottom: 1px solid var(--border-color);
+    overflow-x: auto;
+}
+
+.top-nav .logo {
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--accent);
+    margin-right: 24px;
+    white-space: nowrap;
+}
+
+.top-nav a {
+    color: var(--topbar-text);
+    text-decoration: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-size: 0.88rem;
+    font-weight: 500;
+    white-space: nowrap;
+    transition: all 0.15s;
+}
+
+.top-nav a:hover,
+.top-nav a.active {
+    color: var(--topbar-text-active);
+    background: var(--topbar-item-active-bg);
+}
+
+.top-nav .spacer {
+    flex: 1;
+}
+
+.top-nav .user-menu {
+    color: var(--topbar-text);
+    font-size: 0.85rem;
+}
