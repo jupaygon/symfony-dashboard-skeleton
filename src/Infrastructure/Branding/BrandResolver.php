@@ -12,14 +12,14 @@ class BrandResolver
     /** @param array<string, string> $brandMap */
     public function __construct(
         private readonly array $brandDefs,
-        private readonly array $brandMap,
+        private readonly ?array $brandMap,
         private readonly string $defaultBrand,
     ) {
     }
 
     public function resolve(string $host): Brand
     {
-        $key = $this->brandMap[$host] ?? $this->defaultBrand;
+        $key = ($this->brandMap ?? [])[$host] ?? $this->defaultBrand;
         $def = $this->brandDefs[$key] ?? $this->brandDefs[$this->defaultBrand];
 
         return new Brand(
