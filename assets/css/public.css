@@ -1,6 +1,10 @@
 /* ══════════════════════════════════════════════════════════════
-   Landing Page — uses variables from skin (custom-dashboard.css)
+   Public Pages (Landing + Login)
+   Uses variables defined in brands/<brand>/css/skin.css
+   NO hardcoded colors — everything via var(--)
    ══════════════════════════════════════════════════════════════ */
+
+/* ── Landing ── */
 
 .landing {
     margin: 0;
@@ -8,9 +12,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--jarvis-login-bg, #0f0f1a);
-    color: var(--jarvis-login-text, #d8d8e8);
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--public-bg);
+    color: var(--public-text);
+    font-family: var(--font-family);
 }
 
 .landing__container {
@@ -24,21 +28,25 @@
     width: 120px;
     height: 120px;
     margin: 0 auto 24px;
-    filter: drop-shadow(0 0 20px rgba(56, 189, 248, 0.3)) drop-shadow(0 0 60px rgba(56, 189, 248, 0.1));
+    background-image: var(--public-logo-image);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    filter: var(--public-logo-glow);
 }
 
 .landing__title {
     margin: 0 0 8px;
     font-size: 2rem;
     font-weight: 700;
-    color: var(--jarvis-login-heading, #f0f0ff);
+    color: var(--public-heading);
     letter-spacing: -0.02em;
 }
 
 .landing__subtitle {
     margin: 0 0 48px;
     font-size: 1.05rem;
-    color: var(--jarvis-login-label, #8888aa);
+    color: var(--public-label);
 }
 
 .landing__features {
@@ -50,38 +58,37 @@
 
 .landing__feature {
     padding: 28px 20px;
-    background: var(--jarvis-login-box-bg, #171728);
-    border: 1px solid var(--jarvis-login-box-border, #2a2a45);
+    background: var(--public-box-bg);
+    border: 1px solid var(--public-box-border);
     border-radius: 12px;
     transition: border-color 0.2s;
 }
 
 .landing__feature:hover {
-    border-color: var(--jarvis-sidebar-accent, #38bdf8);
+    border-color: var(--accent);
 }
 
 .landing__feature-icon {
     margin-bottom: 14px;
-    color: var(--jarvis-sidebar-accent, #38bdf8);
 }
 .landing__feature-icon img {
     width: 28px;
     height: 28px;
-    filter: brightness(0) saturate(100%) invert(68%) sepia(57%) saturate(1000%) hue-rotate(170deg) brightness(104%) contrast(97%);
+    filter: var(--public-icon-filter);
 }
 
 .landing__feature-title {
     margin: 0 0 8px;
     font-size: 0.95rem;
     font-weight: 600;
-    color: var(--jarvis-login-heading, #f0f0ff);
+    color: var(--public-heading);
 }
 
 .landing__feature-text {
     margin: 0;
     font-size: 0.82rem;
     line-height: 1.5;
-    color: var(--jarvis-login-label, #8888aa);
+    color: var(--public-label);
 }
 
 .landing__btn {
@@ -89,8 +96,8 @@
     padding: 12px 48px;
     font-size: 1rem;
     font-weight: 600;
-    color: var(--jarvis-login-btn-text, #0f0f1a);
-    background: var(--jarvis-login-btn-bg, #22b8cf);
+    color: var(--public-btn-text);
+    background: var(--public-btn-bg);
     border: none;
     border-radius: 8px;
     text-decoration: none;
@@ -98,24 +105,17 @@
 }
 
 .landing__btn:hover {
-    background: var(--jarvis-login-btn-bg-hover, #1ca3b8);
-    color: var(--jarvis-login-btn-text, #0f0f1a);
+    background: var(--public-btn-hover);
+    color: var(--public-btn-text);
     text-decoration: none;
 }
 
 @media (max-width: 640px) {
-    .landing__features {
-        grid-template-columns: 1fr;
-        gap: 16px;
-    }
-    .landing__title {
-        font-size: 1.6rem;
-    }
+    .landing__features { grid-template-columns: 1fr; gap: 16px; }
+    .landing__title { font-size: 1.6rem; }
 }
 
-/* ══════════════════════════════════════════════════════════════
-   Login Page
-   ══════════════════════════════════════════════════════════════ */
+/* ── Login ── */
 
 .login {
     margin: 0;
@@ -123,14 +123,14 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--jarvis-login-bg, #0f172a);
-    color: var(--jarvis-login-text, #e2e8f0);
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--public-bg);
+    color: var(--public-text);
+    font-family: var(--font-family);
 }
 
 .login-card {
-    background: var(--jarvis-login-box-bg, #1e293b);
-    border: 1px solid var(--jarvis-login-box-border, #334155);
+    background: var(--public-box-bg);
+    border: 1px solid var(--public-box-border);
     border-radius: 12px;
     padding: 40px;
     width: 100%;
@@ -142,14 +142,18 @@
     width: 80px;
     height: 80px;
     margin: 0 auto 20px;
-    filter: drop-shadow(0 0 16px rgba(56, 189, 248, 0.3));
+    background-image: var(--public-logo-image);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    filter: var(--public-logo-glow);
 }
 
 .login-card h1 {
     font-size: 1.5rem;
     margin-bottom: 24px;
     text-align: center;
-    color: var(--jarvis-sidebar-accent, #38bdf8);
+    color: var(--accent);
 }
 
 .login .form-group { margin-bottom: 16px; }
@@ -157,30 +161,30 @@
 .login .form-group label {
     display: block;
     font-size: 0.85rem;
-    color: var(--jarvis-login-label, #94a3b8);
+    color: var(--public-label);
     margin-bottom: 6px;
 }
 
 .login .form-group input {
     width: 100%;
     padding: 10px 14px;
-    background: var(--jarvis-login-input-bg, #0f172a);
-    border: 1px solid var(--jarvis-login-input-border, #334155);
+    background: var(--public-bg);
+    border: 1px solid var(--public-box-border);
     border-radius: 8px;
-    color: var(--jarvis-login-text, #e2e8f0);
+    color: var(--public-text);
     font-size: 0.95rem;
 }
 
 .login .form-group input:focus {
     outline: none;
-    border-color: var(--jarvis-login-input-focus-border, #38bdf8);
+    border-color: var(--accent);
 }
 
 .login .btn-login {
     width: 100%;
     padding: 12px;
-    background: var(--jarvis-login-btn-bg, #22b8cf);
-    color: var(--jarvis-login-btn-text, #0f172a);
+    background: var(--public-btn-bg);
+    color: var(--public-btn-text);
     border: none;
     border-radius: 8px;
     font-size: 1rem;
@@ -190,13 +194,13 @@
 }
 
 .login .btn-login:hover {
-    background: var(--jarvis-login-btn-bg-hover, #1ca3b8);
+    background: var(--public-btn-hover);
 }
 
 .login .error {
-    background: var(--jarvis-login-error-bg, rgba(248,113,113,0.1));
-    border: 1px solid var(--jarvis-login-error-border, rgba(248,113,113,0.3));
-    color: var(--jarvis-login-error-text, #f87171);
+    background: var(--public-error-bg);
+    border: 1px solid var(--public-error-border);
+    color: var(--public-error-text);
     padding: 10px 14px;
     border-radius: 8px;
     margin-bottom: 16px;
@@ -208,6 +212,6 @@
     align-items: center;
     gap: 8px;
     margin-top: 12px;
-    color: var(--jarvis-login-label, #94a3b8);
+    color: var(--public-label);
     font-size: 0.85rem;
 }

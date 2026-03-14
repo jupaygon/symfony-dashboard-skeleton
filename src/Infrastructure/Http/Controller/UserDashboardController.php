@@ -52,7 +52,7 @@ class UserDashboardController extends AbstractDashboardController
         $brand = $this->brandContext->get();
 
         return Assets::new()
-            ->addCssFile('css/common-dashboard.css')
-            ->addCssFile(sprintf('brands/%s/css/custom-dashboard.css', $brand->getKey()));
+            ->addCssFile(sprintf('brands/%s/css/skin.css', $brand->getKey()))
+            ->addCssFile('css/easyadmin-overrides.css');
     }
 }
