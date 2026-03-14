@@ -819,3 +819,13 @@ body.ea select.form-select {
     height: 36px;
     border-radius: 50%;
 }
+
+/* ── Boolean switch — green when active ── */
+.form-switch .form-check-input:checked {
+    background-color: #22c55e !important;
+    border-color: #22c55e !important;
+}
+table.datagrid .form-switch .form-check-input:checked {
+    background-color: #22c55e !important;
+    border-color: #22c55e !important;
+}

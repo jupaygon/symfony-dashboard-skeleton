@@ -75,14 +75,18 @@ class UserCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
+        // Tab: Profile
+        yield FormField::addTab('Profile', 'fas fa-user');
+        yield BooleanField::new('active')->setColumns(2);
         yield FormField::addRow();
-        yield TextField::new('name', 'Full Name')->setColumns(4);
-        yield FormField::addRow();
-        yield EmailField::new('email')->setColumns(4);
-        yield FormField::addRow();
+        yield EmailField::new('email')->setColumns(3);
+        yield TextField::new('name', 'Full Name')->setColumns(3);
+
+        // Tab: Security
+        yield FormField::addTab('Security', 'fas fa-shield-alt');
         yield TextField::new('password')
             ->onlyWhenCreating()
-            ->setColumns(4)
+            ->setColumns(3)
             ->setHelp('Plain text — will be hashed automatically');
         yield FormField::addRow();
 
@@ -104,9 +108,12 @@ class UserCrudController extends AbstractCrudController
             ->setChoices($roleChoices)
             ->allowMultipleChoices()
             ->renderAsBadges($roleBadges);
-        yield FormField::addRow();
+
+        // Tab: Organizations
+        yield FormField::addTab('Organizations', 'fas fa-building');
         yield AssociationField::new('organizations')->setColumns(4);
-        yield BooleanField::new('active');
+
+        // Index-only fields
         yield DateTimeField::new('createdAt')->hideOnForm();
     }
 
