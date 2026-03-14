@@ -127,6 +127,11 @@
     --jarvis-border-light: rgba(56, 189, 248, 0.15);
     --jarvis-border-separator: rgba(56, 189, 248, 0.2);
 
+    /* ── Sidebar logo ── */
+    --sidebar-logo-image: url('/images/logo.svg');
+    --sidebar-logo-width: 140px;
+    --sidebar-logo-height: 42px;
+
     /* ── Secondary button (white bg) ── */
     --jarvis-btn-secondary-bg: #fff;
 

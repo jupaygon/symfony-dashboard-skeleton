@@ -30,7 +30,7 @@ class DashboardController extends AbstractDashboardController
         $brand = $this->brandContext->get();
 
         return Dashboard::new()
-            ->setTitle('<img src="/images/logo.svg" style="width:42px;height:42px;vertical-align:middle;margin-right:10px"><span style="font-size:1.3rem;font-weight:700;color:#38bdf8;letter-spacing:0.05em">DS</span>')
+            ->setTitle('<div class="sidebar-logo"></div>')
             ->setFaviconPath('images/logo.svg')
             ->setTranslationDomain('admin')
             ->setLocales(['en' => 'English', 'es' => 'Español']);

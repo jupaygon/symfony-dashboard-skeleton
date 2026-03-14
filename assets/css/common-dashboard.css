@@ -859,3 +859,14 @@ table.datagrid .form-switch .form-check-input:checked {
     font-size: 0.9rem;
     color: var(--jarvis-sidebar-accent, #38bdf8);
 }
+
+/* ── Sidebar logo ── */
+.sidebar-logo {
+    background-image: var(--sidebar-logo-image);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: var(--sidebar-logo-width, 140px);
+    height: var(--sidebar-logo-height, 42px);
+    margin: 0 auto;
+}
