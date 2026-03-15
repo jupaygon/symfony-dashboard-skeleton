@@ -1,4 +1,4 @@
-hay que hac<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
   <!-- Hexagon outline -->
   <path d="M60 8L108 32V76L60 112L12 76V32L60 8Z" stroke="#38bdf8" stroke-width="3" fill="rgba(56,189,248,0.06)"/>
   <!-- Inner grid lines (hexagonal architecture) -->
