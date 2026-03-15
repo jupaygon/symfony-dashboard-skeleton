@@ -1,7 +1,8 @@
 /* ══════════════════════════════════════════════════════════════
    Skin: Default (EasyAdmin vanilla)
    EasyAdmin admin styles are not overridden.
-   Only public pages (landing, login) need variables defined here.
+   Only public pages (landing, login) and the sidebar logo
+   need variables/rules defined here.
    See brands/jarvis/css/skin.css for a full dark theme example.
    ══════════════════════════════════════════════════════════════ */
 
@@ -9,6 +10,8 @@
     /* ── General ── */
     --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     --accent: #2563eb;
+    --accent-dim: rgba(37, 99, 235, 0.15);
+    --border-subtle: #e2e8f0;
 
     /* ── Sidebar logo ── */
     --sidebar-logo-image: url('/resources/brands/default/images/logos/logo.svg');
@@ -33,4 +36,22 @@
     --public-logo-image: url('/resources/brands/default/images/logos/logo.svg');
     --public-logo-glow: none;
     --public-icon-filter: none;
+}
+
+/* ── Sidebar logo (needed for sidebar-logo div to render correctly) ── */
+.sidebar-logo {
+    background-image: var(--sidebar-logo-image);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: var(--sidebar-logo-width, 140px);
+    height: var(--sidebar-logo-height, 42px);
+    margin: 0 auto;
+}
+
+/* Hide the link text/duplicate — only show the sidebar-logo div */
+#header-logo .logo-custom a {
+    display: flex !important;
+    justify-content: center !important;
+    text-decoration: none !important;
 }

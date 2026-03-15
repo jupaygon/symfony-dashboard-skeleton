@@ -2,6 +2,7 @@
    Sidebar Collapsed Mode
    Narrow icon-only sidebar that expands on hover as overlay.
    Content area is NOT pushed — sidebar floats over it.
+   Only applies on desktop (>768px). Mobile uses EA5 default menu.
 
    Usage: set sidebar_collapsed: true in brands.yaml
    ══════════════════════════════════════════════════════════════ */
@@ -12,111 +13,130 @@
     --sidebar-transition: 0.2s ease;
 }
 
-/* ── Sidebar wrapper: fixed, clips to collapsed width ── */
-.sidebar-wrapper {
-    position: fixed !important;
-    top: 0 !important;
-    left: 0 !important;
-    bottom: 0 !important;
-    width: var(--sidebar-collapsed-width) !important;
-    min-width: var(--sidebar-collapsed-width) !important;
-    max-width: var(--sidebar-collapsed-width) !important;
-    z-index: 1000 !important;
-    transition: width var(--sidebar-transition), min-width var(--sidebar-transition), max-width var(--sidebar-transition) !important;
-    overflow: hidden !important;
-}
+@media (min-width: 768px) {
 
-/* Inner sidebar always full width — wrapper just clips it */
-.sidebar-wrapper .sidebar {
-    width: var(--sidebar-expanded-width) !important;
-    min-width: var(--sidebar-expanded-width) !important;
-}
+    /* ── Sidebar wrapper: fixed, clips to collapsed width ── */
+    .sidebar-wrapper {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        bottom: 0 !important;
+        width: var(--sidebar-collapsed-width) !important;
+        min-width: var(--sidebar-collapsed-width) !important;
+        max-width: var(--sidebar-collapsed-width) !important;
+        z-index: 1000 !important;
+        transition: width var(--sidebar-transition), min-width var(--sidebar-transition), max-width var(--sidebar-transition) !important;
+        overflow: hidden !important;
+    }
 
-/* ── Expand on hover (overlay) ── */
-.sidebar-wrapper:hover {
-    width: var(--sidebar-expanded-width) !important;
-    min-width: var(--sidebar-expanded-width) !important;
-    max-width: var(--sidebar-expanded-width) !important;
-    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.4) !important;
-}
+    /* Inner sidebar always full width — wrapper just clips it */
+    .sidebar-wrapper .sidebar {
+        width: var(--sidebar-expanded-width) !important;
+        min-width: var(--sidebar-expanded-width) !important;
+    }
 
-/* ── Nudge menu items right so icons appear centered in 56px ── */
-.sidebar-wrapper #main-menu .menu .menu-item .menu-item-contents {
-    padding-left: 0 !important;
-    margin-left: -2px !important;
-}
+    /* ── Expand on hover (overlay) ── */
+    .sidebar-wrapper:hover {
+        width: var(--sidebar-expanded-width) !important;
+        min-width: var(--sidebar-expanded-width) !important;
+        max-width: var(--sidebar-expanded-width) !important;
+        box-shadow: 4px 0 24px rgba(0, 0, 0, 0.4) !important;
+    }
 
-.sidebar-wrapper:hover #main-menu .menu .menu-item .menu-item-contents {
-    padding-left: 4px !important;
-}
+    /* ── Header logo: fixed height so menu doesn't jump ── */
+    .sidebar-wrapper #header-logo {
+        height: 60px !important;
+        min-height: 60px !important;
+        padding: 0 !important;
+        position: relative !important;
+        overflow: visible !important;
+    }
 
-/* ── Header logo: fixed height so menu doesn't jump ── */
-.sidebar-wrapper #header-logo {
-    height: 60px !important;
-    min-height: 60px !important;
-    padding: 0 !important;
-    position: relative !important;
-    overflow: visible !important;
-}
+    /* Hide the original logo/title text — we use sidebar-logo div instead */
+    .sidebar-wrapper #header-logo .logo {
+        visibility: hidden !important;
+    }
 
-/* ── Logo: collapsed version positioned in visible 56px area ── */
-.sidebar-wrapper .sidebar-logo {
-    background-image: var(--sidebar-logo-collapsed-image) !important;
-    width: var(--sidebar-logo-collapsed-size, 30px) !important;
-    height: var(--sidebar-logo-collapsed-size, 30px) !important;
-    position: absolute !important;
-    top: 50% !important;
-    left: -2px !important;
-    transform: translateY(-50%) !important;
-    transition: width var(--sidebar-transition), height var(--sidebar-transition), left var(--sidebar-transition) !important;
-}
+    .sidebar-wrapper:hover #header-logo .logo {
+        visibility: hidden !important;
+    }
 
-.sidebar-wrapper:hover .sidebar-logo {
-    background-image: var(--sidebar-logo-image) !important;
-    width: var(--sidebar-logo-width, 140px) !important;
-    height: var(--sidebar-logo-height, 42px) !important;
-    left: 50% !important;
-    transform: translate(-50%, -50%) !important;
-}
+    /* ── Logo: collapsed version positioned in visible 56px area ── */
+    .sidebar-wrapper .sidebar-logo {
+        background-image: var(--sidebar-logo-collapsed-image) !important;
+        width: var(--sidebar-logo-collapsed-size, 30px) !important;
+        height: var(--sidebar-logo-collapsed-size, 30px) !important;
+        position: absolute !important;
+        top: 50% !important;
+        left: -2px !important;
+        transform: translateY(-50%) !important;
+        transition: width var(--sidebar-transition), height var(--sidebar-transition), left var(--sidebar-transition) !important;
+        visibility: visible !important;
+    }
 
-/* ── Hide text when collapsed — wrapper clips it naturally ──
-   But we also fade it for smooth transition on expand */
-.sidebar-wrapper .menu-item-label,
-.sidebar-wrapper .menu-header {
-    opacity: 0 !important;
-    transition: opacity var(--sidebar-transition) !important;
-}
+    .sidebar-wrapper:hover .sidebar-logo {
+        background-image: var(--sidebar-logo-image) !important;
+        width: var(--sidebar-logo-width, 140px) !important;
+        height: var(--sidebar-logo-height, 42px) !important;
+        left: 50% !important;
+        transform: translate(-50%, -50%) !important;
+    }
 
-.sidebar-wrapper:hover .menu-item-label,
-.sidebar-wrapper:hover .menu-header {
-    opacity: 1 !important;
-}
+    /* ── Menu items when collapsed: force consistent icon position ── */
+    .sidebar-wrapper #main-menu .menu .menu-item {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
 
-/* ── Active item when collapsed ── */
-.sidebar-wrapper #main-menu .menu .menu-item.active {
-    box-shadow: -6px 0 0 0 var(--accent-dim) !important;
-}
+    .sidebar-wrapper #main-menu .menu .menu-item .menu-item-contents {
+        padding-left: 4px !important;
+    }
 
-.sidebar-wrapper:hover #main-menu .menu .menu-item.active {
-    box-shadow: inset 3px 0 0 var(--accent) !important;
-}
+    .sidebar-wrapper:hover #main-menu .menu .menu-item {
+        margin-left: revert !important;
+        margin-right: revert !important;
+    }
 
-.sidebar-wrapper:hover #main-menu .menu .menu-item.active {
-    box-shadow: inset 3px 0 0 var(--accent) !important;
-}
+    .sidebar-wrapper:hover #main-menu .menu .menu-item .menu-item-contents {
+        padding-left: revert !important;
+    }
 
-/* ── Content area: fixed offset ── */
-.wrapper {
-    display: block !important;
-}
+    /* ── Hide text when collapsed — wrapper clips it naturally ──
+       But we also fade it for smooth transition on expand */
+    .sidebar-wrapper .menu-item-label,
+    .sidebar-wrapper .menu-header {
+        opacity: 0 !important;
+        transition: opacity var(--sidebar-transition) !important;
+    }
 
-.content-wrapper,
-.content-top {
-    margin-left: var(--sidebar-collapsed-width) !important;
-    border-left: 1px solid var(--border-subtle) !important;
-}
+    .sidebar-wrapper:hover .menu-item-label,
+    .sidebar-wrapper:hover .menu-header {
+        opacity: 1 !important;
+    }
 
-/* ── Hide resizer ── */
-#sidebar-resizer-handler {
-    display: none !important;
+    /* ── Active item when collapsed ── */
+    .sidebar-wrapper #main-menu .menu .menu-item.active {
+        box-shadow: -6px 0 0 0 var(--accent-dim) !important;
+    }
+
+    .sidebar-wrapper:hover #main-menu .menu .menu-item.active {
+        box-shadow: inset 3px 0 0 var(--accent) !important;
+    }
+
+    /* ── Content area: fixed offset ── */
+    .wrapper {
+        display: block !important;
+    }
+
+    .content-wrapper,
+    .content-top {
+        margin-left: var(--sidebar-collapsed-width) !important;
+        border-left: 1px solid var(--border-subtle) !important;
+    }
+
+    /* ── Hide resizer ── */
+    #sidebar-resizer-handler {
+        display: none !important;
+    }
+
 }
