@@ -81,8 +81,10 @@
     display: block !important;
 }
 
-.content-wrapper {
+.content-wrapper,
+.content-top {
     margin-left: var(--sidebar-collapsed-width) !important;
+    border-left: 1px solid var(--border-subtle) !important;
 }
 
 /* ── Hide resizer ── */
