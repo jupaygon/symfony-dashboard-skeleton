@@ -13,7 +13,7 @@ From zero to a fully functional admin dashboard in minutes.
 - **Impersonate** — Admin can switch to any user in their org
 - **Brand Skinning** — Host-based, CSS variables, per-brand logos and colors
 - **2 Menu layouts** — Sidebar (classic) and Top Nav (horizontal menu bar)
-- **3 Skins included** — `default` (sidebar, EA5 vanilla), `jarvis` (sidebar, dark theme), `topnav` (horizontal menu, EA5 vanilla)
+- **4 Skins included** — `default` (sidebar, light), `jarvis` (sidebar, dark), `topnav` (horizontal, light), `watson` (horizontal, dark)
 - **Sidebar collapsed mode** — Icon-only sidebar with expand on hover
 - **Brand switcher** — Super admin can switch between brands in real-time
 - **User Preferences** — Sidebar, content width, locale, brand override — saved per user in DB
@@ -158,11 +158,12 @@ Each brand defines its menu layout via the `menu` property:
 
 ### Included brands
 
-| Brand     | Menu    | Theme               | Purpose                                  |
-|-----------|---------|---------------------|------------------------------------------|
-| `default` | sidebar | EA5 vanilla (light) | Starting point for sidebar brands        |
-| `jarvis`  | sidebar | Custom dark theme   | Example of a fully themed sidebar brand  |
-| `topnav`  | topnav  | EA5 vanilla (light) | Starting point for top navigation brands |
+| Brand     | Menu    | Theme               | Purpose                                             |
+|-----------|---------|---------------------|-----------------------------------------------------|
+| `default` | sidebar | EA5 vanilla (light) | Starting point for sidebar brands                   |
+| `jarvis`  | sidebar | Custom dark theme   | Example of a fully themed sidebar brand             |
+| `topnav`  | topnav  | EA5 vanilla (light) | Starting point for top navigation brands            |
+| `watson`  | topnav  | Frost dark theme    | Example of a fully themed top navigation brand      |
 
 To create a new sidebar brand, copy `default`. To create a new top nav brand, copy `topnav`. Then edit `skin.css` and replace the logos.
 
@@ -269,16 +270,15 @@ Optional. Loaded only for brands with `menu: topnav`. Hides the sidebar, display
 
 ### How CSS files are loaded
 
-| CSS file                      | default | jarvis  | topnav              | Loaded by                                   |
-|-------------------------------|---------|---------|---------------------|---------------------------------------------|
-| `brands/<brand>/css/skin.css` | Yes     | Yes     | Yes                 | DashboardController                         |
-| `css/easyadmin-overrides.css` | No      | Yes     | No                  | DashboardController (custom sidebar brands) |
-| `css/topnav-layout.css`       | No      | No      | Yes                 | DashboardController (topnav brands)         |
-| `css/sidebar-collapsed.css`   | If pref | If pref | No                  | DashboardController (sidebar + user pref)   |
-| `css/public.css`              | Yes     | Yes     | Yes                 | Landing + Login templates                   |
-| `brands/<brand>/css/skin.css` | Yes     | Yes     | DashboardController |                                             |
+| CSS file | default | jarvis | topnav | watson | Loaded by |
+|----------|---------|--------|--------|--------|-----------|
+| `brands/<brand>/css/skin.css` | Yes | Yes | Yes | Yes | DashboardController |
+| `css/easyadmin-overrides.css` | No | Yes | No | Yes | DashboardController (custom brands) |
+| `css/topnav-layout.css` | No | No | Yes | Yes | DashboardController (topnav brands) |
+| `css/sidebar-collapsed.css` | If pref | If pref | No | No | DashboardController (sidebar + user pref) |
+| `css/public.css` | Yes | Yes | Yes | Yes | Landing + Login templates |
 
-The `default` and `topnav` brands intentionally do NOT load `easyadmin-overrides.css` so users see EasyAdmin 5 exactly as it comes out of the box. Custom sidebar brands (like `jarvis`) load the overrides to apply their dark theme. Topnav brands load `topnav-layout.css` instead, which handles the horizontal menu bar.
+The base brands (`default` and `topnav`) do NOT load `easyadmin-overrides.css` — they show EasyAdmin 5 as it comes out of the box. Custom brands (`jarvis`, `watson`) load the overrides to apply their theme. Topnav brands additionally load `topnav-layout.css` for the horizontal menu bar.
 
 ### Non-asset-mappable files
 
