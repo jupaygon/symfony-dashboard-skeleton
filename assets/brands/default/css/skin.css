@@ -11,9 +11,11 @@
     --accent: #2563eb;
 
     /* ── Sidebar logo ── */
-    --sidebar-logo-image: url('/resources/brands/default/images/logo.svg');
+    --sidebar-logo-image: url('/resources/brands/default/images/logos/logo.svg');
     --sidebar-logo-width: 140px;
     --sidebar-logo-height: 42px;
+    --sidebar-logo-collapsed-image: url('/resources/brands/default/images/logos/collapsed.svg');
+    --sidebar-logo-collapsed-size: 30px;
 
     /* ── Public pages (landing, login) ── */
     --public-bg: #f8fafc;
@@ -28,7 +30,7 @@
     --public-error-bg: rgba(239, 68, 68, 0.08);
     --public-error-border: rgba(239, 68, 68, 0.2);
     --public-error-text: #dc2626;
-    --public-logo-image: url('/resources/brands/default/images/logo.svg');
+    --public-logo-image: url('/resources/brands/default/images/logos/logo.svg');
     --public-logo-glow: none;
     --public-icon-filter: none;
 }

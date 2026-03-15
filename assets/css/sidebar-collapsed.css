@@ -43,11 +43,40 @@
 /* ── Nudge menu items right so icons appear centered in 56px ── */
 .sidebar-wrapper #main-menu .menu .menu-item .menu-item-contents {
     padding-left: 0 !important;
-    margin-left: -4px !important;
+    margin-left: -2px !important;
 }
 
 .sidebar-wrapper:hover #main-menu .menu .menu-item .menu-item-contents {
     padding-left: 4px !important;
+}
+
+/* ── Header logo: fixed height so menu doesn't jump ── */
+.sidebar-wrapper #header-logo {
+    height: 60px !important;
+    min-height: 60px !important;
+    padding: 0 !important;
+    position: relative !important;
+    overflow: visible !important;
+}
+
+/* ── Logo: collapsed version positioned in visible 56px area ── */
+.sidebar-wrapper .sidebar-logo {
+    background-image: var(--sidebar-logo-collapsed-image) !important;
+    width: var(--sidebar-logo-collapsed-size, 30px) !important;
+    height: var(--sidebar-logo-collapsed-size, 30px) !important;
+    position: absolute !important;
+    top: 50% !important;
+    left: -2px !important;
+    transform: translateY(-50%) !important;
+    transition: width var(--sidebar-transition), height var(--sidebar-transition), left var(--sidebar-transition) !important;
+}
+
+.sidebar-wrapper:hover .sidebar-logo {
+    background-image: var(--sidebar-logo-image) !important;
+    width: var(--sidebar-logo-width, 140px) !important;
+    height: var(--sidebar-logo-height, 42px) !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
 }
 
 /* ── Hide text when collapsed — wrapper clips it naturally ──

@@ -20,9 +20,11 @@
     --sidebar-text: #7bdbe3;
     --sidebar-text-bright: #ffffff;
     --sidebar-border: rgba(56, 189, 248, 0.08);
-    --sidebar-logo-image: url('/resources/brands/jarvis/images/logo.svg');
+    --sidebar-logo-image: url('/resources/brands/jarvis/images/logos/logo.svg');
     --sidebar-logo-width: 140px;
     --sidebar-logo-height: 42px;
+    --sidebar-logo-collapsed-image: url('/resources/brands/jarvis/images/logos/collapsed.svg');
+    --sidebar-logo-collapsed-size: 30px;
     --sidebar-logo-glow: 0 0 20px rgba(56, 189, 248, 0.3), 0 0 60px rgba(56, 189, 248, 0.1);
     --sidebar-dropdown-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
 
@@ -87,7 +89,7 @@
     --public-error-bg: rgba(239, 68, 68, 0.12);
     --public-error-border: rgba(239, 68, 68, 0.3);
     --public-error-text: #ef4444;
-    --public-logo-image: url('/resources/brands/jarvis/images/logo.svg');
+    --public-logo-image: url('/resources/brands/jarvis/images/logos/logo.svg');
     --public-logo-glow: drop-shadow(0 0 20px rgba(56, 189, 248, 0.3)) drop-shadow(0 0 60px rgba(56, 189, 248, 0.1));
     --public-icon-filter: brightness(0) saturate(100%) invert(68%) sepia(57%) saturate(1000%) hue-rotate(170deg) brightness(104%) contrast(97%);
 }
