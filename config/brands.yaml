@@ -3,9 +3,9 @@ parameters:
     brands_map:
         # hostname: brand_key
         # 'dashboard.example.com': 'default'
-        # 'client.example.com': 'topnav'
+        # 'dark.example.com': 'jarvis'
     brands_defs:
         default:
             name: 'Dashboard'
-        topnav:
-            name: 'Dashboard (Top Nav)'
+        jarvis:
+            name: 'Dashboard (Dark)'
