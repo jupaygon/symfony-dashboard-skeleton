@@ -15,7 +15,7 @@ From zero to a fully functional admin dashboard in minutes.
 - **2 Skins included** — `default` (EA5 vanilla) and `jarvis` (dark theme)
 - **Sidebar collapsed mode** — Icon-only sidebar with expand on hover
 - **User Preferences** — Sidebar, content width, locale — saved per user in DB
-- **2 Dashboards** — Admin (`/admin`) and User (`/dashboard`) with cross-links
+- **2 Dashboards** — Admin (`/admin`) and User (`/dashboard`) with cross-links (if the user has both roles)
 - **Landing page** — Responsive, with SVG logo
 - **i18n** — English + Spanish, easily extensible
 - **Login** — Form-based with CSRF, remember-me, branded
