@@ -1,9 +1,6 @@
 imports:
     - { resource: parameters.yaml }
     - { resource: brands.yaml }
-    - { resource: user_preferences.yaml }
-
-parameters:
 
 services:
     _defaults:
@@ -36,4 +33,4 @@ services:
     # User preferences
     App\Application\Service\UserPreferenceService:
         arguments:
-            $definitions: '%user_preferences%'
+            $definitions: '%app.user_preferences%'
