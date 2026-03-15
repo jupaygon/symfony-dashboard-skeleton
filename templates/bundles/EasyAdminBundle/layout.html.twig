@@ -1,0 +1,86 @@
+{% extends '@!EasyAdmin/layout.html.twig' %}
+
+{% block settings_dropdown_wrapper %}
+    <twig:ea:ActionMenu class="dropdown-settings">
+        <twig:ea:ActionMenu:Button class="dropdown-settings-button" data-bs-offset="0,5" withoutDropdownToggleMarker>
+            <twig:ea:Icon name="internal:gear" />
+        </twig:ea:ActionMenu:Button>
+
+        <twig:ea:ActionMenu:Overlay>
+            <twig:ea:ActionMenu:ActionList>
+                {% if ea.dashboardLocales %}
+                    <twig:ea:ActionMenu:ActionList:Header
+                        class="dropdown-locales-label"
+                        label="{{ 'settings.locale'|trans(domain: 'EasyAdminBundle') }}" />
+                {% endif %}
+
+                {% for localeDto in ea.dashboardLocales %}
+                    {% set url = ea_url(app.current_route_parameters)
+                        .set('_locale', localeDto.locale)
+                        .set('entityId', app.request.attributes.get('entityId')) %}
+
+                    <twig:ea:ActionMenu:ActionList:Item
+                        class="{{ app.request.locale == localeDto.locale ? 'active' }}"
+                        url="{{ url.generateUrl() }}"
+                        icon="{{ localeDto.icon }}" label="{{ localeDto.name }}" />
+                {% endfor %}
+
+                {% if ea.dashboardHasDarkModeEnabled %}
+                    {% if ea.dashboardLocales %}
+                        <twig:ea:ActionMenu:ActionList:Divider/>
+                    {% endif %}
+
+                    <twig:ea:ActionMenu:ActionList:Header
+                        class="dropdown-appearance-label"
+                        label="{{ 'settings.appearance.label'|trans(domain: 'EasyAdminBundle') }}" />
+
+                    <twig:ea:ActionMenu:ActionList:Item
+                        class="dropdown-appearance-item"
+                        url="#" icon="internal:sun" data-ea-color-scheme="light"
+                        label="{{ 'settings.appearance.light'|trans(domain: 'EasyAdminBundle') }}" />
+                    <twig:ea:ActionMenu:ActionList:Item
+                        class="dropdown-appearance-item"
+                        url="#" icon="internal:moon" data-ea-color-scheme="dark"
+                        label="{{ 'settings.appearance.dark'|trans(domain: 'EasyAdminBundle') }}" />
+                    <twig:ea:ActionMenu:ActionList:Item
+                        class="dropdown-appearance-item active"
+                        url="#" icon="internal:desktop" data-ea-color-scheme="auto"
+                        label="{{ 'settings.appearance.auto'|trans(domain: 'EasyAdminBundle') }}" />
+                {% endif %}
+
+                {# ── Sidebar preference ── #}
+                {% if ea.dashboardLocales or ea.dashboardHasDarkModeEnabled %}
+                    <twig:ea:ActionMenu:ActionList:Divider/>
+                {% endif %}
+
+                <twig:ea:ActionMenu:ActionList:Header label="Sidebar" />
+
+                <twig:ea:ActionMenu:ActionList:Item
+                    class="sidebar-pref-item {{ not user_preference('sidebar_collapsed') ? 'active' }}"
+                    url="#" icon="fa-solid fa-bars"
+                    label="Expanded"
+                    data-sidebar-mode="expanded" />
+                <twig:ea:ActionMenu:ActionList:Item
+                    class="sidebar-pref-item {{ user_preference('sidebar_collapsed') ? 'active' }}"
+                    url="#" icon="fa-solid fa-grip-lines-vertical"
+                    label="Collapsed"
+                    data-sidebar-mode="collapsed" />
+            </twig:ea:ActionMenu:ActionList>
+        </twig:ea:ActionMenu:Overlay>
+    </twig:ea:ActionMenu>
+
+    <script>
+    document.querySelectorAll('.sidebar-pref-item').forEach(function(item) {
+        item.addEventListener('click', function(e) {
+            e.preventDefault();
+            fetch('/api/user/preference/toggle', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ field: 'sidebar_collapsed' })
+            })
+            .then(function(r) { return r.json(); })
+            .then(function() { window.location.reload(); });
+        });
+    });
+    </script>
+{% endblock %}

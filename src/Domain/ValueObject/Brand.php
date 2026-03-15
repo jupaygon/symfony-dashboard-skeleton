@@ -11,7 +11,6 @@ final readonly class Brand implements BrandInterface
     public function __construct(
         private string $key,
         private string $name,
-        private bool $sidebarCollapsed = false,
     ) {
     }
 
@@ -23,10 +22,5 @@ final readonly class Brand implements BrandInterface
     public function getName(): string
     {
         return $this->name;
-    }
-
-    public function isSidebarCollapsed(): bool
-    {
-        return $this->sidebarCollapsed;
     }
 }

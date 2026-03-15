@@ -530,3 +530,26 @@ table.datagrid .form-switch .form-check-input:checked {
 
 /* ── Responsive ── */
 #responsive-header-logo img { width: 36px; height: 36px; border-radius: 50%; }
+
+/* ── Sidebar toggle button ── */
+.sidebar-toggle-wrapper {
+    display: inline-flex;
+    margin-left: 4px;
+}
+.sidebar-toggle-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border: 1px solid var(--border-subtle);
+    border-radius: 6px;
+    background: transparent;
+    color: var(--accent);
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s;
+}
+.sidebar-toggle-btn:hover {
+    background: var(--accent-dim);
+    border-color: var(--accent);
+}

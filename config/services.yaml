@@ -1,5 +1,6 @@
 imports:
     - { resource: brands.yaml }
+    - { resource: user_preferences.yaml }
 
 parameters:
 
@@ -20,6 +21,9 @@ services:
     App\Domain\Port\UserRepositoryInterface:
         alias: App\Infrastructure\Persistence\Doctrine\UserRepository
 
+    App\Domain\Port\UserPreferenceRepositoryInterface:
+        alias: App\Infrastructure\Persistence\Doctrine\UserPreferenceRepository
+
     # Branding
     App\Infrastructure\Branding\BrandResolver:
         arguments:
@@ -27,3 +31,8 @@ services:
             $brandMap: '%brands_map%'
             $defaultBrand: '%brands_default%'
             $devSuffixes: '%brands_dev_allowed_suffixes%'
+
+    # User preferences
+    App\Application\Service\UserPreferenceService:
+        arguments:
+            $definitions: '%user_preferences%'

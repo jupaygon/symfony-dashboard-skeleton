@@ -1,0 +1,6 @@
+parameters:
+    user_preferences:
+        sidebar_collapsed:
+            type: boolean
+            default: false
+            label: 'Sidebar collapsed'

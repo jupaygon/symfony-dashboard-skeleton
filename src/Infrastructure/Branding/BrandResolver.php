@@ -44,7 +44,6 @@ class BrandResolver
         return new Brand(
             key: $key,
             name: $def['name'] ?? $key,
-            sidebarCollapsed: $def['sidebar_collapsed'] ?? false,
         );
     }
 }

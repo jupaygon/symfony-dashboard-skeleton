@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Infrastructure\Http\Controller;
 
 use App\Application\Service\BrandContext;
+use App\Application\Service\UserPreferenceService;
+use App\Domain\Model\User;
 use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminDashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
@@ -17,6 +19,7 @@ class DashboardController extends AbstractDashboardController
 {
     public function __construct(
         private readonly BrandContext $brandContext,
+        private readonly UserPreferenceService $preferenceService,
     ) {
     }
 
@@ -29,11 +32,17 @@ class DashboardController extends AbstractDashboardController
     {
         $brand = $this->brandContext->get();
 
-        return Dashboard::new()
+        $dashboard = Dashboard::new()
             ->setTitle('<div class="sidebar-logo"></div>')
             ->setFaviconPath('images/logo.svg')
             ->setTranslationDomain('admin')
             ->setLocales(['en' => 'English', 'es' => 'Español']);
+
+        if ($brand->getKey() !== 'default') {
+            $dashboard->disableDarkMode();
+        }
+
+        return $dashboard;
     }
 
     public function configureMenuItems(): iterable
@@ -58,7 +67,9 @@ class DashboardController extends AbstractDashboardController
             $assets->addCssFile('css/easyadmin-overrides.css');
         }
 
-        if ($brand->isSidebarCollapsed()) {
+        /** @var User|null $user */
+        $user = $this->getUser();
+        if ($user && $this->preferenceService->get($user, 'sidebar_collapsed')) {
             $assets->addCssFile('css/sidebar-collapsed.css');
         }
 
