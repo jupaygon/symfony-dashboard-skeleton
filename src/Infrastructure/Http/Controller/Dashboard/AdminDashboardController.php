@@ -30,7 +30,7 @@ class AdminDashboardController extends AbstractDashboardController
 
     public function index(): Response
     {
-        return $this->render('dashboard/index.html.twig');
+        return $this->render('dashboard/admin.html.twig');
     }
 
     public function configureDashboard(): Dashboard
@@ -62,12 +62,16 @@ class AdminDashboardController extends AbstractDashboardController
     public function configureMenuItems(): iterable
     {
         yield MenuItem::linkToDashboard('Menu.AdminDashboard', 'fa fa-home');
-        yield MenuItem::section('Menu.Management');
-        yield MenuItem::linkTo(OrganizationCrudController::class, 'Menu.Organizations', 'fas fa-building');
-        yield MenuItem::linkTo(UserCrudController::class, 'Menu.Users', 'fas fa-users');
+        yield MenuItem::subMenu('Menu.CRM', 'fas fa-users-gear')->setSubItems([
+            MenuItem::linkTo(OrganizationCrudController::class, 'Menu.Organizations', 'fas fa-building'),
+            MenuItem::linkTo(UserCrudController::class, 'Menu.Users', 'fas fa-users'),
+        ]);
         yield MenuItem::section();
         yield MenuItem::linkToRoute('Menu.UserDashboard', 'fa fa-tachometer-alt', 'app_dashboard');
-        yield MenuItem::linkToLogout('Menu.Logout', 'fa fa-sign-out');
+
+        if (!$this->brandContext->get()->isTopnav()) {
+            yield MenuItem::linkToLogout('Menu.Logout', 'fa fa-sign-out');
+        }
     }
 
     public function configureAssets(): Assets
@@ -77,13 +81,17 @@ class AdminDashboardController extends AbstractDashboardController
         $assets = Assets::new()
             ->addCssFile(sprintf('brands/%s/css/skin.css', $brand->getKey()));
 
-        if ($brand->getKey() !== 'default') {
+        if ($brand->getKey() !== 'default' && !$brand->isTopnav()) {
             $assets->addCssFile('css/easyadmin-overrides.css');
+        }
+
+        if ($brand->isTopnav()) {
+            $assets->addCssFile('css/topnav-layout.css');
         }
 
         /** @var User|null $user */
         $user = $this->getUser();
-        if ($user && $this->preferenceService->get($user, 'sidebar_collapsed')) {
+        if (!$brand->isTopnav() && $user && $this->preferenceService->get($user, 'sidebar_collapsed')) {
             $assets->addCssFile('css/sidebar-collapsed.css');
         }
 

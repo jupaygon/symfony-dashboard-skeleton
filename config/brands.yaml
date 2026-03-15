@@ -1,6 +1,7 @@
+# yaml-language-server: $schema=../vendor/symfony/dependency-injection/Loader/schema/services.schema.json
 parameters:
     brands_dev_allowed_suffixes: []
-    brands_default: 'jarvis'
+    brands_default: 'default'
     brands_map:
         # hostname: brand_key
         # Map production and local hostnames to their brand
@@ -8,8 +9,14 @@ parameters:
         # 'dashboard.example.local': 'default'
         # 'dark.example.com': 'jarvis'
         # 'dark.example.local': 'jarvis'
+        # 'topnav.example.com': 'topnav'
     brands_defs:
         default:
-            name: 'Dashboard'
+            name: 'Default'
+            menu: sidebar
+        topnav:
+            name: 'Top Nav'
+            menu: topnav
         jarvis:
-            name: 'Dashboard (Dark)'
+            name: 'Jarvis'
+            menu: sidebar

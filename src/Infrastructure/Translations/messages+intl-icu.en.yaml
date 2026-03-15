@@ -13,9 +13,11 @@ Menu:
   AdminDashboard: Admin Dashboard
   UserDashboard: User Dashboard
   Management: Management
+  CRM: CRM
   Organizations: Organizations
   Users: Users
   Logout: Sign out
+  StopImpersonation: Stop impersonation
   Settings:
     Sidebar: Sidebar
     Expanded: Expanded
@@ -23,10 +25,12 @@ Menu:
     ContentWidth: Content width
     FullWidth: Full width
     LimitedWidth: Limited width
+    Brand: Brand
+    BrandDefault: Configured by host
 
 Dashboard:
   Welcome: Your dashboard is ready
-  WelcomeUser: "Welcome, {name}"
+  WelcomeUser: "Welcome, user!"
   CustomizeTemplate: This is a blank dashboard. Customize it by editing
   CustomizeController: The sidebar menu is configured in
   AddWidgets: Add widgets, charts, stats, or any content you need.

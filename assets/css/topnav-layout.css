@@ -1,0 +1,207 @@
+/* ══════════════════════════════════════════════════════════════
+   Top Navigation Layout
+   Hides the sidebar and displays a horizontal menu bar.
+   Loaded when brand.menu = 'topnav'.
+
+   Uses variables from the brand skin.css.
+   ══════════════════════════════════════════════════════════════ */
+
+/* ── Hide sidebar ── */
+.sidebar-wrapper,
+.sidebar,
+#sidebar-resizer-handler {
+    display: none !important;
+}
+
+/* ── Top nav bar ── */
+.topnav-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: var(--topnav-h, 56px);
+    background: var(--topnav-bg, #ffffff);
+    border-bottom: 1px solid var(--topnav-border, #e2e8f0);
+    display: flex;
+    align-items: center;
+    padding: 0 24px;
+    z-index: 200;
+    gap: 4px;
+    overflow: visible !important;
+}
+
+.topnav-bar__logo {
+    height: var(--topnav-logo-height, 32px);
+    width: auto;
+    margin-right: 20px;
+    background-image: var(--topnav-logo-image);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    min-width: 100px;
+}
+
+.topnav-bar__items {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    flex: 1;
+    overflow: visible !important;
+}
+
+.topnav-bar__item {
+    position: relative;
+}
+
+.topnav-bar__link {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    border-radius: 6px;
+    color: var(--topnav-text, #64748b);
+    font-size: 0.85rem;
+    font-weight: 500;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: all 0.15s;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+.topnav-bar__link:hover {
+    color: var(--topnav-text-active, #0f172a);
+    background: var(--topnav-item-hover-bg, #f1f5f9);
+}
+
+.topnav-bar__link.active {
+    color: var(--accent, #2563eb);
+    background: var(--topnav-item-active-bg, rgba(37, 99, 235, 0.08));
+}
+
+.topnav-bar__link .icon {
+    font-size: 14px;
+}
+
+.topnav-bar__link .chevron {
+    width: 10px;
+    height: 10px;
+    transition: transform 0.2s;
+}
+
+.topnav-bar__item.open .chevron {
+    transform: rotate(180deg);
+}
+
+/* Dropdown */
+.topnav-bar__dropdown {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    min-width: 180px;
+    background: var(--topnav-bg, #ffffff);
+    border: 1px solid var(--topnav-border, #e2e8f0);
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    padding: 4px;
+    display: none;
+    z-index: 300;
+}
+
+.topnav-bar__item.open .topnav-bar__dropdown {
+    display: block;
+}
+
+.topnav-bar__dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    border-radius: 6px;
+    color: var(--topnav-text, #64748b);
+    font-size: 0.82rem;
+    text-decoration: none;
+    transition: all 0.15s;
+}
+
+.topnav-bar__dropdown-item:hover {
+    background: var(--topnav-item-hover-bg, #f1f5f9);
+    color: var(--topnav-text-active, #0f172a);
+}
+
+.topnav-bar__dropdown-item.active {
+    color: var(--accent, #2563eb);
+}
+
+/* Right side (spacer) */
+.topnav-bar__spacer {
+    flex: 1;
+}
+
+/* ── Wrapper layout: no sidebar ── */
+.wrapper {
+    display: block !important;
+    grid-template-columns: none !important;
+}
+
+.main-content {
+    width: 100% !important;
+    margin-left: 0 !important;
+    grid-column: 1 / -1 !important;
+}
+
+.content-wrapper {
+    margin-left: 0 !important;
+    width: 100% !important;
+}
+
+/* Push content below the topnav bar */
+.content-wrapper {
+    padding-top: var(--topnav-h, 56px) !important;
+}
+
+/* ── Hide user menu and responsive header (topnav handles them) ── */
+.responsive-header {
+    display: none !important;
+}
+
+/* Content-top: keep only search, hide user + gear (they're in topnav bar) */
+.content-top .user-menu-wrapper {
+    display: none !important;
+}
+.content-top .dropdown-settings {
+    display: none !important;
+}
+
+/* On dashboard pages, hide content-top entirely (no search) */
+body.page-content .content-top {
+    display: none !important;
+}
+
+/* ── Right side of topnav bar ── */
+.topnav-bar__right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: 12px;
+}
+
+.topnav-bar__user {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--topnav-text, #64748b);
+    white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+    .topnav-bar {
+        padding: 0 12px;
+    }
+
+    .topnav-bar__link {
+        padding: 6px 10px;
+        font-size: 0.8rem;
+    }
+}

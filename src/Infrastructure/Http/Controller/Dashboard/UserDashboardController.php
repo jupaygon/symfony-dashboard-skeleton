@@ -66,8 +66,10 @@ class UserDashboardController extends AbstractDashboardController
             yield MenuItem::linkToRoute('Menu.AdminDashboard', 'fa fa-cogs', 'app_admin');
         }
 
-        yield MenuItem::section();
-        yield MenuItem::linkToLogout('Menu.Logout', 'fa fa-sign-out');
+        if (!$this->brandContext->get()->isTopnav()) {
+            yield MenuItem::section();
+            yield MenuItem::linkToLogout('Menu.Logout', 'fa fa-sign-out');
+        }
     }
 
     public function configureAssets(): Assets
@@ -77,13 +79,17 @@ class UserDashboardController extends AbstractDashboardController
         $assets = Assets::new()
             ->addCssFile(sprintf('brands/%s/css/skin.css', $brand->getKey()));
 
-        if ($brand->getKey() !== 'default') {
+        if ($brand->getKey() !== 'default' && !$brand->isTopnav()) {
             $assets->addCssFile('css/easyadmin-overrides.css');
+        }
+
+        if ($brand->isTopnav()) {
+            $assets->addCssFile('css/topnav-layout.css');
         }
 
         /** @var User|null $user */
         $user = $this->getUser();
-        if ($user && $this->preferenceService->get($user, 'sidebar_collapsed')) {
+        if (!$brand->isTopnav() && $user && $this->preferenceService->get($user, 'sidebar_collapsed')) {
             $assets->addCssFile('css/sidebar-collapsed.css');
         }
 

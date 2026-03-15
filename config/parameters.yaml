@@ -16,3 +16,7 @@ parameters:
             type: string
             default: 'en'
             label: 'Language'
+        brand_override:
+            type: string
+            default: ''
+            label: 'Brand override (super admin only)'
