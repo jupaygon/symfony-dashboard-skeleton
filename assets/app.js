@@ -1,0 +1,1 @@
+/* Dashboard Skeleton — app entrypoint */

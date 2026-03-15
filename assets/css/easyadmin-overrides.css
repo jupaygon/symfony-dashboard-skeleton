@@ -154,6 +154,47 @@
     background: var(--accent-dim) !important;
     color: var(--sidebar-text-bright) !important;
 }
+.user-menu-wrapper .dropdown-menu .dropdown-item.active {
+    background: var(--accent-dim) !important;
+    color: var(--accent) !important;
+}
+
+/* ── Settings dropdown (gear icon: language, appearance, sidebar) ── */
+.dropdown-settings .dropdown-menu {
+    background: var(--sidebar-bg) !important;
+    border: 1px solid var(--btn-primary-border) !important;
+    border-radius: 8px !important;
+    box-shadow: var(--sidebar-dropdown-shadow) !important;
+}
+.dropdown-settings .dropdown-menu .dropdown-divider,
+.dropdown-settings .dropdown-menu hr {
+    border-color: var(--btn-primary-border) !important;
+    opacity: 0.4;
+}
+.dropdown-settings .dropdown-menu .dropdown-item {
+    color: var(--sidebar-text) !important;
+    font-size: 0.8rem;
+}
+.dropdown-settings .dropdown-menu .dropdown-item .icon,
+.dropdown-settings .dropdown-menu .dropdown-item .icon svg {
+    color: var(--sidebar-text) !important;
+    fill: var(--sidebar-text) !important;
+}
+.dropdown-settings .dropdown-menu .dropdown-item:hover {
+    background: var(--accent-dim) !important;
+    color: var(--sidebar-text-bright) !important;
+}
+.dropdown-settings .dropdown-menu .dropdown-item.active {
+    background: var(--accent-dim) !important;
+    color: var(--accent) !important;
+}
+.dropdown-settings .dropdown-menu .dropdown-header {
+    color: var(--accent) !important;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    opacity: 0.7;
+}
 
 /* ── Search bar ── */
 .content-search { max-width: 400px; }
@@ -552,4 +593,15 @@ table.datagrid .form-switch .form-check-input:checked {
 .sidebar-toggle-btn:hover {
     background: var(--accent-dim);
     border-color: var(--accent);
+}
+
+/* ── User menu: hide dropdown, keep avatar + name visible ── */
+.user-menu-wrapper .dropdown-menu {
+    display: none !important;
+}
+.user-menu-wrapper .dropdown-toggle::after {
+    display: none !important;
+}
+.user-menu-wrapper .dropdown-toggle {
+    pointer-events: none !important;
 }

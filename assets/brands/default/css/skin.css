@@ -72,6 +72,17 @@
     border-color: var(--accent);
 }
 
+/* ── User menu: hide dropdown, keep avatar + name visible ── */
+.user-menu-wrapper .dropdown-menu {
+    display: none !important;
+}
+.user-menu-wrapper .dropdown-toggle::after {
+    display: none !important;
+}
+.user-menu-wrapper .dropdown-toggle {
+    pointer-events: none !important;
+}
+
 /* Hide the link text/duplicate — only show the sidebar-logo div */
 #header-logo .logo-custom a {
     display: flex !important;

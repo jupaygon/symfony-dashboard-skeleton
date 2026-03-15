@@ -34,7 +34,7 @@ class UserDashboardController extends AbstractDashboardController
 
         $dashboard = Dashboard::new()
             ->setTitle('<div class="sidebar-logo"></div>')
-            ->setFaviconPath('images/logo.svg');
+            ->setFaviconPath(sprintf('resources/brands/%s/images/logos/logo.svg', $brand->getKey()));
 
         if ($brand->getKey() !== 'default') {
             $dashboard->disableDarkMode();
