@@ -4,3 +4,7 @@ parameters:
             type: boolean
             default: false
             label: 'Sidebar collapsed'
+        locale:
+            type: string
+            default: 'en'
+            label: 'Language'

@@ -45,15 +45,12 @@ class UserDashboardController extends AbstractDashboardController
 
     public function configureMenuItems(): iterable
     {
-        yield MenuItem::linkToDashboard('User Dashboard', 'fa fa-home');
+        yield MenuItem::linkToDashboard('Menu.UserDashboard', 'fa fa-home');
 
         if ($this->isGranted('ROLE_ADMIN')) {
             yield MenuItem::section();
-            yield MenuItem::linkToRoute('Admin Dashboard', 'fa fa-cogs', 'app_admin');
+            yield MenuItem::linkToRoute('Menu.AdminDashboard', 'fa fa-cogs', 'app_admin');
         }
-
-        yield MenuItem::section();
-        yield MenuItem::linkToLogout('Logout', 'fa fa-sign-out');
     }
 
     public function configureAssets(): Assets

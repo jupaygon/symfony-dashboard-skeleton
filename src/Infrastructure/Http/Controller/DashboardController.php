@@ -35,7 +35,7 @@ class DashboardController extends AbstractDashboardController
         $dashboard = Dashboard::new()
             ->setTitle('<div class="sidebar-logo"></div>')
             ->setFaviconPath(sprintf('resources/brands/%s/images/logos/logo.svg', $brand->getKey()))
-            ->setTranslationDomain('admin')
+            ->setTranslationDomain('messages')
             ->setLocales(['en' => 'English', 'es' => 'Español']);
 
         if ($brand->getKey() !== 'default') {
@@ -47,13 +47,12 @@ class DashboardController extends AbstractDashboardController
 
     public function configureMenuItems(): iterable
     {
-        yield MenuItem::linkToDashboard('Admin Dashboard', 'fa fa-home');
-        yield MenuItem::section('Management');
-        yield MenuItem::linkTo(OrganizationCrudController::class, 'Organizations', 'fas fa-building');
-        yield MenuItem::linkTo(UserCrudController::class, 'Users', 'fas fa-users');
+        yield MenuItem::linkToDashboard('Menu.AdminDashboard', 'fa fa-home');
+        yield MenuItem::section('Menu.Management');
+        yield MenuItem::linkTo(OrganizationCrudController::class, 'Menu.Organizations', 'fas fa-building');
+        yield MenuItem::linkTo(UserCrudController::class, 'Menu.Users', 'fas fa-users');
         yield MenuItem::section();
-        yield MenuItem::linkToRoute('User Dashboard', 'fa fa-tachometer-alt', 'app_dashboard');
-        yield MenuItem::linkToLogout('Logout', 'fa fa-sign-out');
+        yield MenuItem::linkToRoute('Menu.UserDashboard', 'fa fa-tachometer-alt', 'app_dashboard');
     }
 
     public function configureAssets(): Assets

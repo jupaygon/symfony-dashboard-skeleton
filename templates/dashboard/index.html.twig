@@ -1,18 +1,18 @@
 {% extends '@EasyAdmin/page/content.html.twig' %}
 
-{% block content_title %}Admin Dashboard{% endblock %}
+{% block content_title %}{{ 'Menu.AdminDashboard'|trans }}{% endblock %}
 
 {% block main %}
 <div class="dashboard-welcome">
     <div class="dashboard-welcome__icon">&#127919;</div>
-    <h2 class="dashboard-welcome__title">Your dashboard is ready</h2>
+    <h2 class="dashboard-welcome__title">{{ 'Dashboard.Welcome'|trans }}</h2>
     <p class="dashboard-welcome__text">
-        This is a blank dashboard. Customize it by editing<br>
+        {{ 'Dashboard.CustomizeTemplate'|trans }}<br>
         <code>templates/dashboard/index.html.twig</code>
     </p>
     <p class="dashboard-welcome__text">
-        Add widgets, charts, stats, or any content you need.<br>
-        The sidebar menu is configured in<br>
+        {{ 'Dashboard.AddWidgets'|trans }}<br>
+        {{ 'Dashboard.CustomizeController'|trans }}<br>
         <code>src/Infrastructure/Http/Controller/DashboardController.php</code>
     </p>
 </div>

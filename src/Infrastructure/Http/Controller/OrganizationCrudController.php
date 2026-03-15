@@ -29,8 +29,8 @@ class OrganizationCrudController extends AbstractCrudController
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
-            ->setEntityLabelInSingular('Organization')
-            ->setEntityLabelInPlural('Organizations')
+            ->setEntityLabelInSingular('Entity.Organization.Singular')
+            ->setEntityLabelInPlural('Entity.Organization.Plural')
             ->showEntityActionsInlined()
             ->setPaginatorPageSize(10)
             ->setDefaultSort(['name' => 'ASC'])
@@ -59,9 +59,9 @@ class OrganizationCrudController extends AbstractCrudController
         yield TextField::new('name')->setColumns(4);
         yield UrlField::new('web')->setColumns(4)->hideOnIndex();
         yield FormField::addRow();
-        yield TextField::new('legalName', 'Legal Name')->setColumns(4)->hideOnIndex();
-        yield TextField::new('vatNumber', 'VAT Number')->setColumns(4)->hideOnIndex();
-        yield FormField::addFieldset('Address', 'fas fa-map-marker-alt')->hideOnIndex();
+        yield TextField::new('legalName', 'Fields.LegalName')->setColumns(4)->hideOnIndex();
+        yield TextField::new('vatNumber', 'Fields.VatNumber')->setColumns(4)->hideOnIndex();
+        yield FormField::addFieldset('Fields.Address', 'fas fa-map-marker-alt')->hideOnIndex();
         yield TextField::new('address')->setColumns(4);
         yield TextField::new('city')->setColumns(2);
         yield FormField::addRow();
@@ -71,8 +71,8 @@ class OrganizationCrudController extends AbstractCrudController
         yield FormField::addFieldset('Notes', 'fas fa-sticky-note')->hideOnIndex();
         yield TextareaField::new('comments')->setColumns(6)->hideOnIndex();
         yield FormField::addFieldset('Team', 'fas fa-users');
-        yield IntegerField::new('teamCount', 'Members')->onlyOnIndex();
-        yield AssociationField::new('users', 'Team Members')->hideOnIndex();
+        yield IntegerField::new('teamCount', 'Fields.Members')->onlyOnIndex();
+        yield AssociationField::new('users', 'Fields.TeamMembers')->hideOnIndex();
         yield DateTimeField::new('createdAt')->hideOnForm();
     }
 }

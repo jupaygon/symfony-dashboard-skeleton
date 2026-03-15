@@ -55,16 +55,16 @@
                     <twig:ea:ActionMenu:ActionList:Divider/>
                 {% endif %}
 
-                <twig:ea:ActionMenu:ActionList:Header label="Sidebar" />
+                <twig:ea:ActionMenu:ActionList:Header label="{{ 'Menu.Settings.Sidebar'|trans }}" />
 
                 <twig:ea:ActionMenu:ActionList:Item
                     class="sidebar-pref-item {{ not user_preference('sidebar_collapsed') ? 'active' }}"
                     url="#" icon="fa-solid fa-bars"
-                    label="Expanded" />
+                    label="{{ 'Menu.Settings.Expanded'|trans }}" />
                 <twig:ea:ActionMenu:ActionList:Item
                     class="sidebar-pref-item {{ user_preference('sidebar_collapsed') ? 'active' }}"
                     url="#" icon="fa-solid fa-grip-lines-vertical"
-                    label="Collapsed" />
+                    label="{{ 'Menu.Settings.Collapsed'|trans }}" />
 
                 {# ── Sign out ── #}
                 <twig:ea:ActionMenu:ActionList:Divider/>
@@ -72,7 +72,7 @@
                 <twig:ea:ActionMenu:ActionList:Item
                     url="{{ path('app_logout') }}"
                     icon="fa-solid fa-sign-out"
-                    label="Sign out" />
+                    label="{{ 'Menu.Logout'|trans }}" />
             </twig:ea:ActionMenu:ActionList>
         </twig:ea:ActionMenu:Overlay>
     </twig:ea:ActionMenu>

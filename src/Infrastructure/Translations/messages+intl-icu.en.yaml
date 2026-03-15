@@ -1,0 +1,72 @@
+Entity:
+  User:
+    Singular: User
+    Plural: Users
+  Organization:
+    Singular: Organization
+    Plural: Organizations
+  UserPreference:
+    Singular: User Preference
+    Plural: User Preferences
+
+Menu:
+  AdminDashboard: Admin Dashboard
+  UserDashboard: User Dashboard
+  Management: Management
+  Organizations: Organizations
+  Users: Users
+  Logout: Sign out
+  Settings:
+    Sidebar: Sidebar
+    Expanded: Expanded
+    Collapsed: Collapsed
+
+Dashboard:
+  Welcome: Your dashboard is ready
+  WelcomeUser: "Welcome, {name}"
+  CustomizeTemplate: This is a blank dashboard. Customize it by editing
+  CustomizeController: The sidebar menu is configured in
+  AddWidgets: Add widgets, charts, stats, or any content you need.
+
+Landing:
+  Title: Dashboard Skeleton
+  Subtitle: Admin panel powered by Symfony 8 + EasyAdmin 5
+  SignIn: Sign in
+  Feature:
+    MultiTenant: Multi-tenant
+    MultiTenantDesc: Organizations, roles, and user management with admin isolation per organization.
+    Hexagonal: Hexagonal Architecture
+    HexagonalDesc: "Clean separation: Domain, Application, Infrastructure. Ready to scale."
+    Branding: Brand Skinning
+    BrandingDesc: Host-based branding with CSS variables. Switch themes per domain.
+
+Login:
+  Title: Sign In
+  Email: Email
+  Password: Password
+  RememberMe: Remember me
+  Submit: Sign In
+
+Fields:
+  FullName: Full Name
+  Email: Email
+  Password: Password
+  NewPassword: New Password
+  NewPasswordHelp: Leave empty to keep current password
+  PasswordHelp: "Plain text — will be hashed automatically"
+  Roles: Roles
+  Organizations: Organizations
+  Active: Active
+  CreatedAt: Created at
+  Name: Name
+  LegalName: Legal Name
+  VatNumber: VAT Number
+  Address: Address
+  City: City
+  State: State
+  Zip: ZIP
+  Country: Country
+  Web: Web
+  Comments: Comments
+  Members: Members
+  TeamMembers: Team Members

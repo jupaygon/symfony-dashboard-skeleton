@@ -34,4 +34,22 @@ class UserPreferenceController extends AbstractController
             return $this->json(['status' => 'error', 'message' => $e->getMessage()], 400);
         }
     }
+
+    #[Route('/api/user/preference/set', name: 'api_user_preference_set', methods: ['POST'])]
+    public function set(Request $request): JsonResponse
+    {
+        /** @var User $user */
+        $user = $this->getUser();
+        $data = json_decode($request->getContent(), true);
+        $field = $data['field'] ?? '';
+        $value = $data['value'] ?? '';
+
+        try {
+            $this->preferenceService->set($user, $field, $value);
+
+            return $this->json(['status' => 'ok', 'field' => $field, 'value' => $value]);
+        } catch (\InvalidArgumentException $e) {
+            return $this->json(['status' => 'error', 'message' => $e->getMessage()], 400);
+        }
+    }
 }

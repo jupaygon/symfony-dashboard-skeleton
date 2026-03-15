@@ -46,8 +46,8 @@ class UserCrudController extends AbstractCrudController
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
-            ->setEntityLabelInSingular('User')
-            ->setEntityLabelInPlural('Users')
+            ->setEntityLabelInSingular('Entity.User.Singular')
+            ->setEntityLabelInPlural('Entity.User.Plural')
             ->showEntityActionsInlined()
             ->setPaginatorPageSize(10)
             ->setDefaultSort(['name' => 'ASC'])
@@ -93,19 +93,19 @@ class UserCrudController extends AbstractCrudController
 
         yield BooleanField::new('active')->setColumns(2);
         yield FormField::addRow();
-        yield TextField::new('name', 'Full Name')->setColumns(4);
+        yield TextField::new('name', 'Fields.FullName')->setColumns(4);
         yield FormField::addRow();
         yield EmailField::new('email')->setColumns(4);
         yield FormField::addRow();
-        yield TextField::new('password')
+        yield TextField::new('password', 'Fields.Password')
             ->onlyWhenCreating()
             ->setColumns(4)
-            ->setHelp('Plain text — will be hashed automatically');
-        yield TextField::new('plainPassword', 'New Password')
+            ->setHelp('Fields.PasswordHelp');
+        yield TextField::new('plainPassword', 'Fields.NewPassword')
             ->onlyWhenUpdating()
             ->setColumns(4)
             ->setRequired(false)
-            ->setHelp('Leave empty to keep current password');
+            ->setHelp('Fields.NewPasswordHelp');
         yield FormField::addRow();
 
         $roleChoices = [
