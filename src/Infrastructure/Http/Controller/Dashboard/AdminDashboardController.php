@@ -2,11 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Http\Controller;
+namespace App\Infrastructure\Http\Controller\Dashboard;
 
 use App\Application\Service\BrandContext;
 use App\Application\Service\UserPreferenceService;
 use App\Domain\Model\User;
+use App\Infrastructure\Http\Controller\Crud\Admin\OrganizationCrudController;
+use App\Infrastructure\Http\Controller\Crud\Admin\UserCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminDashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
@@ -15,7 +17,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 use Symfony\Component\HttpFoundation\Response;
 
 #[AdminDashboard(routePath: '/admin', routeName: 'app_admin')]
-class DashboardController extends AbstractDashboardController
+class AdminDashboardController extends AbstractDashboardController
 {
     public function __construct(
         private readonly BrandContext $brandContext,
@@ -53,6 +55,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkTo(UserCrudController::class, 'Menu.Users', 'fas fa-users');
         yield MenuItem::section();
         yield MenuItem::linkToRoute('Menu.UserDashboard', 'fa fa-tachometer-alt', 'app_dashboard');
+        yield MenuItem::linkToLogout('Menu.Logout', 'fa fa-sign-out');
     }
 
     public function configureAssets(): Assets

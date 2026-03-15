@@ -16,55 +16,83 @@ class LocaleSubscriber implements EventSubscriberInterface
     public function __construct(
         private readonly UserPreferenceService $preferenceService,
         private readonly Security $security,
-        private readonly string $defaultLocale = 'en',
     ) {
     }
 
     public static function getSubscribedEvents(): array
     {
         return [
-            KernelEvents::REQUEST => ['onKernelRequest', 5],
+            KernelEvents::REQUEST => [
+                // After SessionListener (128), before LocaleListener (16)
+                ['applyLocale', 100],
+                // After SecurityFirewall (8): save to DB
+                ['saveLocale', 4],
+            ],
         ];
     }
 
-    public function onKernelRequest(RequestEvent $event): void
+    /**
+     * Apply locale from query param or session.
+     * Sets _locale as request attribute so Symfony's LocaleListener picks it up.
+     */
+    public function applyLocale(RequestEvent $event): void
     {
         $request = $event->getRequest();
 
-        if (!$request->hasSession()) {
+        if (!$event->isMainRequest()) {
             return;
         }
 
-        // Query param takes priority (from language selector)
-        $locale = $request->query->get('_locale');
-
-        if ($locale) {
-            $request->setLocale($locale);
-            $request->getSession()->set('_locale', $locale);
-
-            // Save to user preference if logged in
-            $user = $this->security->getUser();
-            if ($user instanceof User) {
-                $this->preferenceService->set($user, 'locale', $locale);
+        $queryLocale = $request->query->get('_locale');
+        if ($queryLocale) {
+            $request->attributes->set('_locale', $queryLocale);
+            $request->setLocale($queryLocale);
+            if ($request->hasSession()) {
+                $request->getSession()->set('_locale', $queryLocale);
             }
 
             return;
         }
 
-        // Try user preference
+        if ($request->hasSession() && $request->getSession()->has('_locale')) {
+            $sessionLocale = $request->getSession()->get('_locale');
+            $request->attributes->set('_locale', $sessionLocale);
+            $request->setLocale($sessionLocale);
+        }
+    }
+
+    /**
+     * Save locale to user preference in DB.
+     * Runs after SecurityFirewall so user is available.
+     */
+    public function saveLocale(RequestEvent $event): void
+    {
+        $request = $event->getRequest();
+
+        if (!$event->isMainRequest() || !$request->hasSession()) {
+            return;
+        }
+
         $user = $this->security->getUser();
-        if ($user instanceof User) {
+        if (!$user instanceof User) {
+            return;
+        }
+
+        // Save to DB if locale came from query param
+        $queryLocale = $request->query->get('_locale');
+        if ($queryLocale) {
+            $this->preferenceService->set($user, 'locale', $queryLocale);
+
+            return;
+        }
+
+        // First visit after login: load from DB if no session locale
+        if (!$request->getSession()->has('_locale')) {
             $userLocale = $this->preferenceService->get($user, 'locale');
             if ($userLocale) {
                 $request->setLocale($userLocale);
                 $request->getSession()->set('_locale', $userLocale);
-
-                return;
             }
         }
-
-        // Fallback to session
-        $sessionLocale = $request->getSession()->get('_locale', $this->defaultLocale);
-        $request->setLocale($sessionLocale);
     }
 }

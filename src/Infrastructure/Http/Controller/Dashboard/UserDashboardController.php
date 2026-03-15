@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Http\Controller;
+namespace App\Infrastructure\Http\Controller\Dashboard;
 
 use App\Application\Service\BrandContext;
 use App\Application\Service\UserPreferenceService;
@@ -53,6 +53,9 @@ class UserDashboardController extends AbstractDashboardController
             yield MenuItem::section();
             yield MenuItem::linkToRoute('Menu.AdminDashboard', 'fa fa-cogs', 'app_admin');
         }
+
+        yield MenuItem::section();
+        yield MenuItem::linkToLogout('Menu.Logout', 'fa fa-sign-out');
     }
 
     public function configureAssets(): Assets

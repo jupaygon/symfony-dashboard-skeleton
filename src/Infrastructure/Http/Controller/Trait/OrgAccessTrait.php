@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Http\Controller;
+namespace App\Infrastructure\Http\Controller\Trait;
 
 use App\Domain\Model\Organization;
 use App\Domain\Model\User;

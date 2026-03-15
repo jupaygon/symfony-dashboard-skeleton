@@ -2,13 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Http\Controller;
+namespace App\Infrastructure\Http\Controller\Crud\Admin;
 
 use App\Domain\Model\Organization;
-use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
-use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
+use App\Infrastructure\Http\Controller\Crud\BaseCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
-use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
@@ -18,8 +16,8 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\UrlField;
 
-/** @extends AbstractCrudController<Organization> */
-class OrganizationCrudController extends AbstractCrudController
+/** @extends BaseCrudController<Organization> */
+class OrganizationCrudController extends BaseCrudController
 {
     public static function getEntityFqcn(): string
     {
@@ -28,28 +26,10 @@ class OrganizationCrudController extends AbstractCrudController
 
     public function configureCrud(Crud $crud): Crud
     {
-        return $crud
+        return parent::configureCrud($crud)
             ->setEntityLabelInSingular('Entity.Organization.Singular')
             ->setEntityLabelInPlural('Entity.Organization.Plural')
-            ->showEntityActionsInlined()
-            ->setPaginatorPageSize(10)
-            ->setDefaultSort(['name' => 'ASC'])
-            ->setPageTitle(Crud::PAGE_EDIT, 'Organization: %entity_as_string%');
-    }
-
-    public function configureActions(Actions $actions): Actions
-    {
-        return $actions
-            ->add(Crud::PAGE_INDEX, Action::DETAIL)
-            ->update(Crud::PAGE_INDEX, Action::DETAIL, function (Action $action) {
-                return $action->setIcon('fa-solid fa-magnifying-glass')->setLabel(false)->setHtmlAttributes(['title' => 'View']);
-            })
-            ->update(Crud::PAGE_INDEX, Action::EDIT, function (Action $action) {
-                return $action->setIcon('fa-solid fa-pen-to-square')->setLabel(false)->setHtmlAttributes(['title' => 'Edit']);
-            })
-            ->update(Crud::PAGE_INDEX, Action::DELETE, function (Action $action) {
-                return $action->setIcon('fa-solid fa-trash')->setLabel(false)->setHtmlAttributes(['title' => 'Delete']);
-            });
+            ->setDefaultSort(['name' => 'ASC']);
     }
 
     public function configureFields(string $pageName): iterable

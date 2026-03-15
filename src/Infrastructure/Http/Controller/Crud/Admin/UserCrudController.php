@@ -2,10 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Http\Controller;
+namespace App\Infrastructure\Http\Controller\Crud\Admin;
 
 use App\Domain\Model\Organization;
 use App\Domain\Model\User;
+use App\Infrastructure\Http\Controller\Crud\BaseCrudController;
+use App\Infrastructure\Http\Controller\Trait\OrgAccessTrait;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
@@ -14,7 +16,6 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\KeyValueStore;
 use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
-use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
@@ -28,8 +29,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-/** @extends AbstractCrudController<User> */
-class UserCrudController extends AbstractCrudController
+/** @extends BaseCrudController<User> */
+class UserCrudController extends BaseCrudController
 {
     use OrgAccessTrait;
 
@@ -45,13 +46,10 @@ class UserCrudController extends AbstractCrudController
 
     public function configureCrud(Crud $crud): Crud
     {
-        return $crud
+        return parent::configureCrud($crud)
             ->setEntityLabelInSingular('Entity.User.Singular')
             ->setEntityLabelInPlural('Entity.User.Plural')
-            ->showEntityActionsInlined()
-            ->setPaginatorPageSize(10)
-            ->setDefaultSort(['name' => 'ASC'])
-            ->setPageTitle(Crud::PAGE_EDIT, 'User: %entity_as_string%');
+            ->setDefaultSort(['name' => 'ASC']);
     }
 
     public function configureActions(Actions $actions): Actions
@@ -67,22 +65,20 @@ class UserCrudController extends AbstractCrudController
                     && $user !== $this->getUser();
             });
 
+        $actions = parent::configureActions($actions);
+
         return $actions
-            ->add(Crud::PAGE_INDEX, Action::DETAIL)
             ->add(Crud::PAGE_INDEX, $impersonate)
             ->update(Crud::PAGE_INDEX, Action::DETAIL, function (Action $action) {
                 return $action
-                    ->setIcon('fa-solid fa-magnifying-glass')->setLabel(false)->setHtmlAttributes(['title' => 'View'])
                     ->displayIf(fn(User $user) => !$user->isSuperAdmin() || $this->isGranted('ROLE_SUPER_ADMIN'));
             })
             ->update(Crud::PAGE_INDEX, Action::EDIT, function (Action $action) {
                 return $action
-                    ->setIcon('fa-solid fa-pen-to-square')->setLabel(false)->setHtmlAttributes(['title' => 'Edit'])
                     ->displayIf(fn(User $user) => !$user->isSuperAdmin() || $this->isGranted('ROLE_SUPER_ADMIN'));
             })
             ->update(Crud::PAGE_INDEX, Action::DELETE, function (Action $action) {
                 return $action
-                    ->setIcon('fa-solid fa-trash')->setLabel(false)->setHtmlAttributes(['title' => 'Delete'])
                     ->displayIf(fn(User $user) => !$user->isSuperAdmin());
             });
     }
