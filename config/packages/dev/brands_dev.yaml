@@ -1,0 +1,3 @@
+parameters:
+    brands_dev_allowed_suffixes:
+        - symfony-dashboard-skeleton.test

@@ -1,0 +1,95 @@
+/* ══════════════════════════════════════════════════════════════
+   Skin: Default
+   All color/image variables for this brand.
+   To create a new skin, copy this folder and change the values.
+   ══════════════════════════════════════════════════════════════ */
+
+:root {
+    /* ── General ── */
+    --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --accent: #38bdf8;
+    --accent-dim: rgba(56, 189, 248, 0.15);
+    --accent-glow: rgba(56, 189, 248, 0.3);
+    --danger: #dc3545;
+    --danger-dim: rgba(220, 53, 69, 0.15);
+    --danger-hover: rgba(220, 53, 69, 0.25);
+
+    /* ── Sidebar ── */
+    --sidebar-bg: #0a0e1a;
+    --sidebar-bg-subtle: #0f1525;
+    --sidebar-text: #7bdbe3;
+    --sidebar-text-bright: #ffffff;
+    --sidebar-border: rgba(56, 189, 248, 0.08);
+    --sidebar-logo-image: url('/resources/brands/jarvis/images/logos/logo.svg');
+    --sidebar-logo-width: 140px;
+    --sidebar-logo-height: 42px;
+    --sidebar-logo-collapsed-image: url('/resources/brands/jarvis/images/logos/collapsed.svg');
+    --sidebar-logo-collapsed-size: 30px;
+    --sidebar-logo-glow: 0 0 20px rgba(56, 189, 248, 0.3), 0 0 60px rgba(56, 189, 248, 0.1);
+    --sidebar-dropdown-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+
+    /* ── Content area ── */
+    --content-bg: #131a2e;
+    --content-text: #c8d0e0;
+    --content-text-muted: #7a8599;
+    --content-heading: #e2e8f4;
+
+    /* ── Borders ── */
+    --border-subtle: rgba(56, 189, 248, 0.08);
+    --border-light: rgba(56, 189, 248, 0.15);
+    --border-separator: rgba(56, 189, 248, 0.2);
+
+    /* ── CRUD (tables, cards, forms) ── */
+    --crud-bg: #141f35;
+    --crud-header-text: rgba(56, 189, 248, 0.5);
+    --crud-cell-text: rgba(255, 255, 255, 0.85);
+    --crud-row-hover: rgba(56, 189, 248, 0.04);
+    --crud-row-border: rgba(56, 189, 248, 0.05);
+    --crud-link: var(--accent);
+
+    /* ── Inputs ── */
+    --input-bg: rgba(56, 189, 248, 0.05);
+    --input-border: rgba(56, 189, 248, 0.1);
+    --input-text: var(--sidebar-text-bright);
+    --input-focus-border: var(--accent);
+    --input-focus-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15);
+    --input-placeholder: var(--sidebar-text);
+
+    /* ── Buttons ── */
+    --btn-primary-bg: rgba(56, 189, 248, 0.15);
+    --btn-primary-border: var(--accent);
+    --btn-primary-text: var(--accent);
+    --btn-primary-hover: rgba(56, 189, 248, 0.25);
+    --btn-secondary-bg: #fff;
+
+    /* ── Labels ── */
+    --label-text: rgba(56, 189, 248, 0.5);
+
+    /* ── Switch ── */
+    --switch-active-bg: var(--accent);
+    --switch-active-border: var(--accent);
+
+    /* ── Paginator ── */
+    --paginator-text: rgba(56, 189, 248, 0.4);
+    --paginator-active-bg: rgba(56, 189, 248, 0.15);
+    --paginator-active-border: rgba(56, 189, 248, 0.3);
+    --paginator-active-text: rgba(56, 189, 248, 0.9);
+    --paginator-disabled: rgba(56, 189, 248, 0.2);
+
+    /* ── Public pages (landing, login) ── */
+    --public-bg: #0f0f1a;
+    --public-text: #d8d8e8;
+    --public-heading: #f0f0ff;
+    --public-label: #8888aa;
+    --public-box-bg: #171728;
+    --public-box-border: #2a2a45;
+    --public-btn-bg: #22b8cf;
+    --public-btn-hover: #1ca3b8;
+    --public-btn-text: #0f0f1a;
+    --public-error-bg: rgba(239, 68, 68, 0.12);
+    --public-error-border: rgba(239, 68, 68, 0.3);
+    --public-error-text: #ef4444;
+    --public-logo-image: url('/resources/brands/jarvis/images/logos/logo.svg');
+    --public-logo-glow: drop-shadow(0 0 20px rgba(56, 189, 248, 0.3)) drop-shadow(0 0 60px rgba(56, 189, 248, 0.1));
+    --public-icon-filter: brightness(0) saturate(100%) invert(68%) sepia(57%) saturate(1000%) hue-rotate(170deg) brightness(104%) contrast(97%);
+}

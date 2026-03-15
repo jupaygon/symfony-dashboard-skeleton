@@ -1,0 +1,75 @@
+Entity:
+  User:
+    Singular: Usuario
+    Plural: Usuarios
+  Organization:
+    Singular: Organización
+    Plural: Organizaciones
+  UserPreference:
+    Singular: Preferencia de usuario
+    Plural: Preferencias de usuario
+
+Menu:
+  AdminDashboard: Admin Dashboard
+  UserDashboard: User Dashboard
+  Management: Gestión
+  Organizations: Organizaciones
+  Users: Usuarios
+  Logout: Cerrar sesión
+  Settings:
+    Sidebar: Sidebar
+    Expanded: Expandida
+    Collapsed: Colapsada
+    ContentWidth: Ancho del contenido
+    FullWidth: Ancho completo
+    LimitedWidth: Ancho limitado
+
+Dashboard:
+  Welcome: Tu dashboard está listo
+  WelcomeUser: "Bienvenido, {name}"
+  CustomizeTemplate: Este es un dashboard en blanco. Personalízalo editando
+  CustomizeController: El menú lateral se configura en
+  AddWidgets: Añade widgets, gráficos, estadísticas o cualquier contenido.
+
+Landing:
+  Title: Dashboard Skeleton
+  Subtitle: Panel de administración con Symfony 8 + EasyAdmin 5
+  SignIn: Iniciar sesión
+  Feature:
+    MultiTenant: Multi-tenant
+    MultiTenantDesc: Organizaciones, roles y gestión de usuarios con aislamiento por organización.
+    Hexagonal: Arquitectura hexagonal
+    HexagonalDesc: "Separación limpia: Dominio, Aplicación, Infraestructura. Listo para escalar."
+    Branding: Tematización
+    BrandingDesc: Branding por dominio con variables CSS. Cambia de tema por dominio.
+
+Login:
+  Title: Iniciar sesión
+  Email: Email
+  Password: Contraseña
+  RememberMe: Recuérdame
+  Submit: Iniciar sesión
+
+Fields:
+  FullName: Nombre completo
+  Email: Email
+  Password: Contraseña
+  NewPassword: Nueva contraseña
+  NewPasswordHelp: Dejar vacío para mantener la actual
+  PasswordHelp: "Texto plano — se cifrará automáticamente"
+  Roles: Roles
+  Organizations: Organizaciones
+  Active: Activo
+  CreatedAt: Fecha de creación
+  Name: Nombre
+  LegalName: Razón social
+  VatNumber: NIF/CIF
+  Address: Dirección
+  City: Ciudad
+  State: Provincia
+  Zip: Código postal
+  Country: País
+  Web: Web
+  Comments: Comentarios
+  Members: Miembros
+  TeamMembers: Equipo

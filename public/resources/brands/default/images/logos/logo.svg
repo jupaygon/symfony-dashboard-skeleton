@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
+  <!-- Hexagon outline -->
+  <path d="M60 8L108 32V76L60 112L12 76V32L60 8Z" stroke="#5368d5" stroke-width="3" fill="rgba(83,104,213,0.06)"/>
+  <!-- Inner grid lines (hexagonal architecture) -->
+  <path d="M60 8V112" stroke="#5368d5" stroke-width="1" opacity="0.3"/>
+  <path d="M12 32L108 76" stroke="#5368d5" stroke-width="1" opacity="0.3"/>
+  <path d="M108 32L12 76" stroke="#5368d5" stroke-width="1" opacity="0.3"/>
+  <!-- Center dot -->
+  <circle cx="60" cy="54" r="6" fill="#5368d5" opacity="0.8"/>
+  <!-- Three layer dots -->
+  <circle cx="36" cy="66" r="4" fill="#5368d5" opacity="0.4"/>
+  <circle cx="84" cy="66" r="4" fill="#5368d5" opacity="0.4"/>
+  <circle cx="60" cy="34" r="4" fill="#5368d5" opacity="0.4"/>
+  <!-- Connecting lines to center -->
+  <line x1="60" y1="34" x2="60" y2="48" stroke="#5368d5" stroke-width="1.5" opacity="0.5"/>
+  <line x1="36" y1="66" x2="54" y2="56" stroke="#5368d5" stroke-width="1.5" opacity="0.5"/>
+  <line x1="84" y1="66" x2="66" y2="56" stroke="#5368d5" stroke-width="1.5" opacity="0.5"/>
+</svg>

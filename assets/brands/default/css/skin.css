@@ -1,0 +1,91 @@
+/* ══════════════════════════════════════════════════════════════
+   Skin: Default (EasyAdmin vanilla)
+   EasyAdmin admin styles are not overridden.
+   Only public pages (landing, login) and the sidebar logo
+   need variables/rules defined here.
+   See brands/jarvis/css/skin.css for a full dark theme example.
+   ══════════════════════════════════════════════════════════════ */
+
+:root {
+    /* ── General ── */
+    --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --accent: #2563eb;
+    --accent-dim: rgba(37, 99, 235, 0.15);
+    --border-subtle: #e2e8f0;
+
+    /* ── Sidebar logo ── */
+    --sidebar-logo-image: url('/resources/brands/default/images/logos/logo.svg');
+    --sidebar-logo-width: 140px;
+    --sidebar-logo-height: 42px;
+    --sidebar-logo-collapsed-image: url('/resources/brands/default/images/logos/collapsed.svg');
+    --sidebar-logo-collapsed-size: 30px;
+
+    /* ── Public pages (landing, login) ── */
+    --public-bg: #f8fafc;
+    --public-text: #334155;
+    --public-heading: #0f172a;
+    --public-label: #64748b;
+    --public-box-bg: #ffffff;
+    --public-box-border: #e2e8f0;
+    --public-btn-bg: #2563eb;
+    --public-btn-hover: #1d4ed8;
+    --public-btn-text: #ffffff;
+    --public-error-bg: rgba(239, 68, 68, 0.08);
+    --public-error-border: rgba(239, 68, 68, 0.2);
+    --public-error-text: #dc2626;
+    --public-logo-image: url('/resources/brands/default/images/logos/logo.svg');
+    --public-logo-glow: none;
+    --public-icon-filter: none;
+}
+
+/* ── Sidebar logo (needed for sidebar-logo div to render correctly) ── */
+.sidebar-logo {
+    background-image: var(--sidebar-logo-image);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: var(--sidebar-logo-width, 140px);
+    height: var(--sidebar-logo-height, 42px);
+    margin: 0 auto;
+}
+
+/* ── Sidebar toggle button ── */
+.sidebar-toggle-wrapper {
+    display: inline-flex;
+    margin-left: 4px;
+}
+.sidebar-toggle-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border: 1px solid var(--border-subtle);
+    border-radius: 6px;
+    background: transparent;
+    color: var(--accent);
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s;
+}
+.sidebar-toggle-btn:hover {
+    background: var(--accent-dim);
+    border-color: var(--accent);
+}
+
+/* ── User menu: hide dropdown, keep avatar + name visible ── */
+.user-menu-wrapper .dropdown-menu {
+    display: none !important;
+}
+.user-menu-wrapper .dropdown-toggle::after {
+    display: none !important;
+}
+.user-menu-wrapper .dropdown-toggle {
+    pointer-events: none !important;
+}
+
+/* Hide the link text/duplicate — only show the sidebar-logo div */
+#header-logo .logo-custom a {
+    display: flex !important;
+    justify-content: center !important;
+    text-decoration: none !important;
+}

@@ -1,0 +1,18 @@
+parameters:
+    app.languages:
+        'en': { code: 'en', name: 'English' }
+        'es': { code: 'es', name: 'Español' }
+
+    app.user_preferences:
+        sidebar_collapsed:
+            type: boolean
+            default: false
+            label: 'Sidebar collapsed'
+        content_maximized:
+            type: boolean
+            default: true
+            label: 'Content maximized'
+        locale:
+            type: string
+            default: 'en'
+            label: 'Language'

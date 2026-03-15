@@ -3,3 +3,9 @@ controllers:
         path: ../src/Infrastructure/Http/Controller/
         namespace: App\Infrastructure\Http\Controller
     type: attribute
+
+api:
+    resource:
+        path: ../src/Infrastructure/Http/Api/
+        namespace: App\Infrastructure\Http\Api
+    type: attribute
