@@ -11,6 +11,7 @@ final readonly class Brand implements BrandInterface
     public function __construct(
         private string $key,
         private string $name,
+        private string $menu = 'sidebar',
     ) {
     }
 
@@ -22,5 +23,15 @@ final readonly class Brand implements BrandInterface
     public function getName(): string
     {
         return $this->name;
+    }
+
+    public function getMenu(): string
+    {
+        return $this->menu;
+    }
+
+    public function isTopnav(): bool
+    {
+        return $this->menu === 'topnav';
     }
 }

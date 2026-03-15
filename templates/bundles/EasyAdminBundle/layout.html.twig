@@ -1,95 +1,95 @@
 {% extends '@!EasyAdmin/layout.html.twig' %}
 
-{% block settings_dropdown_wrapper %}
-    <twig:ea:ActionMenu class="dropdown-settings">
-        <twig:ea:ActionMenu:Button class="dropdown-settings-button" data-bs-offset="0,5" withoutDropdownToggleMarker>
-            <twig:ea:Icon name="internal:gear" />
-        </twig:ea:ActionMenu:Button>
+{% block wrapper_wrapper %}
+    {% if current_brand().isTopnav() %}
+        {# ── Top Navigation Bar ── #}
+        <nav class="topnav-bar">
+            <div class="topnav-bar__logo"></div>
 
-        <twig:ea:ActionMenu:Overlay>
-            <twig:ea:ActionMenu:ActionList>
-                {# ── Language ── #}
-                {% if ea.dashboardLocales %}
-                    <twig:ea:ActionMenu:ActionList:Header
-                        class="dropdown-locales-label"
-                        label="{{ 'settings.locale'|trans(domain: 'EasyAdminBundle') }}" />
-
-                    {% for localeDto in ea.dashboardLocales %}
-                        {% set url = ea_url(app.current_route_parameters)
-                            .set('_locale', localeDto.locale)
-                            .set('entityId', app.request.attributes.get('entityId')) %}
-
-                        <twig:ea:ActionMenu:ActionList:Item
-                            class="{{ app.request.locale == localeDto.locale ? 'active' }}"
-                            url="{{ url.generateUrl() }}"
-                            icon="{{ localeDto.icon }}" label="{{ localeDto.name }}" />
-                    {% endfor %}
-                {% endif %}
-
-                {# ── Appearance ── #}
-                {% if ea.dashboardHasDarkModeEnabled %}
-                    {% if ea.dashboardLocales %}
-                        <twig:ea:ActionMenu:ActionList:Divider/>
+            <div class="topnav-bar__items">
+                {% for menuItem in ea().mainMenu.items %}
+                    {% if not menuItem.isMenuSection %}
+                        {% set is_submenu_item_with_no_items = menuItem.type == constant('EasyCorp\\Bundle\\EasyAdminBundle\\Dto\\MenuItemDto::TYPE_SUBMENU') and not menuItem.hasSubItems %}
+                        {% if not is_submenu_item_with_no_items %}
+                            {% if menuItem.hasSubItems %}
+                                {% set has_selected_child = false %}
+                                {% for subItem in menuItem.subItems %}
+                                    {% if subItem.isSelected %}{% set has_selected_child = true %}{% endif %}
+                                {% endfor %}
+                                <div class="topnav-bar__item {{ (menuItem.isSelected or has_selected_child) ? 'active' }}" data-topnav-dropdown>
+                                    <button class="topnav-bar__link {{ (menuItem.isSelected or has_selected_child) ? 'active' }}" type="button">
+                                        {% if menuItem.icon is not empty %}<i class="{{ menuItem.icon }} icon"></i>{% endif %}
+                                        <span>{{ menuItem.label|trans }}</span>
+                                        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="10" height="10"><path d="M6 9l6 6 6-6"/></svg>
+                                    </button>
+                                    <div class="topnav-bar__dropdown">
+                                        {% for subItem in menuItem.subItems %}
+                                            {% if not subItem.isMenuSection %}
+                                                <a href="{{ subItem.linkUrl }}" class="topnav-bar__dropdown-item {{ subItem.isSelected ? 'active' }}">
+                                                    {% if subItem.icon is not empty %}<i class="{{ subItem.icon }}"></i>{% endif %}
+                                                    <span>{{ subItem.label|trans }}</span>
+                                                </a>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            {% else %}
+                                <div class="topnav-bar__item {{ menuItem.isSelected ? 'active' }}">
+                                    <a class="topnav-bar__link {{ menuItem.isSelected ? 'active' }}" href="{{ menuItem.linkUrl }}">
+                                        {% if menuItem.icon is not empty %}<i class="{{ menuItem.icon }} icon"></i>{% endif %}
+                                        <span>{{ menuItem.label|trans }}</span>
+                                    </a>
+                                </div>
+                            {% endif %}
+                        {% endif %}
                     {% endif %}
+                {% endfor %}
+            </div>
 
-                    <twig:ea:ActionMenu:ActionList:Header
-                        class="dropdown-appearance-label"
-                        label="{{ 'settings.appearance.label'|trans(domain: 'EasyAdminBundle') }}" />
+            <div class="topnav-bar__spacer"></div>
 
-                    <twig:ea:ActionMenu:ActionList:Item
-                        class="dropdown-appearance-item"
-                        url="#" icon="internal:sun" data-ea-color-scheme="light"
-                        label="{{ 'settings.appearance.light'|trans(domain: 'EasyAdminBundle') }}" />
-                    <twig:ea:ActionMenu:ActionList:Item
-                        class="dropdown-appearance-item"
-                        url="#" icon="internal:moon" data-ea-color-scheme="dark"
-                        label="{{ 'settings.appearance.dark'|trans(domain: 'EasyAdminBundle') }}" />
-                    <twig:ea:ActionMenu:ActionList:Item
-                        class="dropdown-appearance-item active"
-                        url="#" icon="internal:desktop" data-ea-color-scheme="auto"
-                        label="{{ 'settings.appearance.auto'|trans(domain: 'EasyAdminBundle') }}" />
+            {# ── Right side: user + settings ── #}
+            <div class="topnav-bar__right">
+                {% if ea.user is not null %}
+                    <i class="fa-solid fa-user topnav-bar__user-icon"></i>
+                    <span class="topnav-bar__user">{{ ea.userMenu.name }}</span>
                 {% endif %}
+                {% include 'bundles/EasyAdminBundle/includes/_settings_dropdown.html.twig' %}
+            </div>
+        </nav>
+    {% endif %}
 
-                {# ── Sidebar ── #}
-                {% if ea.dashboardLocales or ea.dashboardHasDarkModeEnabled %}
-                    <twig:ea:ActionMenu:ActionList:Divider/>
-                {% endif %}
+    {{ parent() }}
+{% endblock %}
 
-                <twig:ea:ActionMenu:ActionList:Header label="{{ 'Menu.Settings.Sidebar'|trans }}" />
+{% block body_javascript %}
+    {{ parent() }}
 
-                <twig:ea:ActionMenu:ActionList:Item
-                    class="sidebar-pref-item {{ not user_preference('sidebar_collapsed') ? 'active' }}"
-                    url="#" icon="fa-solid fa-bars"
-                    label="{{ 'Menu.Settings.Expanded'|trans }}" />
-                <twig:ea:ActionMenu:ActionList:Item
-                    class="sidebar-pref-item {{ user_preference('sidebar_collapsed') ? 'active' }}"
-                    url="#" icon="fa-solid fa-grip-lines-vertical"
-                    label="{{ 'Menu.Settings.Collapsed'|trans }}" />
+    {% if current_brand().isTopnav() %}
+    <script>
+    document.querySelectorAll('[data-topnav-dropdown]').forEach(function(item) {
+        var btn = item.querySelector('.topnav-bar__link');
+        if (btn) {
+            btn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                document.querySelectorAll('[data-topnav-dropdown].open').forEach(function(other) {
+                    if (other !== item) other.classList.remove('open');
+                });
+                item.classList.toggle('open');
+            });
+        }
+    });
+    document.addEventListener('click', function() {
+        document.querySelectorAll('[data-topnav-dropdown].open').forEach(function(item) {
+            item.classList.remove('open');
+        });
+    });
+    </script>
+    {% endif %}
+{% endblock %}
 
-                {# ── Content width ── #}
-                <twig:ea:ActionMenu:ActionList:Divider/>
-
-                <twig:ea:ActionMenu:ActionList:Header label="{{ 'Menu.Settings.ContentWidth'|trans }}" />
-
-                <twig:ea:ActionMenu:ActionList:Item
-                    class="content-width-pref-item {{ user_preference('content_maximized') ? 'active' }}"
-                    url="#" icon="fa-solid fa-arrows-left-right"
-                    label="{{ 'Menu.Settings.FullWidth'|trans }}" />
-                <twig:ea:ActionMenu:ActionList:Item
-                    class="content-width-pref-item {{ not user_preference('content_maximized') ? 'active' }}"
-                    url="#" icon="fa-solid fa-compress"
-                    label="{{ 'Menu.Settings.LimitedWidth'|trans }}" />
-
-                {# ── Sign out ── #}
-                <twig:ea:ActionMenu:ActionList:Divider/>
-
-                <twig:ea:ActionMenu:ActionList:Item
-                    url="{{ path('app_logout') }}"
-                    icon="fa-solid fa-sign-out"
-                    label="{{ 'Menu.Logout'|trans }}" />
-            </twig:ea:ActionMenu:ActionList>
-        </twig:ea:ActionMenu:Overlay>
-    </twig:ea:ActionMenu>
+{% block settings_dropdown_wrapper %}
+    {% include 'bundles/EasyAdminBundle/includes/_settings_dropdown.html.twig' %}
 
     <script>
     document.querySelectorAll('.sidebar-pref-item').forEach(function(item) {
@@ -112,6 +112,19 @@
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ field: 'content_maximized' })
+            }).then(function() { window.location.reload(); });
+        });
+    });
+
+    document.querySelectorAll('.brand-pref-item').forEach(function(item) {
+        item.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            var brand = this.getAttribute('data-brand');
+            fetch('/api/user/preference/set', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ field: 'brand_override', value: brand })
             }).then(function() { window.location.reload(); });
         });
     });

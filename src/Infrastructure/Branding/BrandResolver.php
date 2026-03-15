@@ -19,6 +19,21 @@ readonly class BrandResolver
     ) {
     }
 
+    public function resolveByKey(string $key): ?Brand
+    {
+        $def = $this->brandDefs[$key] ?? null;
+
+        if ($def === null) {
+            return null;
+        }
+
+        return new Brand(
+            key: $key,
+            name: $def['name'] ?? $key,
+            menu: $def['menu'] ?? 'sidebar',
+        );
+    }
+
     public function resolve(string $host): Brand
     {
         $map = $this->brandMap ?? [];
@@ -44,6 +59,7 @@ readonly class BrandResolver
         return new Brand(
             key: $key,
             name: $def['name'] ?? $key,
+            menu: $def['menu'] ?? 'sidebar',
         );
     }
 }
