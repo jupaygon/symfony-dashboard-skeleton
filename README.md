@@ -45,8 +45,10 @@ cp .env .env.local
 php bin/console doctrine:database:create
 php bin/console doctrine:migrations:migrate
 
-# 5. Compile assets
+# 5. Compile assets (one-shot)
 php bin/console asset-map:compile
+# Or use watch mode for development (recompiles on file changes):
+# php bin/console app:assets:watch
 
 # 6. Change the super admin password
 php bin/console app:user:change-password superadmin@example.com
@@ -221,12 +223,12 @@ Optional. Loaded only when the user enables "Collapsed" sidebar in their prefere
 
 ### How CSS files are loaded
 
-| CSS file | default brand | jarvis brand | Loaded by |
-|----------|---------------|--------------|-----------|
-| `brands/<brand>/css/skin.css` | Yes | Yes | DashboardController |
-| `css/easyadmin-overrides.css` | **No** | Yes | DashboardController (if brand != default) |
-| `css/sidebar-collapsed.css` | If user pref | If user pref | DashboardController (if sidebar_collapsed) |
-| `css/public.css` | Yes | Yes | Landing + Login templates |
+| CSS file                      | default brand | jarvis brand | Loaded by                                  |
+|-------------------------------|---------------|--------------|--------------------------------------------|
+| `brands/<brand>/css/skin.css` | Yes           | Yes          | DashboardController                        |
+| `css/easyadmin-overrides.css` | **No**        | Yes          | DashboardController (if brand != default)  |
+| `css/sidebar-collapsed.css`   | If user pref  | If user pref | DashboardController (if sidebar_collapsed) |
+| `css/public.css`              | Yes           | Yes          | Landing + Login templates                  |
 
 The `default` brand intentionally does NOT load `easyadmin-overrides.css` so users see EasyAdmin 5 exactly as it comes out of the box. The `default` skin only defines minimal variables needed for the public pages and sidebar logo.
 
@@ -285,34 +287,27 @@ messages+intl-icu.en.yaml
 messages+intl-icu.es.yaml
 ```
 
+Available languages are configured in `config/parameters.yaml`:
+
+```yaml
+parameters:
+    app.languages:
+        'en': { code: 'en', name: 'English' }
+        'es': { code: 'es', name: 'Español' }
+```
+
 To add a new language:
-1. Create `messages+intl-icu.XX.yaml` with the same keys
-2. Add the locale in both DashboardControllers: `->setLocales([..., 'xx' => 'Language Name'])`
+1. Create `src/Infrastructure/Translations/messages+intl-icu.XX.yaml` with the same keys
+2. Add the locale to `config/parameters.yaml`
 
 The user's language preference is saved automatically when they switch languages.
 
-## Assets
-
-Two ways to compile assets:
-
-```bash
-# One-shot compilation (for production or after changes)
-php bin/console asset-map:compile
-
-# Watch mode — recompiles automatically when files change (for development)
-php bin/console app:assets:watch
-```
-
-The watch command polls the `assets/` directory every second and recompiles when it detects changes. Use `Ctrl+C` to stop.
-
-> **Note:** In dev, if you ran `asset-map:compile`, the compiled files in `public/assets/` will be served instead of the originals. Delete `public/assets/` and clear cache to go back to dynamic serving: `rm -rf public/assets && php bin/console cache:clear`
-
 ## Console Commands
 
-| Command | Description |
-|---------|-------------|
+| Command                            | Description                            |
+|------------------------------------|----------------------------------------|
 | `app:user:change-password <email>` | Change a user's password interactively |
-| `app:assets:watch` | Watch assets and recompile on changes |
+| `app:assets:watch`                 | Watch assets and recompile on changes  |
 
 ## Stack
 

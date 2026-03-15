@@ -1,0 +1,4 @@
+parameters:
+    app.languages:
+        'en': { code: 'en', name: 'English' }
+        'es': { code: 'es', name: 'Español' }

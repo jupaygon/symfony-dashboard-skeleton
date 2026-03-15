@@ -1,4 +1,5 @@
 imports:
+    - { resource: parameters.yaml }
     - { resource: brands.yaml }
     - { resource: user_preferences.yaml }
 

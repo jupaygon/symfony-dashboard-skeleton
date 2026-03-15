@@ -14,14 +14,17 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\Response;
 
 #[AdminDashboard(routePath: '/admin', routeName: 'app_admin')]
 class AdminDashboardController extends AbstractDashboardController
 {
+    /** @param array<string, array{code: string, name: string}> $languages */
     public function __construct(
         private readonly BrandContext $brandContext,
         private readonly UserPreferenceService $preferenceService,
+        #[Autowire('%app.languages%')] private readonly array $languages,
     ) {
     }
 
@@ -38,7 +41,10 @@ class AdminDashboardController extends AbstractDashboardController
             ->setTitle('<div class="sidebar-logo"></div>')
             ->setFaviconPath(sprintf('resources/brands/%s/images/logos/logo.svg', $brand->getKey()))
             ->setTranslationDomain('messages')
-            ->setLocales(['en' => 'English', 'es' => 'Español']);
+            ->setLocales(array_combine(
+                array_column($this->languages, 'code'),
+                array_column($this->languages, 'name'),
+            ));
 
         if ($brand->getKey() !== 'default') {
             $dashboard->disableDarkMode();
