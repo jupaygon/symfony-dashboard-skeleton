@@ -91,6 +91,10 @@
     color: var(--public-label);
 }
 
+.landing__cta {
+    text-align: center;
+}
+
 .landing__btn {
     display: inline-block;
     padding: 12px 48px;

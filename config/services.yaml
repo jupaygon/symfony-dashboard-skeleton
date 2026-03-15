@@ -17,9 +17,6 @@ services:
             - '../src/Kernel.php'
 
     # Domain port bindings
-    App\Domain\Port\DemoRepositoryInterface:
-        alias: App\Infrastructure\Persistence\Doctrine\DemoRepository
-
     App\Domain\Port\UserRepositoryInterface:
         alias: App\Infrastructure\Persistence\Doctrine\UserRepository
 
@@ -29,3 +26,4 @@ services:
             $brandDefs: '%brands_defs%'
             $brandMap: '%brands_map%'
             $defaultBrand: '%brands_default%'
+            $devSuffixes: '%brands_dev_allowed_suffixes%'

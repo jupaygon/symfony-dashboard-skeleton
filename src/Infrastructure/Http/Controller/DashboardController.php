@@ -51,8 +51,13 @@ class DashboardController extends AbstractDashboardController
     {
         $brand = $this->brandContext->get();
 
-        return Assets::new()
-            ->addCssFile(sprintf('brands/%s/css/skin.css', $brand->getKey()))
-            ->addCssFile('css/easyadmin-overrides.css');
+        $assets = Assets::new()
+            ->addCssFile(sprintf('brands/%s/css/skin.css', $brand->getKey()));
+
+        if ($brand->getKey() !== 'default') {
+            $assets->addCssFile('css/easyadmin-overrides.css');
+        }
+
+        return $assets;
     }
 }
