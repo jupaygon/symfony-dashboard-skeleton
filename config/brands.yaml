@@ -1,6 +1,6 @@
 parameters:
     brands_dev_allowed_suffixes: []
-    brands_default: 'topnav'
+    brands_default: 'default'
     brands_map:
         # hostname: brand_key
         # Map production and local hostnames to their brand
