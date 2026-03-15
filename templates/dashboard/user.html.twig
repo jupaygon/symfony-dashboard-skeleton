@@ -5,7 +5,7 @@
 {% block main %}
 <div class="dashboard-welcome">
     <div class="dashboard-welcome__icon">&#128075;</div>
-    <h2 class="dashboard-welcome__title">{{ 'Dashboard.WelcomeUser'|trans({'name': app.user.name}) }}</h2>
+    <h2 class="dashboard-welcome__title">{{ 'Dashboard.WelcomeUser'|trans({name: app.user.name}) }}</h2>
     <p class="dashboard-welcome__text">
         {{ 'Dashboard.CustomizeTemplate'|trans }}<br>
         <code>templates/dashboard/user.html.twig</code>
