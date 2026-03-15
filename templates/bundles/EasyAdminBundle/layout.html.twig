@@ -66,6 +66,20 @@
                     url="#" icon="fa-solid fa-grip-lines-vertical"
                     label="{{ 'Menu.Settings.Collapsed'|trans }}" />
 
+                {# ── Content width ── #}
+                <twig:ea:ActionMenu:ActionList:Divider/>
+
+                <twig:ea:ActionMenu:ActionList:Header label="{{ 'Menu.Settings.ContentWidth'|trans }}" />
+
+                <twig:ea:ActionMenu:ActionList:Item
+                    class="content-width-pref-item {{ user_preference('content_maximized') ? 'active' }}"
+                    url="#" icon="fa-solid fa-arrows-left-right"
+                    label="{{ 'Menu.Settings.FullWidth'|trans }}" />
+                <twig:ea:ActionMenu:ActionList:Item
+                    class="content-width-pref-item {{ not user_preference('content_maximized') ? 'active' }}"
+                    url="#" icon="fa-solid fa-compress"
+                    label="{{ 'Menu.Settings.LimitedWidth'|trans }}" />
+
                 {# ── Sign out ── #}
                 <twig:ea:ActionMenu:ActionList:Divider/>
 
@@ -86,6 +100,18 @@
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ field: 'sidebar_collapsed' })
+            }).then(function() { window.location.reload(); });
+        });
+    });
+
+    document.querySelectorAll('.content-width-pref-item').forEach(function(item) {
+        item.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            fetch('/api/user/preference/toggle', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ field: 'content_maximized' })
             }).then(function() { window.location.reload(); });
         });
     });

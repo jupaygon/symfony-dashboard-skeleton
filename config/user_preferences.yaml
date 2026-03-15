@@ -4,6 +4,10 @@ parameters:
             type: boolean
             default: false
             label: 'Sidebar collapsed'
+        content_maximized:
+            type: boolean
+            default: true
+            label: 'Content maximized'
         locale:
             type: string
             default: 'en'

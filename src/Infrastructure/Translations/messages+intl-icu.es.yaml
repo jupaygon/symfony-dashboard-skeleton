@@ -20,6 +20,9 @@ Menu:
     Sidebar: Sidebar
     Expanded: Expandida
     Collapsed: Colapsada
+    ContentWidth: Ancho del contenido
+    FullWidth: Ancho completo
+    LimitedWidth: Ancho limitado
 
 Dashboard:
   Welcome: Tu dashboard está listo

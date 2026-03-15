@@ -44,6 +44,12 @@ class AdminDashboardController extends AbstractDashboardController
             $dashboard->disableDarkMode();
         }
 
+        /** @var User|null $user */
+        $user = $this->getUser();
+        if ($user && $this->preferenceService->get($user, 'content_maximized')) {
+            $dashboard->renderContentMaximized();
+        }
+
         return $dashboard;
     }
 
