@@ -6,16 +6,16 @@ namespace App\Infrastructure\Branding;
 
 use App\Domain\ValueObject\Brand;
 
-class BrandResolver
+readonly class BrandResolver
 {
     /** @param array<string, array{name: string}> $brandDefs */
     /** @param array<string, string>|null $brandMap */
     /** @param string[] $devSuffixes */
     public function __construct(
-        private readonly array $brandDefs,
-        private readonly ?array $brandMap,
-        private readonly string $defaultBrand,
-        private readonly array $devSuffixes = [],
+        private array $brandDefs,
+        private ?array $brandMap,
+        private string $defaultBrand,
+        private array $devSuffixes = [],
     ) {
     }
 

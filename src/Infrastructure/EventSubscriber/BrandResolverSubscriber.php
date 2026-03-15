@@ -10,11 +10,11 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
-class BrandResolverSubscriber implements EventSubscriberInterface
+readonly class BrandResolverSubscriber implements EventSubscriberInterface
 {
     public function __construct(
-        private readonly BrandResolver $brandResolver,
-        private readonly BrandContext $brandContext,
+        private BrandResolver $brandResolver,
+        private BrandContext $brandContext,
     ) {
     }
 

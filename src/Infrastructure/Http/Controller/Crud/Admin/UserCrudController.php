@@ -34,6 +34,10 @@ class UserCrudController extends BaseCrudController
 {
     use OrgAccessTrait;
 
+    protected static string $entityLabelSingular = 'Entity.User.Singular';
+    protected static string $entityLabelPlural = 'Entity.User.Plural';
+    protected static array $defaultSort = ['name' => 'ASC'];
+
     public function __construct(
         private readonly UserPasswordHasherInterface $passwordHasher,
     ) {
@@ -42,14 +46,6 @@ class UserCrudController extends BaseCrudController
     public static function getEntityFqcn(): string
     {
         return User::class;
-    }
-
-    public function configureCrud(Crud $crud): Crud
-    {
-        return parent::configureCrud($crud)
-            ->setEntityLabelInSingular('Entity.User.Singular')
-            ->setEntityLabelInPlural('Entity.User.Plural')
-            ->setDefaultSort(['name' => 'ASC']);
     }
 
     public function configureActions(Actions $actions): Actions

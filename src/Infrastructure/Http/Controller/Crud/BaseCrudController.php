@@ -11,11 +11,25 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 
 abstract class BaseCrudController extends AbstractCrudController
 {
+    protected static string $entityLabelSingular = '';
+    protected static string $entityLabelPlural = '';
+    protected static array $defaultSort = ['id' => 'DESC'];
+
     public function configureCrud(Crud $crud): Crud
     {
-        return $crud
+        $crud
             ->showEntityActionsInlined()
-            ->setPaginatorPageSize(10);
+            ->setPaginatorPageSize(10)
+            ->setDefaultSort(static::$defaultSort);
+
+        if (static::$entityLabelSingular) {
+            $crud->setEntityLabelInSingular(static::$entityLabelSingular);
+        }
+        if (static::$entityLabelPlural) {
+            $crud->setEntityLabelInPlural(static::$entityLabelPlural);
+        }
+
+        return $crud;
     }
 
     public function configureActions(Actions $actions): Actions

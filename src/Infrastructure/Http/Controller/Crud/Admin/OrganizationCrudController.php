@@ -6,7 +6,6 @@ namespace App\Infrastructure\Http\Controller\Crud\Admin;
 
 use App\Domain\Model\Organization;
 use App\Infrastructure\Http\Controller\Crud\BaseCrudController;
-use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
@@ -19,17 +18,13 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\UrlField;
 /** @extends BaseCrudController<Organization> */
 class OrganizationCrudController extends BaseCrudController
 {
+    protected static string $entityLabelSingular = 'Entity.Organization.Singular';
+    protected static string $entityLabelPlural = 'Entity.Organization.Plural';
+    protected static array $defaultSort = ['name' => 'ASC'];
+
     public static function getEntityFqcn(): string
     {
         return Organization::class;
-    }
-
-    public function configureCrud(Crud $crud): Crud
-    {
-        return parent::configureCrud($crud)
-            ->setEntityLabelInSingular('Entity.Organization.Singular')
-            ->setEntityLabelInPlural('Entity.Organization.Plural')
-            ->setDefaultSort(['name' => 'ASC']);
     }
 
     public function configureFields(string $pageName): iterable
