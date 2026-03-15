@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Skeleton</title>
-    <link rel="stylesheet" href="{{ asset('brands/default/css/skin.css') }}">
+    <link rel="stylesheet" href="{{ asset('brands/' ~ brand ~ '/css/skin.css') }}">
     <link rel="stylesheet" href="{{ asset('css/public.css') }}">
-    <link rel="icon" href="/resources/brands/default/images/logo.svg">
+    <link rel="icon" href="/resources/brands/{{ brand }}/images/logo.svg">
 </head>
 <body class="landing">
     <div class="landing__container">
@@ -19,21 +19,21 @@
         <section class="landing__features">
             <div class="landing__feature">
                 <div class="landing__feature-icon">
-                    <img src="/resources/brands/default/images/icons/multi-tenant.svg" alt="Multi-tenant">
+                    <img src="/resources/brands/{{ brand }}/images/icons/multi-tenant.svg" alt="Multi-tenant">
                 </div>
                 <h3 class="landing__feature-title">Multi-tenant</h3>
                 <p class="landing__feature-text">Organizations, roles, and user management with admin isolation per organization.</p>
             </div>
             <div class="landing__feature">
                 <div class="landing__feature-icon">
-                    <img src="/resources/brands/default/images/icons/hexagonal.svg" alt="Hexagonal Architecture">
+                    <img src="/resources/brands/{{ brand }}/images/icons/hexagonal.svg" alt="Hexagonal Architecture">
                 </div>
                 <h3 class="landing__feature-title">Hexagonal Architecture</h3>
                 <p class="landing__feature-text">Clean separation: Domain, Application, Infrastructure. Ready to scale.</p>
             </div>
             <div class="landing__feature">
                 <div class="landing__feature-icon">
-                    <img src="/resources/brands/default/images/icons/branding.svg" alt="Brand Skinning">
+                    <img src="/resources/brands/{{ brand }}/images/icons/branding.svg" alt="Brand Skinning">
                 </div>
                 <h3 class="landing__feature-title">Brand Skinning</h3>
                 <p class="landing__feature-text">Host-based branding with CSS variables. Switch themes per domain.</p>
