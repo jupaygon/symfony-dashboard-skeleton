@@ -58,11 +58,11 @@ Open your browser and go to your project URL (e.g. `http://my-dashboard.my-dashb
 
 The migration creates 3 users and 2 organizations:
 
-| Email | Password | Role | Organizations |
-|-------|----------|------|---------------|
-| `superadmin@example.com` | `superadmin` | ROLE_SUPER_ADMIN | All (no org needed) |
-| `admin@example.com` | `admin` | ROLE_ADMIN | Acme Corp |
-| `user@example.com` | `user` | ROLE_USER | Acme Corp, Globex Inc |
+| Email                    | Password           | Role             | Organizations         |
+|--------------------------|--------------------|------------------|-----------------------|
+| `superadmin@example.com` | `superadmin`       | ROLE_SUPER_ADMIN | All (no org needed)   |
+| `admin@example.com`      | `admin`            | ROLE_ADMIN       | Acme Corp             |
+| `user@example.com`       | `user`             | ROLE_USER        | Acme Corp, Globex Inc |
 
 **Important:** Change passwords after first install:
 
@@ -112,17 +112,17 @@ src/
 
 ## Roles & Permissions
 
-| | Super Admin | Admin | User |
-|---|---|---|---|
-| Access `/admin` | Yes | Yes | No |
-| Access `/dashboard` | Yes | Yes | Yes |
-| See all organizations | Yes | Own only | Own only |
-| See all users | Yes | Own org only | — |
-| See super admin users | Yes | No | — |
-| Edit super admin | Self only | No | — |
-| Delete super admin | No | No | — |
-| Impersonate | Yes (any non-super) | Own org users | No |
-| Create users | Yes | Yes (own org) | No |
+|                       | Super Admin         | Admin         | User     |
+|-----------------------|---------------------|---------------|----------|
+| Access `/admin`       | Yes                 | Yes           | No       |
+| Access `/dashboard`   | Yes                 | Yes           | Yes      |
+| See all organizations | Yes                 | Own only      | Own only |
+| See all users         | Yes                 | Own org only  | —        |
+| See super admin users | Yes                 | No            | —        |
+| Edit super admin      | Self only           | No            | —        |
+| Delete super admin    | No                  | No            | —        |
+| Impersonate           | Yes (any non-super) | Own org users | No       |
+| Create users          | Yes                 | Yes (own org) | No       |
 
 The super admin:
 - Has access to everything without belonging to any organization
@@ -290,6 +290,22 @@ To add a new language:
 2. Add the locale in both DashboardControllers: `->setLocales([..., 'xx' => 'Language Name'])`
 
 The user's language preference is saved automatically when they switch languages.
+
+## Assets
+
+Two ways to compile assets:
+
+```bash
+# One-shot compilation (for production or after changes)
+php bin/console asset-map:compile
+
+# Watch mode — recompiles automatically when files change (for development)
+php bin/console app:assets:watch
+```
+
+The watch command polls the `assets/` directory every second and recompiles when it detects changes. Use `Ctrl+C` to stop.
+
+> **Note:** In dev, if you ran `asset-map:compile`, the compiled files in `public/assets/` will be served instead of the originals. Delete `public/assets/` and clear cache to go back to dynamic serving: `rm -rf public/assets && php bin/console cache:clear`
 
 ## Console Commands
 
