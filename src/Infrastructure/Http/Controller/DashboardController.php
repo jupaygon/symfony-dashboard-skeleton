@@ -58,6 +58,10 @@ class DashboardController extends AbstractDashboardController
             $assets->addCssFile('css/easyadmin-overrides.css');
         }
 
+        if ($brand->isSidebarCollapsed()) {
+            $assets->addCssFile('css/sidebar-collapsed.css');
+        }
+
         return $assets;
     }
 }

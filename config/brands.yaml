@@ -11,5 +11,7 @@ parameters:
     brands_defs:
         default:
             name: 'Dashboard'
+            sidebar_collapsed: false
         jarvis:
             name: 'Dashboard (Dark)'
+            sidebar_collapsed: true

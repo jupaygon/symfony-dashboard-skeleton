@@ -1,0 +1,87 @@
+/* ══════════════════════════════════════════════════════════════
+   Sidebar Collapsed Mode
+   Include this CSS to get a narrow icon-only sidebar that
+   expands on hover as an overlay (does not push content).
+
+   Usage: add this in your DashboardController::configureAssets():
+     ->addCssFile('css/sidebar-collapsed.css')
+   ══════════════════════════════════════════════════════════════ */
+
+:root {
+    --sidebar-collapsed-width: 60px;
+    --sidebar-expanded-width: 220px;
+    --sidebar-transition: 0.2s ease;
+}
+
+/* ── Collapsed state (default) ── */
+.sidebar {
+    width: var(--sidebar-collapsed-width) !important;
+    min-width: var(--sidebar-collapsed-width) !important;
+    overflow: hidden !important;
+    transition: width var(--sidebar-transition), min-width var(--sidebar-transition) !important;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    bottom: 0 !important;
+    z-index: 1000 !important;
+}
+
+/* Hide text, keep icons */
+.sidebar .menu-item-label,
+.sidebar .menu-header,
+.sidebar #header-logo .logo-custom span,
+.sidebar #header-logo .logo-custom .sidebar-logo {
+    opacity: 0;
+    transition: opacity var(--sidebar-transition);
+    white-space: nowrap;
+}
+
+/* Sidebar logo: show small version when collapsed */
+.sidebar #header-logo {
+    padding: 16px 0 12px !important;
+    overflow: hidden;
+}
+
+/* Menu items: center icons when collapsed */
+.sidebar .menu-item {
+    text-align: center;
+}
+.sidebar .menu-item .menu-item-contents {
+    justify-content: center !important;
+    padding: 10px 0 !important;
+}
+.sidebar .menu-icon {
+    margin: 0 !important;
+}
+
+/* ── Expanded state (on hover) ── */
+.sidebar:hover {
+    width: var(--sidebar-expanded-width) !important;
+    min-width: var(--sidebar-expanded-width) !important;
+    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.3) !important;
+}
+
+.sidebar:hover .menu-item-label,
+.sidebar:hover .menu-header,
+.sidebar:hover #header-logo .logo-custom span,
+.sidebar:hover #header-logo .logo-custom .sidebar-logo {
+    opacity: 1;
+}
+
+.sidebar:hover .menu-item .menu-item-contents {
+    justify-content: flex-start !important;
+    padding: 7px 4px !important;
+}
+
+/* ── Content area: fixed margin for collapsed sidebar ── */
+.content-wrapper {
+    margin-left: var(--sidebar-collapsed-width) !important;
+    transition: margin-left var(--sidebar-transition) !important;
+}
+
+/* Content does NOT shift on hover — sidebar overlays */
+
+/* ── Sidebar resizer: hide ── */
+#sidebar-resizer-handler {
+    display: none !important;
+}
