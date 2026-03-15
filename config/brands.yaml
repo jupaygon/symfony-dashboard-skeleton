@@ -1,8 +1,5 @@
 parameters:
-    # Suffixes allowed in dev to resolve brands from worktree hostnames
-    # e.g. wt-my-project-fix.symfony-dashboard-skeleton.test → strips suffix, looks up map
     brands_dev_allowed_suffixes: []
-
     brands_default: 'default'
     brands_map:
         # hostname: brand_key
