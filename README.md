@@ -158,7 +158,7 @@ Brands allow different visual themes per hostname. Each brand has its own CSS va
 
 1. A request arrives → `BrandResolverSubscriber` reads the hostname
 2. Looks up the hostname in `config/brands.yaml` → resolves to a brand key
-3. The DashboardController loads the brand's `skin.css` + `easyadmin-overrides.css`
+3. The DashboardController loads the brand's `skin.css` and any applicable override CSS (see [CSS Architecture](#css-architecture))
 4. CSS variables define all colors, logos, and visual properties
 
 ### Menu layouts
@@ -191,6 +191,7 @@ parameters:
         'dashboard.example.com': 'default'
         'dark.example.com': 'jarvis'
         'topnav.example.com': 'topnav'
+        'watson.example.com': 'watson'
     brands_defs:
         default:
             name: 'Dashboard'
@@ -200,6 +201,9 @@ parameters:
             menu: sidebar
         topnav:
             name: 'Dashboard (Top Nav)'
+            menu: topnav
+        watson:
+            name: 'Watson'
             menu: topnav
 ```
 
@@ -272,7 +276,7 @@ Overrides EasyAdmin 5 default styles to apply the skin. Uses only `var(--)` refe
 
 #### 3. `assets/css/public.css`
 
-Styles for the landing page and login page. Uses only `var(--)` references — **no hardcoded colors**. Both brands load this file.
+Styles for the landing page and login page. Uses only `var(--)` references — **no hardcoded colors**. All brands load this file.
 
 #### 4. `assets/css/sidebar-collapsed.css`
 
