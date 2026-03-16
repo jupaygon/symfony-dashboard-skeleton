@@ -4,7 +4,7 @@ Production-ready admin dashboard built on **Symfony 8 + EasyAdmin 5**. Clone, co
 
 ## Why use this instead of starting from scratch?
 
-Installing Symfony and EasyAdmin gives you a blank CRUD generator. This skeleton gives you **everything you'd spend weeks building on top of it**:
+Installing Symfony and EasyAdmin gives you a blank CRUD generator. This skeleton gives you **hours of boilerplate already done**, and more importantly, a **codebase that serves as a working example** of good practices — so both human developers and AI agents can extend it and maintain consistency:
 
 - **Hexagonal architecture already wired** — Domain, Application, and Infrastructure layers with proper ports, interfaces, and value objects. Not just folders — actual dependency inversion that scales.
 - **Multi-tenant organizations** — Many-to-many user-org relationships, admin isolation per org, org-scoped queries. The hard multi-tenancy patterns are already solved.
