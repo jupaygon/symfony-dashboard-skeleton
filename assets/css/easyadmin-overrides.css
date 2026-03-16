@@ -236,6 +236,7 @@
 .topnav-search-bar {
     width: 100% !important;
     position: relative !important;
+    margin-bottom: 16px !important;
 }
 .topnav-search-bar .form-action-search {
     width: 100% !important;
