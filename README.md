@@ -14,9 +14,9 @@ From zero to a fully functional admin dashboard in minutes.
 |-----------------------------------------|----------------------------------------|
 | ![Top Nav](docs/screenshots/topnav.png) | ![Watson](docs/screenshots/watson.png) |
 
-| Sidebar collapsed                                    | Brand switcher                                         |
-|------------------------------------------------------|--------------------------------------------------------|
-| ![Collapsed](docs/screenshots/sidebar-collapsed.png) | ![Brand switcher](docs/screenshots/brand-switcher.png) |
+| Sidebar collapsed                                    |
+|------------------------------------------------------|
+| ![Collapsed](docs/screenshots/sidebar-collapsed.png) |
 
 ## Features
 
