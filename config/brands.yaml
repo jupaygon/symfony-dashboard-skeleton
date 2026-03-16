@@ -20,3 +20,6 @@ parameters:
         jarvis:
             name: 'Jarvis'
             menu: sidebar
+        watson:
+            name: 'Watson'
+            menu: topnav

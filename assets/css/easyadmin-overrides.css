@@ -232,6 +232,85 @@
 .content-search-reset { color: var(--input-placeholder) !important; }
 .content-search-reset:hover { color: var(--input-text) !important; }
 
+/* ── Search bar: topnav custom brands (edusafe-style full-width) ── */
+.topnav-search-bar {
+    width: 100% !important;
+    position: relative !important;
+    margin-bottom: 16px !important;
+}
+.topnav-search-bar .form-action-search {
+    width: 100% !important;
+}
+.topnav-search-bar .form-group {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+.topnav-search-bar .form-widget {
+    position: relative !important;
+    width: 100% !important;
+    display: flex !important;
+    align-items: center !important;
+}
+.topnav-search-bar .content-search-icon {
+    position: absolute !important;
+    left: 14px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    color: var(--content-text-muted) !important;
+    z-index: 1 !important;
+    pointer-events: none !important;
+    line-height: 0 !important;
+}
+.topnav-search-bar .content-search-icon svg {
+    width: 16px !important;
+    height: 16px !important;
+    display: block !important;
+}
+.topnav-search-bar .content-search-label {
+    display: block !important;
+    width: 100% !important;
+    line-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+.topnav-search-bar .form-control[type="search"] {
+    width: 100% !important;
+    height: 38px !important;
+    padding: 0 14px 0 40px !important;
+    box-sizing: border-box !important;
+    background: var(--input-bg) !important;
+    border: 1px solid var(--input-border) !important;
+    border-radius: 6px !important;
+    color: var(--input-text) !important;
+    font-family: var(--font-family, 'Inter', sans-serif) !important;
+    font-size: .85rem !important;
+    outline: none !important;
+    box-shadow: none !important;
+    transition: all .2s ease !important;
+}
+.topnav-search-bar .form-control[type="search"]:focus {
+    border-color: var(--accent) !important;
+    box-shadow: 0 0 0 3px var(--accent-dim) !important;
+}
+.topnav-search-bar .form-control[type="search"]::placeholder {
+    color: var(--input-placeholder) !important;
+}
+.topnav-search-bar .content-search-reset {
+    position: absolute !important;
+    right: 10px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    background: rgba(255, 255, 255, 0.06) !important;
+    color: var(--content-text-muted) !important;
+    border-radius: 6px !important;
+    padding: 4px 8px !important;
+    text-decoration: none !important;
+}
+.topnav-search-bar .content-search-reset:hover {
+    background: rgba(255, 255, 255, 0.1) !important;
+    color: var(--input-text) !important;
+}
+
 /* ── CRUD list ── */
 .content-panel,
 body .content-panel {
@@ -283,6 +362,9 @@ table.datagrid thead th {
     line-height: 1.3 !important;
 }
 table.datagrid thead th a { color: inherit !important; text-decoration: none !important; padding: 0 !important; margin: 0 !important; }
+table.datagrid thead th > span {
+    color: var(--crud-header-text) !important;
+}
 table.datagrid thead th:hover { color: var(--crud-link) !important; }
 
 table.datagrid tbody tr {

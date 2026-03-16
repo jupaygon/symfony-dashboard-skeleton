@@ -1,26 +1,50 @@
 # Symfony Dashboard Skeleton
 
-Symfony 8 + EasyAdmin 5 starter template with **hexagonal architecture**, **multi-tenant organizations**, **brand skinning**, and **user preferences**.
+Production-ready admin dashboard built on **Symfony 8 + EasyAdmin 5**. Clone, configure your database, and you have a multi-tenant, multi-brand admin panel with hexagonal architecture — no boilerplate to write.
 
-From zero to a fully functional admin dashboard in minutes.
+## Why use this instead of starting from scratch?
+
+Installing Symfony and EasyAdmin gives you a blank CRUD generator. This skeleton gives you **hours of boilerplate already done**, and more importantly, a **codebase that serves as a working example** of good practices — so both human developers and AI agents can extend it and maintain consistency:
+
+- **Hexagonal architecture already wired** — Domain, Application, and Infrastructure layers with proper ports, interfaces, and value objects. Not just folders — actual dependency inversion that scales.
+- **Multi-tenant organizations** — Many-to-many user-org relationships, admin isolation per org, org-scoped queries. The hard multi-tenancy patterns are already solved.
+- **Role hierarchy with real-world edge cases** — Super admin invisibility (hidden from non-super users), impersonation with safety guards, self-edit-only rules, org preservation when an admin edits a user outside their scope. These are the kind of bugs that bite you in production.
+- **Full brand skinning system** — Not just "change one color". Hostname-based brand resolution, a CSS variable architecture where `skin.css` is the only file you edit, 2 menu layouts (sidebar + horizontal top nav), 4 working themes included, a live brand switcher for super admins, and dev worktree support for testing brands in isolation.
+- **Top navigation layout** — EasyAdmin only ships with a sidebar. This skeleton includes a complete horizontal menu bar alternative with dropdowns, search bar, responsive support, and dark theme — built as a drop-in layout option, not a fork.
+- **Per-user preferences** — Sidebar collapsed mode, content width, locale, brand override — all stored per user in the database, configurable via YAML, toggled via API. Add a new preference in one file.
+- **i18n ready** — English + Spanish with ICU message format. Add a language by creating one file and one config line.
+- **Branded login + landing page** — Responsive, SVG logos, themed per brand. Not an afterthought.
+
+All of this is **designed to be extended, not forked**. The architecture is clean enough that you add your domain entities and CRUD controllers on top — the plumbing is done.
+
+## Screenshots
+
+| Default (sidebar, light)                 | Jarvis (sidebar, dark)                 |
+|------------------------------------------|----------------------------------------|
+| ![Default](docs/screenshots/default.png) | ![Jarvis](docs/screenshots/jarvis.png) |
+
+| Top Nav (horizontal, light)             | Watson (horizontal, dark)              |
+|-----------------------------------------|----------------------------------------|
+| ![Top Nav](docs/screenshots/topnav.png) | ![Watson](docs/screenshots/watson.png) |
+
+| Sidebar collapsed                                    |
+|------------------------------------------------------|
+| ![Collapsed](docs/screenshots/sidebar-collapsed.png) |
 
 ## Features
 
-- **EasyAdmin 5** — CRUD controllers, inline actions, role-based badges
-- **Hexagonal Architecture** — Domain / Application / Infrastructure
-- **Multi-tenant** — Organizations with M2M users, admin isolation per org
-- **3 Roles** — Super Admin, Admin, User with hierarchy and protections
-- **Impersonate** — Admin can switch to any user in their org
-- **Brand Skinning** — Host-based, CSS variables, per-brand logos and colors
-- **2 Menu layouts** — Sidebar (classic) and Top Nav (horizontal menu bar)
-- **3 Skins included** — `default` (sidebar, EA5 vanilla), `jarvis` (sidebar, dark theme), `topnav` (horizontal menu, EA5 vanilla)
-- **Sidebar collapsed mode** — Icon-only sidebar with expand on hover
-- **Brand switcher** — Super admin can switch between brands in real-time
-- **User Preferences** — Sidebar, content width, locale, brand override — saved per user in DB
-- **2 Dashboards** — Admin (`/admin`) and User (`/dashboard`) with cross-links (if the user has both roles)
-- **Landing page** — Responsive, with SVG logo
-- **i18n** — English + Spanish, easily extensible
-- **Login** — Form-based with CSRF, remember-me, branded
+| Category          | What you get                                                                                     |
+|-------------------|--------------------------------------------------------------------------------------------------|
+| **CRUD**          | EasyAdmin 5 controllers, inline actions, role-based badges, pretty URLs                          |
+| **Architecture**  | Hexagonal (Domain / Application / Infrastructure), strict layer rules, dependency inversion       |
+| **Multi-tenant**  | Organizations with M2M users, admin isolation per org, org-scoped queries                        |
+| **Roles**         | Super Admin, Admin, User — hierarchy, impersonation, visibility rules                            |
+| **Brand system**  | 4 themes, 2 menu layouts (sidebar + topnav), host-based resolution, live brand switcher          |
+| **User prefs**    | Sidebar collapsed, content width, locale, brand override — per user in DB, config-driven         |
+| **Dashboards**    | Admin (`/admin`) + User (`/dashboard`) with cross-links based on roles                           |
+| **i18n**          | English + Spanish, ICU format, locale saved as user preference                                   |
+| **Auth**          | Form login with CSRF, remember-me, branded login page                                           |
+| **Landing page**  | Responsive, SVG logo, themed per brand                                                           |
 
 ## Requirements
 
@@ -144,7 +168,7 @@ Brands allow different visual themes per hostname. Each brand has its own CSS va
 
 1. A request arrives → `BrandResolverSubscriber` reads the hostname
 2. Looks up the hostname in `config/brands.yaml` → resolves to a brand key
-3. The DashboardController loads the brand's `skin.css` + `easyadmin-overrides.css`
+3. The DashboardController loads the brand's `skin.css` and any applicable override CSS (see [CSS Architecture](#css-architecture))
 4. CSS variables define all colors, logos, and visual properties
 
 ### Menu layouts
@@ -158,11 +182,12 @@ Each brand defines its menu layout via the `menu` property:
 
 ### Included brands
 
-| Brand     | Menu    | Theme               | Purpose                                  |
-|-----------|---------|---------------------|------------------------------------------|
-| `default` | sidebar | EA5 vanilla (light) | Starting point for sidebar brands        |
-| `jarvis`  | sidebar | Custom dark theme   | Example of a fully themed sidebar brand  |
-| `topnav`  | topnav  | EA5 vanilla (light) | Starting point for top navigation brands |
+| Brand     | Menu    | Theme               | Purpose                                             |
+|-----------|---------|---------------------|-----------------------------------------------------|
+| `default` | sidebar | EA5 vanilla (light) | Starting point for sidebar brands                   |
+| `jarvis`  | sidebar | Custom dark theme   | Example of a fully themed sidebar brand             |
+| `topnav`  | topnav  | EA5 vanilla (light) | Starting point for top navigation brands            |
+| `watson`  | topnav  | Frost dark theme    | Example of a fully themed top navigation brand      |
 
 To create a new sidebar brand, copy `default`. To create a new top nav brand, copy `topnav`. Then edit `skin.css` and replace the logos.
 
@@ -176,6 +201,7 @@ parameters:
         'dashboard.example.com': 'default'
         'dark.example.com': 'jarvis'
         'topnav.example.com': 'topnav'
+        'watson.example.com': 'watson'
     brands_defs:
         default:
             name: 'Dashboard'
@@ -185,6 +211,9 @@ parameters:
             menu: sidebar
         topnav:
             name: 'Dashboard (Top Nav)'
+            menu: topnav
+        watson:
+            name: 'Watson'
             menu: topnav
 ```
 
@@ -257,7 +286,7 @@ Overrides EasyAdmin 5 default styles to apply the skin. Uses only `var(--)` refe
 
 #### 3. `assets/css/public.css`
 
-Styles for the landing page and login page. Uses only `var(--)` references — **no hardcoded colors**. Both brands load this file.
+Styles for the landing page and login page. Uses only `var(--)` references — **no hardcoded colors**. All brands load this file.
 
 #### 4. `assets/css/sidebar-collapsed.css`
 
@@ -269,16 +298,15 @@ Optional. Loaded only for brands with `menu: topnav`. Hides the sidebar, display
 
 ### How CSS files are loaded
 
-| CSS file                      | default | jarvis  | topnav              | Loaded by                                   |
-|-------------------------------|---------|---------|---------------------|---------------------------------------------|
-| `brands/<brand>/css/skin.css` | Yes     | Yes     | Yes                 | DashboardController                         |
-| `css/easyadmin-overrides.css` | No      | Yes     | No                  | DashboardController (custom sidebar brands) |
-| `css/topnav-layout.css`       | No      | No      | Yes                 | DashboardController (topnav brands)         |
-| `css/sidebar-collapsed.css`   | If pref | If pref | No                  | DashboardController (sidebar + user pref)   |
-| `css/public.css`              | Yes     | Yes     | Yes                 | Landing + Login templates                   |
-| `brands/<brand>/css/skin.css` | Yes     | Yes     | DashboardController |                                             |
+| CSS file                      | default | jarvis  | topnav | watson | Loaded by                                 |
+|-------------------------------|---------|---------|--------|--------|-------------------------------------------|
+| `brands/<brand>/css/skin.css` | Yes     | Yes     | Yes    | Yes    | DashboardController                       |
+| `css/easyadmin-overrides.css` | No      | Yes     | No     | Yes    | DashboardController (custom brands)       |
+| `css/topnav-layout.css`       | No      | No      | Yes    | Yes    | DashboardController (topnav brands)       |
+| `css/sidebar-collapsed.css`   | If pref | If pref | No     | No     | DashboardController (sidebar + user pref) |
+| `css/public.css`              | Yes     | Yes     | Yes    | Yes    | Landing + Login templates                 |
 
-The `default` and `topnav` brands intentionally do NOT load `easyadmin-overrides.css` so users see EasyAdmin 5 exactly as it comes out of the box. Custom sidebar brands (like `jarvis`) load the overrides to apply their dark theme. Topnav brands load `topnav-layout.css` instead, which handles the horizontal menu bar.
+The base brands (`default` and `topnav`) do NOT load `easyadmin-overrides.css` — they show EasyAdmin 5 as it comes out of the box. Custom brands (`jarvis`, `watson`) load the overrides to apply their theme. Topnav brands additionally load `topnav-layout.css` for the horizontal menu bar.
 
 ### Non-asset-mappable files
 

@@ -1,0 +1,149 @@
+/* ══════════════════════════════════════════════════════════════
+   Skin: Watson (Frost Dark + Top Nav)
+   Dark theme with horizontal navigation, inspired by EduSafe.
+   Based on topnav layout.
+   ══════════════════════════════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+    /* ── General ── */
+    --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --accent: #0ea5e9;
+    --accent-dim: rgba(14, 165, 233, 0.15);
+    --accent-glow: rgba(14, 165, 233, 0.35);
+    --danger: #f87171;
+    --danger-dim: rgba(248, 113, 113, 0.12);
+    --danger-hover: rgba(248, 113, 113, 0.2);
+
+    /* ── Top nav bar ── */
+    --topnav-h: 56px;
+    --topnav-bg: #191c20;
+    --topnav-border: rgba(255, 255, 255, 0.06);
+    --topnav-text: #8b8fa7;
+    --topnav-text-active: #e8eaf0;
+    --topnav-item-active-bg: rgba(14, 165, 233, 0.15);
+    --topnav-item-hover-bg: rgba(255, 255, 255, 0.05);
+    --topnav-logo-image: url('/resources/brands/watson/images/logos/logo.svg');
+    --topnav-logo-height: 32px;
+
+    /* ── Content area ── */
+    --content-bg: #101214;
+    --content-text: #e8eaf0;
+    --content-text-muted: #5c6078;
+    --content-heading: #e8eaf0;
+
+    /* ── Borders ── */
+    --border-subtle: rgba(255, 255, 255, 0.06);
+    --border-light: rgba(255, 255, 255, 0.1);
+
+    /* ── CRUD ── */
+    --crud-bg: #1e2228;
+    --crud-header-text: #8b8fa7;
+    --crud-cell-text: #e8eaf0;
+    --crud-row-hover: rgba(14, 165, 233, 0.04);
+    --crud-row-border: rgba(255, 255, 255, 0.06);
+    --crud-link: #0ea5e9;
+
+    /* ── Inputs ── */
+    --input-bg: #1e2228;
+    --input-border: rgba(255, 255, 255, 0.06);
+    --input-text: #e8eaf0;
+    --input-focus-border: #0ea5e9;
+    --input-focus-shadow: 0 0 0 3px rgba(14, 165, 233, 0.15);
+    --input-placeholder: #5c6078;
+
+    /* ── Buttons ── */
+    --btn-primary-bg: rgba(14, 165, 233, 0.15);
+    --btn-primary-border: #0ea5e9;
+    --btn-primary-text: #0ea5e9;
+    --btn-primary-hover: rgba(14, 165, 233, 0.25);
+    --btn-secondary-bg: #1e2228;
+
+    /* ── Labels ── */
+    --label-text: #8b8fa7;
+
+    /* ── Switch ── */
+    --switch-active-bg: #0ea5e9;
+    --switch-active-border: #0ea5e9;
+
+    /* ── Paginator ── */
+    --paginator-text: #5c6078;
+    --paginator-active-bg: rgba(14, 165, 233, 0.15);
+    --paginator-active-border: rgba(14, 165, 233, 0.3);
+    --paginator-active-text: #0ea5e9;
+    --paginator-disabled: rgba(255, 255, 255, 0.1);
+
+    /* ── Sidebar (not used but needed for shared components) ── */
+    --sidebar-bg: #191c20;
+    --sidebar-bg-subtle: #14171a;
+    --sidebar-text: #8b8fa7;
+    --sidebar-text-bright: #e8eaf0;
+    --sidebar-border: rgba(255, 255, 255, 0.06);
+    --sidebar-logo-image: url('/resources/brands/watson/images/logos/logo.svg');
+    --sidebar-logo-width: 140px;
+    --sidebar-logo-height: 42px;
+    --sidebar-logo-collapsed-image: url('/resources/brands/watson/images/logos/collapsed.svg');
+    --sidebar-logo-collapsed-size: 30px;
+    --sidebar-dropdown-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+
+    /* ── Public pages (landing, login) ── */
+    --public-bg: #101214;
+    --public-text: #e8eaf0;
+    --public-heading: #e8eaf0;
+    --public-label: #8b8fa7;
+    --public-box-bg: #1e2228;
+    --public-box-border: rgba(255, 255, 255, 0.06);
+    --public-btn-bg: #0ea5e9;
+    --public-btn-hover: #38bdf8;
+    --public-btn-text: #ffffff;
+    --public-error-bg: rgba(248, 113, 113, 0.12);
+    --public-error-border: rgba(248, 113, 113, 0.2);
+    --public-error-text: #f87171;
+    --public-logo-image: url('/resources/brands/watson/images/logos/logo.svg');
+    --public-logo-glow: drop-shadow(0 0 20px rgba(14, 165, 233, 0.3));
+    --public-icon-filter: brightness(0) saturate(100%) invert(55%) sepia(80%) saturate(1500%) hue-rotate(175deg) brightness(100%) contrast(95%);
+
+    /* ── EasyAdmin/Bootstrap overrides ── */
+    --body-bg: #101214;
+    --content-panel-bg: #1e2228;
+    --bs-body-bg: #101214;
+    --bs-body-color: #e8eaf0;
+    --bs-card-bg: #1e2228;
+    --bs-border-color: rgba(255, 255, 255, 0.06);
+    --bs-table-bg: transparent;
+    --bs-table-color: #e8eaf0;
+    --bs-table-border-color: rgba(255, 255, 255, 0.06);
+    --bs-table-hover-bg: rgba(14, 165, 233, 0.04);
+    --bs-link-color: #0ea5e9;
+    --bs-link-hover-color: #38bdf8;
+}
+
+/* ── Sidebar logo (needed for sidebar-logo div) ── */
+.sidebar-logo {
+    background-image: var(--sidebar-logo-image);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: var(--sidebar-logo-width, 140px);
+    height: var(--sidebar-logo-height, 42px);
+    margin: 0 auto;
+}
+
+/* Hide the link text/duplicate */
+#header-logo .logo-custom a {
+    display: flex !important;
+    justify-content: center !important;
+    text-decoration: none !important;
+}
+
+/* User menu: hide dropdown, keep avatar + name */
+.user-menu-wrapper .dropdown-menu {
+    display: none !important;
+}
+.user-menu-wrapper .dropdown-toggle::after {
+    display: none !important;
+}
+.user-menu-wrapper .dropdown-toggle {
+    pointer-events: none !important;
+}
