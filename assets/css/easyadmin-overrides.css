@@ -283,6 +283,9 @@ table.datagrid thead th {
     line-height: 1.3 !important;
 }
 table.datagrid thead th a { color: inherit !important; text-decoration: none !important; padding: 0 !important; margin: 0 !important; }
+table.datagrid thead th > span {
+    color: var(--crud-header-text) !important;
+}
 table.datagrid thead th:hover { color: var(--crud-link) !important; }
 
 table.datagrid tbody tr {

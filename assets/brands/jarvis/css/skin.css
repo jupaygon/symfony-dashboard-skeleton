@@ -41,7 +41,7 @@
 
     /* ── CRUD (tables, cards, forms) ── */
     --crud-bg: #141f35;
-    --crud-header-text: rgba(56, 189, 248, 0.5);
+    --crud-header-text: rgba(56, 189, 248, 0.7);
     --crud-cell-text: rgba(255, 255, 255, 0.85);
     --crud-row-hover: rgba(56, 189, 248, 0.04);
     --crud-row-border: rgba(56, 189, 248, 0.05);

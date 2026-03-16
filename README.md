@@ -6,16 +6,16 @@ From zero to a fully functional admin dashboard in minutes.
 
 ## Screenshots
 
-| Default (sidebar, light) | Jarvis (sidebar, dark) |
-|---|---|
+| Default (sidebar, light)                 | Jarvis (sidebar, dark)                 |
+|------------------------------------------|----------------------------------------|
 | ![Default](docs/screenshots/default.png) | ![Jarvis](docs/screenshots/jarvis.png) |
 
-| Top Nav (horizontal, light) | Watson (horizontal, dark) |
-|---|---|
+| Top Nav (horizontal, light)             | Watson (horizontal, dark)              |
+|-----------------------------------------|----------------------------------------|
 | ![Top Nav](docs/screenshots/topnav.png) | ![Watson](docs/screenshots/watson.png) |
 
-| Sidebar collapsed | Brand switcher |
-|---|---|
+| Sidebar collapsed                                    | Brand switcher                                         |
+|------------------------------------------------------|--------------------------------------------------------|
 | ![Collapsed](docs/screenshots/sidebar-collapsed.png) | ![Brand switcher](docs/screenshots/brand-switcher.png) |
 
 ## Features
