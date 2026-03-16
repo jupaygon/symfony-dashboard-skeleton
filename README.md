@@ -4,6 +4,20 @@ Symfony 8 + EasyAdmin 5 starter template with **hexagonal architecture**, **mult
 
 From zero to a fully functional admin dashboard in minutes.
 
+## Screenshots
+
+| Default (sidebar, light) | Jarvis (sidebar, dark) |
+|---|---|
+| ![Default](docs/screenshots/default.png) | ![Jarvis](docs/screenshots/jarvis.png) |
+
+| Top Nav (horizontal, light) | Watson (horizontal, dark) |
+|---|---|
+| ![Top Nav](docs/screenshots/topnav.png) | ![Watson](docs/screenshots/watson.png) |
+
+| Sidebar collapsed | Brand switcher |
+|---|---|
+| ![Collapsed](docs/screenshots/sidebar-collapsed.png) | ![Brand switcher](docs/screenshots/brand-switcher.png) |
+
 ## Features
 
 - **EasyAdmin 5** — CRUD controllers, inline actions, role-based badges
