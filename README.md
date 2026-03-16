@@ -284,13 +284,13 @@ Optional. Loaded only for brands with `menu: topnav`. Hides the sidebar, display
 
 ### How CSS files are loaded
 
-| CSS file | default | jarvis | topnav | watson | Loaded by |
-|----------|---------|--------|--------|--------|-----------|
-| `brands/<brand>/css/skin.css` | Yes | Yes | Yes | Yes | DashboardController |
-| `css/easyadmin-overrides.css` | No | Yes | No | Yes | DashboardController (custom brands) |
-| `css/topnav-layout.css` | No | No | Yes | Yes | DashboardController (topnav brands) |
-| `css/sidebar-collapsed.css` | If pref | If pref | No | No | DashboardController (sidebar + user pref) |
-| `css/public.css` | Yes | Yes | Yes | Yes | Landing + Login templates |
+| CSS file                      | default | jarvis  | topnav | watson | Loaded by                                 |
+|-------------------------------|---------|---------|--------|--------|-------------------------------------------|
+| `brands/<brand>/css/skin.css` | Yes     | Yes     | Yes    | Yes    | DashboardController                       |
+| `css/easyadmin-overrides.css` | No      | Yes     | No     | Yes    | DashboardController (custom brands)       |
+| `css/topnav-layout.css`       | No      | No      | Yes    | Yes    | DashboardController (topnav brands)       |
+| `css/sidebar-collapsed.css`   | If pref | If pref | No     | No     | DashboardController (sidebar + user pref) |
+| `css/public.css`              | Yes     | Yes     | Yes    | Yes    | Landing + Login templates                 |
 
 The base brands (`default` and `topnav`) do NOT load `easyadmin-overrides.css` — they show EasyAdmin 5 as it comes out of the box. Custom brands (`jarvis`, `watson`) load the overrides to apply their theme. Topnav brands additionally load `topnav-layout.css` for the horizontal menu bar.
 
