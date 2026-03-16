@@ -167,17 +167,47 @@
     display: none !important;
 }
 
-/* Content-top: keep only search, hide user + gear (they're in topnav bar) */
-.content-top .user-menu-wrapper {
-    display: none !important;
-}
-.content-top .dropdown-settings {
+/* Hide content-top entirely — user+gear are in topnav bar,
+   search is rendered below title via layout block override */
+.content-top {
     display: none !important;
 }
 
-/* On dashboard pages, hide content-top entirely (no search) */
-body.page-content .content-top {
-    display: none !important;
+/* Search bar below title (topnav mode) */
+.topnav-search-bar {
+    margin-bottom: 16px;
+}
+.topnav-search-bar .form-action-search {
+    position: relative;
+    max-width: 100%;
+}
+.topnav-search-bar .form-widget {
+    position: relative;
+}
+.topnav-search-bar .content-search-icon {
+    position: absolute;
+    left: 12px;
+    top: 37%;
+    transform: translateY(-50%);
+    z-index: 1;
+    pointer-events: none;
+    line-height: 0;
+}
+.topnav-search-bar .content-search-icon svg {
+    width: 14px;
+    height: 14px;
+}
+.topnav-search-bar .form-control[type="search"] {
+    padding: 8px 12px 8px 34px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    width: 100%;
+}
+.topnav-search-bar .content-search-reset {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 /* ── Right side of topnav bar ── */
