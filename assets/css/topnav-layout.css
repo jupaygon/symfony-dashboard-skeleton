@@ -175,7 +175,7 @@
 
 /* Search bar below title (topnav mode) */
 .topnav-search-bar {
-    margin-bottom: 16px;
+    margin-bottom: 0;
 }
 .topnav-search-bar .form-action-search {
     position: relative;
@@ -187,7 +187,7 @@
 .topnav-search-bar .content-search-icon {
     position: absolute;
     left: 12px;
-    top: 37%;
+    top: 39%;
     transform: translateY(-50%);
     z-index: 1;
     pointer-events: none;
