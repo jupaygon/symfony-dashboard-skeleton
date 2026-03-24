@@ -1,0 +1,11 @@
+/* ══════════════════════════════════════════════════════════════
+   Project-specific styles — loaded by ALL brands.
+
+   Put your project's custom CSS classes here.
+   This file is for NEW rules specific to your project,
+   as opposed to easyadmin-overrides.css which overrides
+   existing EasyAdmin styles for custom-themed brands.
+
+   This file is loaded by every brand (including default/topnav),
+   so keep rules brand-agnostic — use CSS variables from skin.css.
+   ══════════════════════════════════════════════════════════════ */

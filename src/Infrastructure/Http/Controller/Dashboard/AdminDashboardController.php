@@ -39,7 +39,6 @@ class AdminDashboardController extends AbstractDashboardController
 
         $dashboard = Dashboard::new()
             ->setTitle('<div class="sidebar-logo"></div>')
-            ->setFaviconPath(sprintf('resources/brands/%s/images/logos/logo.svg', $brand->getKey()))
             ->setTranslationDomain('messages')
             ->setLocales(array_combine(
                 array_column($this->languages, 'code'),
@@ -79,7 +78,8 @@ class AdminDashboardController extends AbstractDashboardController
         $brand = $this->brandContext->get();
 
         $assets = Assets::new()
-            ->addCssFile(sprintf('brands/%s/css/skin.css', $brand->getKey()));
+            ->addCssFile(sprintf('brands/%s/css/skin.css', $brand->getKey()))
+            ->addCssFile('css/project.css');
 
         if (!in_array($brand->getKey(), ['default', 'topnav'], true)) {
             $assets->addCssFile('css/easyadmin-overrides.css');

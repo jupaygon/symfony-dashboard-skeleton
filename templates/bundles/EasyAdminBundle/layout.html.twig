@@ -1,5 +1,11 @@
 {% extends '@!EasyAdmin/layout.html.twig' %}
 
+{% set brand = current_brand() %}
+
+{% block head_favicon %}
+    <link rel="icon" type="image/svg+xml" href="{{ asset('brands/' ~ brand.key ~ '/images/favicon/favicon.svg') }}">
+{% endblock head_favicon %}
+
 {% block wrapper_wrapper %}
     {% if current_brand().isTopnav() %}
         {# ── Top Navigation Bar ── #}
