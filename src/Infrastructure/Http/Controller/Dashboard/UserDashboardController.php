@@ -77,7 +77,8 @@ class UserDashboardController extends AbstractDashboardController
         $brand = $this->brandContext->get();
 
         $assets = Assets::new()
-            ->addCssFile(sprintf('brands/%s/css/skin.css', $brand->getKey()));
+            ->addCssFile(sprintf('brands/%s/css/skin.css', $brand->getKey()))
+            ->addCssFile('css/project.css');
 
         if (!in_array($brand->getKey(), ['default', 'topnav'], true)) {
             $assets->addCssFile('css/easyadmin-overrides.css');
