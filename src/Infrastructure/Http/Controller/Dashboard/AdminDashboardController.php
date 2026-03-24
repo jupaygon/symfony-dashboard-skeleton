@@ -39,7 +39,6 @@ class AdminDashboardController extends AbstractDashboardController
 
         $dashboard = Dashboard::new()
             ->setTitle('<div class="sidebar-logo"></div>')
-            ->setFaviconPath(sprintf('resources/brands/%s/images/logos/logo.svg', $brand->getKey()))
             ->setTranslationDomain('messages')
             ->setLocales(array_combine(
                 array_column($this->languages, 'code'),
