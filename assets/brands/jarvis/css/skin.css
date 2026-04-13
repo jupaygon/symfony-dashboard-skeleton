@@ -31,16 +31,25 @@
     /* ── Content area ── */
     --content-bg: #131a2e;
     --content-text: #c8d0e0;
-    --content-text-muted: #7a8599;
+    --content-text-muted: #b0b8cc;
     --content-heading: #e2e8f4;
 
-    /* ── EA5 native form variables (override light defaults) ── */
-    --form-fieldset-header-color: #7a8599;
+    /* ── EA5 native form/text variables (override light defaults) ── */
+    --text-color: #e2e8f4;
+    --text-color-light: #b0b8cc;
+    --text-muted: #8a94aa;
+    --form-label-color: #e2e8f4;
+    --form-help-color: #b0b8cc;
+    --link-color: #38bdf8;
+    --link-hover-color: #7dd3fc;
+    --color-primary: #38bdf8;
+    --form-tabs-border-color: rgba(56, 189, 248, 0.08);
+    --form-fieldset-header-color: #8a94aa;
     --form-fieldset-header-border-color: rgba(56, 189, 248, 0.08);
-    --form-fieldset-icon-color: #7a8599;
-    --form-fieldset-help-color: #7a8599;
+    --form-fieldset-icon-color: #8a94aa;
+    --form-fieldset-help-color: #b0b8cc;
     --form-fieldset-border-color: rgba(56, 189, 248, 0.06);
-    --form-fieldset-collapse-marker-color: #7a8599;
+    --form-fieldset-collapse-marker-color: #8a94aa;
 
     /* ── Borders ── */
     --border-subtle: rgba(56, 189, 248, 0.08);
@@ -71,7 +80,7 @@
     --btn-secondary-bg: #fff;
 
     /* ── Labels ── */
-    --label-text: rgba(56, 189, 248, 0.5);
+    --label-text: #b0b8cc;
 
     /* ── Switch ── */
     --switch-active-bg: var(--accent);

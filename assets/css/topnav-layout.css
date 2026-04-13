@@ -164,6 +164,11 @@
     padding-top: var(--topnav-h, 56px) !important;
 }
 
+/* ── Hide datagrid-header-tools (search is in content_header_wrapper for topnav) ── */
+.datagrid-header-tools {
+    display: none !important;
+}
+
 /* ── Hide user menu and responsive header (topnav handles them) ── */
 .responsive-header {
     display: none !important;

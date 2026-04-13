@@ -437,6 +437,42 @@ table.datagrid td.actions .btn.action-delete:hover,
 table.datagrid td.actions form .btn:hover { background: var(--danger-hover) !important; }
 table.datagrid td.actions form { display: inline !important; }
 
+/* Focus/active states — replace Bootstrap purple with accent */
+table.datagrid td.actions .btn:focus,
+table.datagrid td.actions .btn:active,
+table.datagrid td.actions form .btn:focus,
+table.datagrid td.actions form .btn:active {
+    box-shadow: 0 0 0 3px var(--accent-dim) !important;
+    outline: none !important;
+}
+.btn:focus, .btn:active {
+    box-shadow: 0 0 0 3px var(--accent-dim) !important;
+    outline: none !important;
+}
+
+/* ── Modal (confirmation dialogs) ── */
+.modal-content {
+    background: var(--crud-bg) !important;
+    border: 1px solid var(--border-subtle) !important;
+    color: var(--content-text) !important;
+    border-radius: 10px !important;
+}
+.modal-body { background: var(--crud-bg) !important; color: var(--content-text) !important; }
+.modal-body h4 { color: var(--content-text) !important; }
+.modal-header { background: var(--crud-bg) !important; border-bottom: 1px solid var(--border-subtle) !important; }
+.modal-footer { background: var(--crud-bg) !important; border-top: 1px solid var(--border-subtle) !important; }
+.modal-footer .btn:not(.btn-danger) {
+    background: var(--btn-secondary-bg) !important;
+    color: var(--content-text) !important;
+    border: 1px solid var(--border-subtle) !important;
+}
+.modal-footer .btn.btn-danger,
+.modal-footer .btn[id*="confirmation"] {
+    background: var(--danger-dim) !important;
+    color: var(--danger) !important;
+    border: 1px solid var(--danger) !important;
+}
+
 /* Filter button */
 .action-filters .btn {
     background: var(--crud-bg) !important;
@@ -615,6 +651,27 @@ body.ea select.form-select { background-color: var(--sidebar-bg-subtle) !importa
 .action-index.btn:hover { background: var(--btn-primary-hover) !important; }
 
 /* Page actions */
+.page-actions .btn:not(.btn-primary):not(.btn-danger) {
+    background: var(--btn-secondary-bg) !important;
+    color: var(--accent) !important;
+    border: 1px solid var(--accent) !important;
+    border-radius: 6px !important;
+}
+.page-actions .btn:not(.btn-primary):not(.btn-danger) .action-icon,
+.page-actions .btn:not(.btn-primary):not(.btn-danger) .btn-icon,
+.page-actions .btn:not(.btn-primary):not(.btn-danger) svg,
+.page-actions .btn:not(.btn-primary):not(.btn-danger) i {
+    color: var(--accent) !important;
+}
+.page-actions .btn:not(.btn-primary):not(.btn-danger):hover {
+    background: var(--accent-dim) !important;
+}
+.page-actions .btn:not(.btn-primary):not(.btn-danger):focus,
+.page-actions .btn:not(.btn-primary):not(.btn-danger):active {
+    box-shadow: 0 0 0 3px var(--accent-dim) !important;
+    border-color: var(--accent) !important;
+    outline: none !important;
+}
 .page-actions .btn {
     display: inline-flex !important;
     align-items: center !important;
