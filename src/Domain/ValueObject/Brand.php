@@ -12,6 +12,7 @@ final readonly class Brand implements BrandInterface
         private string $key,
         private string $name,
         private string $menu = 'sidebar',
+        private bool $dark = false,
     ) {
     }
 
@@ -33,5 +34,10 @@ final readonly class Brand implements BrandInterface
     public function isTopnav(): bool
     {
         return $this->menu === 'topnav';
+    }
+
+    public function isDark(): bool
+    {
+        return $this->dark;
     }
 }

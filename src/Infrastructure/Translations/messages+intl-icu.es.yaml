@@ -22,9 +22,6 @@ Menu:
     Sidebar: Sidebar
     Expanded: Expandida
     Collapsed: Colapsada
-    ContentWidth: Ancho del contenido
-    FullWidth: Ancho completo
-    LimitedWidth: Ancho limitado
     Brand: Brand
     BrandDefault: Configurado por host
 

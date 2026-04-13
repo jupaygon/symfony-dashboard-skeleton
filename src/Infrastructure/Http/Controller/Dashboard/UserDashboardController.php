@@ -43,15 +43,12 @@ class UserDashboardController extends AbstractDashboardController
                 array_column($this->languages, 'name'),
             ));
 
-        if ($brand->getKey() !== 'default') {
-            $dashboard->disableDarkMode();
+        if ($brand->isDark()) {
+            $dashboard->disableDarkMode()
+                ->setDefaultColorScheme('dark');
         }
 
-        /** @var User|null $user */
-        $user = $this->getUser();
-        if ($user && $this->preferenceService->get($user, 'content_maximized')) {
-            $dashboard->renderContentMaximized();
-        }
+        $dashboard->renderContentMaximized();
 
         return $dashboard;
     }

@@ -31,6 +31,7 @@ readonly class BrandResolver
             key: $key,
             name: $def['name'] ?? $key,
             menu: $def['menu'] ?? 'sidebar',
+            dark: $def['dark'] ?? false,
         );
     }
 
@@ -60,6 +61,7 @@ readonly class BrandResolver
             key: $key,
             name: $def['name'] ?? $key,
             menu: $def['menu'] ?? 'sidebar',
+            dark: $def['dark'] ?? false,
         );
     }
 }

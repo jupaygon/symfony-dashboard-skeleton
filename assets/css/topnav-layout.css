@@ -150,6 +150,8 @@
     width: 100% !important;
     margin-left: 0 !important;
     grid-column: 1 / -1 !important;
+    position: relative !important;
+    z-index: 1 !important;
 }
 
 .content-wrapper {
@@ -216,6 +218,11 @@
     align-items: center;
     gap: 8px;
     margin-left: 12px;
+}
+
+.topnav-bar__user-icon {
+    color: var(--accent, #2563eb);
+    font-size: 0.8rem;
 }
 
 .topnav-bar__user {

@@ -9,4 +9,10 @@ interface BrandInterface
     public function getKey(): string;
 
     public function getName(): string;
+
+    public function getMenu(): string;
+
+    public function isTopnav(): bool;
+
+    public function isDark(): bool;
 }

@@ -96,6 +96,10 @@
     font-weight: 600 !important;
     color: var(--content-heading) !important;
 }
+/* Prevent EA5 from hiding entity title when batch checkboxes are selected */
+.content-header-title .title.d-none {
+    display: block !important;
+}
 
 /* ── Flash messages ── */
 #flash-messages {
@@ -544,16 +548,18 @@ body.ea .ts-dropdown .dropdown-input::placeholder,
 body.ea .ts-wrapper .ts-dropdown input::placeholder { color: var(--input-placeholder) !important; }
 
 body.ea .ts-control .item {
-    background: var(--btn-secondary-bg) !important;
+    background: var(--accent-dim) !important;
     color: var(--accent) !important;
-    border: 1px solid var(--accent) !important;
-    border-radius: 4px !important;
-    padding: 2px 8px !important;
-    font-size: 0.8rem !important;
-    font-weight: 600 !important;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    border-radius: 999px !important;
+    padding: 3px 10px !important;
+    font-size: 0.75rem !important;
+    font-weight: 500 !important;
 }
-body.ea .ts-control .item .remove { color: var(--accent) !important; border: none !important; }
-body.ea .ts-control .item .remove:hover { background: transparent !important; color: var(--sidebar-text-bright) !important; }
+body.ea .ts-control .item .remove { color: var(--accent) !important; opacity: .6 !important; border: none !important; }
+body.ea .ts-control .item .remove:hover { opacity: 1 !important; background: transparent !important; }
 body.ea .ts-control > .item:only-child { background: transparent !important; color: var(--input-text) !important; padding: 0 !important; border: none !important; }
 body.ea .ts-dropdown-content { max-height: 200px !important; overflow-y: auto !important; }
 body.ea select.form-select { background-color: var(--sidebar-bg-subtle) !important; color: var(--input-text) !important; }

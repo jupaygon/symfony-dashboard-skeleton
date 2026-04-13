@@ -66,20 +66,6 @@
                     label="{{ 'Menu.Settings.Collapsed'|trans }}" />
             {% endif %}
 
-            {# ── Content width ── #}
-            <twig:ea:ActionMenu:ActionList:Divider/>
-
-            <twig:ea:ActionMenu:ActionList:Header label="{{ 'Menu.Settings.ContentWidth'|trans }}" />
-
-            <twig:ea:ActionMenu:ActionList:Item
-                class="content-width-pref-item {{ user_preference('content_maximized') ? 'active' }}"
-                url="#" icon="fa-solid fa-arrows-left-right"
-                label="{{ 'Menu.Settings.FullWidth'|trans }}" />
-            <twig:ea:ActionMenu:ActionList:Item
-                class="content-width-pref-item {{ not user_preference('content_maximized') ? 'active' }}"
-                url="#" icon="fa-solid fa-compress"
-                label="{{ 'Menu.Settings.LimitedWidth'|trans }}" />
-
             {# ── Brand switcher (super admin only) ── #}
             {% if is_granted('ROLE_SUPER_ADMIN') %}
                 <twig:ea:ActionMenu:ActionList:Divider/>

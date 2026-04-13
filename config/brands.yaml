@@ -14,12 +14,16 @@ parameters:
         default:
             name: 'Default'
             menu: sidebar
+            dark: false
         topnav:
             name: 'Top Nav'
             menu: topnav
+            dark: false
         jarvis:
             name: 'Jarvis'
             menu: sidebar
+            dark: true
         watson:
             name: 'Watson'
             menu: topnav
+            dark: true

@@ -32,6 +32,15 @@
     --content-text: #e8eaf0;
     --content-text-muted: #5c6078;
     --content-heading: #e8eaf0;
+    --fieldset-heading: #8b8fa7;
+
+    /* ── EA5 native form variables (override light defaults) ── */
+    --form-fieldset-header-color: #8b8fa7;
+    --form-fieldset-header-border-color: rgba(255, 255, 255, 0.08);
+    --form-fieldset-icon-color: #5c6078;
+    --form-fieldset-help-color: #5c6078;
+    --form-fieldset-border-color: rgba(255, 255, 255, 0.06);
+    --form-fieldset-collapse-marker-color: #5c6078;
 
     /* ── Borders ── */
     --border-subtle: rgba(255, 255, 255, 0.06);
@@ -46,8 +55,8 @@
     --crud-link: #0ea5e9;
 
     /* ── Inputs ── */
-    --input-bg: #1e2228;
-    --input-border: rgba(255, 255, 255, 0.06);
+    --input-bg: #3c4450;
+    --input-border: rgba(255, 255, 255, 0.25);
     --input-text: #e8eaf0;
     --input-focus-border: #0ea5e9;
     --input-focus-shadow: 0 0 0 3px rgba(14, 165, 233, 0.15);
