@@ -1,0 +1,29 @@
+nelmio_security:
+    # Block framing of the application (clickjacking).
+    # Modern browsers honour CSP frame-ancestors (set in prod). X-Frame-Options
+    # is the legacy fallback for older user-agents and is enabled in every env
+    # because it does not depend on TLS or nonces.
+    clickjacking:
+        paths:
+            '^/.*': DENY
+
+    # Disable MIME sniffing on responses.
+    content_type:
+        nosniff: true
+
+    # Strict referrer behaviour.
+    referrer_policy:
+        enabled: true
+        policies:
+            - 'no-referrer'
+            - 'strict-origin-when-cross-origin'
+
+    # forced_ssl (HTTP→HTTPS redirect + HSTS) and csp (Content Security Policy)
+    # live in config/packages/prod/nelmio_security.yaml only:
+    #   - dj_nginx serves dev over plain HTTP on :81; forced_ssl would redirect
+    #     to a non-existent HTTPS endpoint (ERR_SSL_PROTOCOL_ERROR).
+    #   - NelmioSecurityBundle auto-generates a nonce per response. Per CSP
+    #     spec, browsers ignore 'unsafe-inline' when a nonce is present —
+    #     EasyAdmin's inline scripts/styles don't carry it, so the admin UI
+    #     breaks in dev. Migrate EA5 templates to consume `csp_nonce()` before
+    #     enabling CSP outside prod.

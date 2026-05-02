@@ -1,0 +1,54 @@
+# Prod-only HTTPS enforcement + Content Security Policy.
+#
+# Why split:
+#   1. dj_nginx serves dev over plain HTTP on :81 — `forced_ssl` would
+#      redirect to a non-existent HTTPS endpoint (ERR_SSL_PROTOCOL_ERROR).
+#   2. NelmioSecurityBundle auto-generates a nonce for every CSP-protected
+#      response. Per CSP spec, browsers IGNORE 'unsafe-inline' when a nonce
+#      is present — EasyAdmin's inline scripts/styles don't carry it, so
+#      menus, toggles, and the admin UI break in dev. Migrate EA5 templates
+#      to consume `csp_nonce()` before tightening — out of scope here.
+nelmio_security:
+    # Force HTTPS for one year. Subdomains included. Preload disabled until
+    # the domain is registered with hstspreload.org — flipping preload before
+    # registration locks the entire org out of HTTP for 6+ months even if the
+    # site ever ships without HTTPS.
+    forced_ssl:
+        enabled: true
+        hsts_max_age: 31536000
+        hsts_subdomains: true
+        hsts_preload: false
+
+    csp:
+        enforce:
+            level1_fallback: true
+            browser_adaptive:
+                enabled: false
+            default-src:
+                - "'self'"
+            script-src:
+                # 'unsafe-inline' + 'unsafe-eval' required by EasyAdmin 5 +
+                # Stimulus + Hotwire. Migrate EA5 templates to use
+                # `csp_nonce()` and tighten in a follow-up.
+                - "'self'"
+                - "'unsafe-inline'"
+                - "'unsafe-eval'"
+            style-src:
+                - "'self'"
+                - "'unsafe-inline'"
+            img-src:
+                - "'self'"
+                - 'data:'
+            font-src:
+                - "'self'"
+                - 'data:'
+            connect-src:
+                - "'self'"
+            frame-ancestors:
+                - "'none'"
+            form-action:
+                - "'self'"
+            base-uri:
+                - "'self'"
+            object-src:
+                - "'none'"
