@@ -11,6 +11,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
+use Symfony\Component\Uid\Uuid;
 
 /**
  * @extends ServiceEntityRepository<User>
@@ -22,9 +23,11 @@ class UserRepository extends ServiceEntityRepository implements UserRepositoryIn
         parent::__construct($registry, User::class);
     }
 
-    public function findById(int $id): ?User
+    public function findById(Uuid|string $id): ?User
     {
-        return $this->find($id);
+        $uuid = $id instanceof Uuid ? $id : Uuid::fromString($id);
+
+        return $this->find($uuid);
     }
 
     public function findByEmail(string $email): ?User
