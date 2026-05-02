@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Http\Controller\Crud\Admin;
 
+use App\Application\Service\PasswordPolicy;
 use App\Domain\Model\Organization;
 use App\Domain\Model\User;
 use App\Infrastructure\Http\Controller\Crud\BaseCrudController;
@@ -42,6 +43,7 @@ class UserCrudController extends BaseCrudController
 
     public function __construct(
         private readonly UserPasswordHasherInterface $passwordHasher,
+        private readonly PasswordPolicy $passwordPolicy,
     ) {
     }
 
@@ -203,6 +205,7 @@ class UserCrudController extends BaseCrudController
     public function persistEntity($entityManager, $entityInstance): void
     {
         if ($entityInstance instanceof User) {
+            $this->passwordPolicy->assertAcceptable($entityInstance->getPassword());
             $hashed = $this->passwordHasher->hashPassword($entityInstance, $entityInstance->getPassword());
             $entityInstance->setPassword($hashed);
         }
@@ -217,6 +220,7 @@ class UserCrudController extends BaseCrudController
         }
 
         if ($entityInstance instanceof User && $entityInstance->getPlainPassword()) {
+            $this->passwordPolicy->assertAcceptable($entityInstance->getPlainPassword());
             $hashed = $this->passwordHasher->hashPassword($entityInstance, $entityInstance->getPlainPassword());
             $entityInstance->setPassword($hashed);
         }
