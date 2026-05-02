@@ -13,10 +13,12 @@ use Doctrine\Migrations\AbstractMigration;
  * Identifiers are UUID v7 stored as BINARY(16). Seed data uses fixed UUIDs
  * so a fresh install is deterministic.
  *
- * Demo users (rotate before any deploy):
- *   - superadmin@example.com / superadmin (ROLE_SUPER_ADMIN)
- *   - admin@example.com / admin (ROLE_ADMIN, Acme Corp)
- *   - user@example.com / user (ROLE_USER, Acme Corp + Globex Inc)
+ * Demo passwords are weak by design and intended only for first-boot
+ * verification; rotate them before any production deploy:
+ *
+ *     php bin/console app:user:change-password superadmin@example.com
+ *     php bin/console app:user:change-password admin@example.com
+ *     php bin/console app:user:change-password user@example.com
  */
 final class Version00000000000000 extends AbstractMigration
 {
@@ -28,7 +30,7 @@ final class Version00000000000000 extends AbstractMigration
 
     public function getDescription(): string
     {
-        return 'Initial schema (UUID v7 BINARY(16) ids) and seed data';
+        return 'Initial schema (UUID v7 BINARY(16) ids) — rotate demo passwords before deploy';
     }
 
     public function up(Schema $schema): void
