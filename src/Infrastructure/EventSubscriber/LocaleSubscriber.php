@@ -7,15 +7,19 @@ namespace App\Infrastructure\EventSubscriber;
 use App\Application\Service\UserPreferenceService;
 use App\Domain\Model\User;
 use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
 readonly class LocaleSubscriber implements EventSubscriberInterface
 {
+    /** @param array<string, array{code: string, name: string}> $allowedLanguages */
     public function __construct(
         private UserPreferenceService $preferenceService,
         private Security $security,
+        #[Autowire(param: 'app.languages')]
+        private array $allowedLanguages,
     ) {
     }
 
@@ -44,7 +48,7 @@ readonly class LocaleSubscriber implements EventSubscriberInterface
         }
 
         $queryLocale = $request->query->get('_locale');
-        if ($queryLocale) {
+        if (\is_string($queryLocale) && $this->isAllowed($queryLocale)) {
             $request->attributes->set('_locale', $queryLocale);
             $request->setLocale($queryLocale);
             if ($request->hasSession()) {
@@ -56,8 +60,10 @@ readonly class LocaleSubscriber implements EventSubscriberInterface
 
         if ($request->hasSession() && $request->getSession()->has('_locale')) {
             $sessionLocale = $request->getSession()->get('_locale');
-            $request->attributes->set('_locale', $sessionLocale);
-            $request->setLocale($sessionLocale);
+            if (\is_string($sessionLocale) && $this->isAllowed($sessionLocale)) {
+                $request->attributes->set('_locale', $sessionLocale);
+                $request->setLocale($sessionLocale);
+            }
         }
     }
 
@@ -80,7 +86,7 @@ readonly class LocaleSubscriber implements EventSubscriberInterface
 
         // Save to DB if locale came from query param
         $queryLocale = $request->query->get('_locale');
-        if ($queryLocale) {
+        if (\is_string($queryLocale) && $this->isAllowed($queryLocale)) {
             $this->preferenceService->set($user, 'locale', $queryLocale);
 
             return;
@@ -89,10 +95,15 @@ readonly class LocaleSubscriber implements EventSubscriberInterface
         // First visit after login: load from DB if no session locale
         if (!$request->getSession()->has('_locale')) {
             $userLocale = $this->preferenceService->get($user, 'locale');
-            if ($userLocale) {
+            if (\is_string($userLocale) && $this->isAllowed($userLocale)) {
                 $request->setLocale($userLocale);
                 $request->getSession()->set('_locale', $userLocale);
             }
         }
+    }
+
+    private function isAllowed(string $locale): bool
+    {
+        return array_key_exists($locale, $this->allowedLanguages);
     }
 }
