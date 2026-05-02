@@ -8,6 +8,7 @@ use App\Domain\Model\Organization;
 use App\Domain\Model\User;
 use App\Infrastructure\Http\Controller\Crud\BaseCrudController;
 use App\Infrastructure\Http\Controller\Trait\OrgAccessTrait;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
@@ -28,6 +29,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Uid\Uuid;
 
 /** @extends BaseCrudController<User> */
 class UserCrudController extends BaseCrudController
@@ -82,6 +84,7 @@ class UserCrudController extends BaseCrudController
     public function configureFields(string $pageName): iterable
     {
         $orgIds = $this->getAllowedOrgIds();
+        $orgIdsBin = $this->getAllowedOrgIdsBinary();
 
         yield BooleanField::new('active')->setColumns(2);
         yield FormField::addRow();
@@ -125,7 +128,15 @@ class UserCrudController extends BaseCrudController
             ->formatValue(function ($value, User $entity) use ($orgIds) {
                 $orgs = $entity->getOrganizations();
                 if ($orgIds !== null) {
-                    $orgs = $orgs->filter(fn(Organization $o) => in_array($o->getId(), $orgIds, true));
+                    $orgs = $orgs->filter(function (Organization $o) use ($orgIds) {
+                        $oId = $o->getId();
+                        foreach ($orgIds as $allowed) {
+                            if ($allowed->equals($oId)) {
+                                return true;
+                            }
+                        }
+                        return false;
+                    });
                 }
                 $badges = $orgs->map(
                     fn(Organization $o) => sprintf('<span class="badge badge-info">%s</span>', htmlspecialchars($o->getName()))
@@ -134,10 +145,10 @@ class UserCrudController extends BaseCrudController
                 return implode(' ', $badges);
             });
 
-        if ($orgIds !== null) {
-            $orgField->setQueryBuilder(function (QueryBuilder $qb) use ($orgIds) {
+        if ($orgIdsBin !== null) {
+            $orgField->setQueryBuilder(function (QueryBuilder $qb) use ($orgIdsBin) {
                 $qb->andWhere('entity.id IN (:orgIds)')
-                    ->setParameter('orgIds', $orgIds);
+                    ->setParameter('orgIds', $orgIdsBin, ArrayParameterType::BINARY);
             });
         }
 
@@ -149,13 +160,13 @@ class UserCrudController extends BaseCrudController
     public function createIndexQueryBuilder(SearchDto $searchDto, EntityDto $entityDto, FieldCollection $fields, FilterCollection $filters): QueryBuilder
     {
         $qb = parent::createIndexQueryBuilder($searchDto, $entityDto, $fields, $filters);
-        $orgIds = $this->getAllowedOrgIds();
+        $orgIdsBin = $this->getAllowedOrgIdsBinary();
 
         // Non-super-admins: only see users in their orgs, and never see super admins
-        if ($orgIds !== null) {
+        if ($orgIdsBin !== null) {
             $qb->innerJoin('entity.organizations', 'orgs')
                 ->andWhere('orgs.id IN (:orgIds)')
-                ->setParameter('orgIds', $orgIds)
+                ->setParameter('orgIds', $orgIdsBin, ArrayParameterType::BINARY)
                 ->andWhere('entity.roles NOT LIKE :superAdmin')
                 ->setParameter('superAdmin', '%ROLE_SUPER_ADMIN%');
         }
@@ -250,22 +261,32 @@ class UserCrudController extends BaseCrudController
 
     private function preserveHiddenOrganizations(User $user): void
     {
-        $orgIds = $this->getAllowedOrgIds();
+        $orgIdsBin = $this->getAllowedOrgIdsBinary();
 
-        if ($orgIds === null) {
+        if ($orgIdsBin === null) {
             return;
         }
 
         $em = $this->container->get('doctrine')->getManager();
-        $originalOrgs = $em->getRepository(Organization::class)->findBy([
-            'id' => $em->getConnection()->fetchFirstColumn(
-                'SELECT organization_id FROM user_organization WHERE user_id = ?',
-                [$user->getId()]
-            ),
-        ]);
+        $currentOrgIdRows = $em->getConnection()->fetchFirstColumn(
+            'SELECT organization_id FROM user_organization WHERE user_id = ?',
+            [$user->getId()->toBinary()]
+        );
 
+        if (count($currentOrgIdRows) === 0) {
+            return;
+        }
+
+        $originalOrgs = $em->getRepository(Organization::class)->createQueryBuilder('o')
+            ->where('o.id IN (:ids)')
+            ->setParameter('ids', $currentOrgIdRows, ArrayParameterType::BINARY)
+            ->getQuery()
+            ->getResult();
+
+        $allowedHex = array_map(static fn(string $bin) => bin2hex($bin), $orgIdsBin);
         foreach ($originalOrgs as $org) {
-            if (!in_array($org->getId(), $orgIds, true)) {
+            $orgHex = bin2hex($org->getId()->toBinary());
+            if (!in_array($orgHex, $allowedHex, true)) {
                 $user->addOrganization($org);
             }
         }

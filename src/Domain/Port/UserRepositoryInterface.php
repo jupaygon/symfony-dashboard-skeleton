@@ -6,10 +6,11 @@ namespace App\Domain\Port;
 
 use App\Domain\Model\User;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Uid\Uuid;
 
 interface UserRepositoryInterface
 {
-    public function findById(int $id): ?User;
+    public function findById(Uuid|string $id): ?User;
 
     public function findByEmail(string $email): ?User;
 

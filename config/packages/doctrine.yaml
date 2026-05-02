@@ -3,6 +3,8 @@ doctrine:
         url: '%env(resolve:DATABASE_URL)%'
 
         profiling_collect_backtrace: '%kernel.debug%'
+        types:
+            uuid: Symfony\Bridge\Doctrine\Types\UuidType
     orm:
         naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
         auto_mapping: true
