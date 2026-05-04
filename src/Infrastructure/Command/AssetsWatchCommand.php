@@ -1,9 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Infrastructure\Command;
 
+use FilesystemIterator;
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -12,13 +13,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Process\Process;
-use RecursiveDirectoryIterator;
-use RecursiveIteratorIterator;
-use FilesystemIterator;
 
 #[AsCommand(
     name: 'app:assets:watch',
-    description: 'Watch assets on the current site, clean public/assets and recompile automatically'
+    description: 'Watch assets/, clean public/assets and recompile automatically'
 )]
 class AssetsWatchCommand extends Command
 {
@@ -33,7 +31,7 @@ class AssetsWatchCommand extends Command
         $fs       = new Filesystem();
         $dirs     = ['assets'];
         $outDir   = 'public/assets';
-        $interval = max(1, (int)$input->getOption('interval'));
+        $interval = max(1, (int) $input->getOption('interval'));
 
         $fingerprint = function (array $dirs): string {
             $parts = [];
@@ -41,6 +39,7 @@ class AssetsWatchCommand extends Command
                 $it = new RecursiveIteratorIterator(
                     new RecursiveDirectoryIterator($dir, FilesystemIterator::SKIP_DOTS)
                 );
+
                 /** @var \SplFileInfo $file */
                 foreach ($it as $file) {
                     if ($file->isFile()) {
@@ -55,7 +54,7 @@ class AssetsWatchCommand extends Command
         };
 
         $compile = function () use ($io, $fs, $outDir) {
-            $io->writeln('Cleaning ' . $outDir);
+            $io->writeln('🧹 Cleaning ' . $outDir . ' … ✅');
             if (is_dir($outDir)) {
                 $fs->remove($outDir);
             }
@@ -71,28 +70,32 @@ class AssetsWatchCommand extends Command
             if (!$process->isSuccessful()) {
                 $io->error('Error in asset-map:compile');
             } else {
-                $io->success('Assets compiled');
+                $io->success('Successfully compiled assets! ✅');
             }
         };
 
-        $io->title('Assets Watch');
-        $io->writeln(sprintf('Watching %s every %ds for changes. Ctrl+C to exit.', implode(', ', $dirs), $interval));
+        $io->title('👀 Assets Watch');
+        $io->writeln(sprintf('Watching %s every %ds for changes (Ctrl+C to exit).', implode(', ', $dirs), $interval));
+        $io->newLine();
+        $io->writeln('Tip: run `php bin/console asset-map:compile` once if you do not need live reload.');
         $io->newLine();
 
         $compile();
 
         $prev = $fingerprint($dirs);
-        $io->writeln('Watching for changes...');
+        $io->writeln('👀 Watching for changes…');
         while (true) {
             sleep($interval);
             $curr = $fingerprint($dirs);
             if ($curr !== $prev) {
                 $io->newLine();
-                $io->writeln('Changes detected, recompiling...');
+                $io->writeln('📦 Detected changes → recompiling…');
                 $compile();
                 $prev = $curr;
-                $io->writeln('Watching for changes...');
+                $io->writeln('👀 Watching for changes…');
             }
         }
+
+        return Command::SUCCESS;
     }
 }
