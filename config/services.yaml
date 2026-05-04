@@ -34,3 +34,10 @@ services:
     App\Application\Service\UserPreferenceService:
         arguments:
             $definitions: '%app.user_preferences%'
+
+    # Monolog: line formatter used by all rotating_file handlers
+    monolog.formatter.session_request:
+        class: Monolog\Formatter\LineFormatter
+        arguments:
+            - "[%%datetime%%] [%%channel%%.%%level_name%%] %%message%% \n"
+            - "Y-m-d H:i:s"
