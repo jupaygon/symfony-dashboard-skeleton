@@ -8,6 +8,23 @@ framework:
     # variable (regex, pipe-separated). Empty = accept all (only safe in dev).
     trusted_hosts: '%env(default::TRUSTED_HOSTS)%'
 
+    # Trust forwarded headers when the app sits behind a reverse proxy
+    # (load balancer, CDN, container ingress). Without this, Request->isSecure()
+    # returns false on plain-HTTP hops even if the edge terminated TLS, which
+    # breaks any HTTPS-forcing logic (e.g. NelmioSecurityBundle.forced_ssl) by
+    # producing an infinite redirect loop with the proxy.
+    #
+    # Set TRUSTED_PROXIES in .env.local to the CIDR(s) of the proxy(s), or use
+    # the Symfony magic values `private_ranges` (all RFC1918 + loopback) and/or
+    # `REMOTE_ADDR` (trust the immediate peer). Leave empty in dev.
+    trusted_proxies: '%env(default::TRUSTED_PROXIES)%'
+    trusted_headers:
+        - 'x-forwarded-for'
+        - 'x-forwarded-host'
+        - 'x-forwarded-proto'
+        - 'x-forwarded-port'
+        - 'x-forwarded-prefix'
+
     # Enables session support. Note that the session will ONLY be started if you read or write from it.
     # Remove or comment this section to explicitly disable session support.
     session:
