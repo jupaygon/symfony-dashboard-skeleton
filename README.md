@@ -393,6 +393,21 @@ The user's language preference is saved automatically when they switch languages
 - **Doctrine ORM 3** — Database abstraction
 - **PHPUnit 11** — Testing
 
+## Deploying behind a reverse proxy
+
+If your app sits behind a reverse proxy that terminates TLS (load balancer, CDN, container ingress), set `TRUSTED_PROXIES` in `.env.local` so Symfony honours the forwarded protocol / host / port headers. Without this, `Request::isSecure()` returns `false` on the backend even when the edge served HTTPS, and any HTTPS-forcing logic (for example `NelmioSecurityBundle.forced_ssl`) will redirect in an infinite loop with the proxy (`ERR_TOO_MANY_REDIRECTS`).
+
+```bash
+# .env.local
+TRUSTED_PROXIES=private_ranges,REMOTE_ADDR
+```
+
+- `private_ranges` is Symfony's built-in alias for all RFC1918 + loopback CIDRs.
+- `REMOTE_ADDR` is the magic value meaning "trust the immediate peer".
+- Use a tighter CIDR (e.g. `10.0.0.0/16`) if you can scope to the proxy's actual subnet.
+
+`framework.yaml` already wires `trusted_proxies` and `trusted_headers`, so the env var is all you need on the consumer side. Leave it empty in dev.
+
 ## License
 
 MIT
