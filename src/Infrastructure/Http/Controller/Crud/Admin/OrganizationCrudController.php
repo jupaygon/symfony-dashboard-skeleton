@@ -32,6 +32,8 @@ class OrganizationCrudController extends BaseCrudController
 
     protected static string $entityLabelSingular = 'Entity.Organization.Singular';
     protected static string $entityLabelPlural = 'Entity.Organization.Plural';
+
+    /** @var array<string, 'ASC'|'DESC'> */
     protected static array $defaultSort = ['name' => 'ASC'];
 
     public static function getEntityFqcn(): string
@@ -108,6 +110,7 @@ class OrganizationCrudController extends BaseCrudController
         return parent::delete($context);
     }
 
+    /** @param AdminContext<Organization> $context */
     private function denyAccessUnlessOrgOwned(AdminContext $context): void
     {
         $entity = $context->getEntity()->getInstance();

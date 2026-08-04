@@ -9,10 +9,17 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 
+/**
+ * @template TEntity of object
+ *
+ * @extends AbstractCrudController<TEntity>
+ */
 abstract class BaseCrudController extends AbstractCrudController
 {
     protected static string $entityLabelSingular = '';
     protected static string $entityLabelPlural = '';
+
+    /** @var array<string, 'ASC'|'DESC'> */
     protected static array $defaultSort = ['id' => 'DESC'];
 
     public function configureCrud(Crud $crud): Crud

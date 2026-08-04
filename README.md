@@ -48,7 +48,7 @@ All of this is **designed to be extended, not forked**. The architecture is clea
 
 ## Requirements
 
-- PHP >= 8.4
+- PHP >= 8.5
 - MySQL 8.0
 - Composer
 
@@ -385,13 +385,26 @@ The user's language preference is saved automatically when they switch languages
 | `app:user:change-password <email>` | Change a user's password interactively |
 | `app:assets:watch`                 | Watch assets and recompile on changes  |
 
+## Tests and static analysis
+
+```bash
+./vendor/bin/phpunit
+
+# PHPStan reads the compiled container, so warm it up first
+php bin/console cache:warmup --env=dev
+./vendor/bin/phpstan analyse
+```
+
+PHPStan runs at level 8 over `src/` and `tests/`. Both commands run on every push
+and pull request through `.github/workflows/ci.yml`.
+
 ## Stack
 
-- **Symfony 8.0** — Latest stable
-- **EasyAdmin 5.0** — Admin generator
-- **PHP 8.4** — Required minimum
+- **Symfony 8.1** — Latest stable
+- **EasyAdmin 5.4** — Admin generator
+- **PHP 8.5** — Required minimum
 - **Doctrine ORM 3** — Database abstraction
-- **PHPUnit 11** — Testing
+- **PHPUnit 13** — Testing
 
 ## Deploying behind a reverse proxy
 

@@ -1,0 +1,21 @@
+parameters:
+    level: 8
+    paths:
+        - src
+        - tests
+    symfony:
+        containerXmlPath: var/cache/dev/App_KernelDevDebugContainer.xml
+    doctrine:
+        objectManagerLoader: tests/object-manager.php
+    ignoreErrors:
+        # Symfony reads getAllowedEnvs() through the kernel, never the app code
+        -
+            identifier: method.unused
+            path: src/Kernel.php
+        # The watch command loops until the user stops it
+        -
+            identifier: while.alwaysTrue
+            path: src/Infrastructure/Command/AssetsWatchCommand.php
+        -
+            identifier: deadCode.unreachable
+            path: src/Infrastructure/Command/AssetsWatchCommand.php

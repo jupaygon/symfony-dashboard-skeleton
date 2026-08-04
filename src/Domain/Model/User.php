@@ -73,6 +73,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getUserIdentifier(): string
     {
+        if ($this->email === '') {
+            throw new \LogicException('User has no email, it cannot be used as a security identifier.');
+        }
+
         return $this->email;
     }
 
@@ -82,7 +86,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $roles = $this->roles;
         $roles[] = self::ROLE_USER;
 
-        return array_unique($roles);
+        return array_values(array_unique($roles));
     }
 
     /** @param list<string> $roles */

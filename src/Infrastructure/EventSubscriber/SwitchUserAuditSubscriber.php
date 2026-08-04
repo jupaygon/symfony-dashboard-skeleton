@@ -50,7 +50,7 @@ final readonly class SwitchUserAuditSubscriber implements EventSubscriberInterfa
                 $actorEmail = $originalUser->getUserIdentifier();
             }
             $action = 'exit';
-        } else {
+        } elseif ($token !== null) {
             $user = $token->getUser();
             if ($user instanceof User) {
                 $actorEmail = $user->getUserIdentifier();

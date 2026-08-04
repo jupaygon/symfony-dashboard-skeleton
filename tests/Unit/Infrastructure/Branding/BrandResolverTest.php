@@ -9,6 +9,7 @@ use PHPUnit\Framework\TestCase;
 
 final class BrandResolverTest extends TestCase
 {
+    /** @param string[] $devSuffixes */
     private function createResolver(array $devSuffixes = []): BrandResolver
     {
         return new BrandResolver(
