@@ -21,7 +21,7 @@ final class UserPreferenceServiceTest extends TestCase
     private function createService(?UserPreferenceRepositoryInterface $repo = null): UserPreferenceService
     {
         return new UserPreferenceService(
-            $repo ?? $this->createMock(UserPreferenceRepositoryInterface::class),
+            $repo ?? $this->createStub(UserPreferenceRepositoryInterface::class),
             self::DEFINITIONS,
         );
     }
@@ -36,7 +36,7 @@ final class UserPreferenceServiceTest extends TestCase
 
     public function testGetReturnsDefaultWhenNoPreferenceStored(): void
     {
-        $repo = $this->createMock(UserPreferenceRepositoryInterface::class);
+        $repo = $this->createStub(UserPreferenceRepositoryInterface::class);
         $repo->method('findByUserAndField')->willReturn(null);
 
         $service = $this->createService($repo);
@@ -51,7 +51,7 @@ final class UserPreferenceServiceTest extends TestCase
         $user = $this->createUser();
         $pref = new UserPreference($user, 'sidebar_collapsed', '1');
 
-        $repo = $this->createMock(UserPreferenceRepositoryInterface::class);
+        $repo = $this->createStub(UserPreferenceRepositoryInterface::class);
         $repo->method('findByUserAndField')->willReturn($pref);
 
         $service = $this->createService($repo);
@@ -64,7 +64,7 @@ final class UserPreferenceServiceTest extends TestCase
         $user = $this->createUser();
         $pref = new UserPreference($user, 'locale', 'es');
 
-        $repo = $this->createMock(UserPreferenceRepositoryInterface::class);
+        $repo = $this->createStub(UserPreferenceRepositoryInterface::class);
         $repo->method('findByUserAndField')->willReturn($pref);
 
         $service = $this->createService($repo);
