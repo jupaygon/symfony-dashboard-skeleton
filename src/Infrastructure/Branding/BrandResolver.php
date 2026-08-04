@@ -8,9 +8,11 @@ use App\Domain\ValueObject\Brand;
 
 readonly class BrandResolver
 {
-    /** @param array<string, array{name: string}> $brandDefs */
-    /** @param array<string, string>|null $brandMap */
-    /** @param string[] $devSuffixes */
+    /**
+     * @param array<string, array{name?: string, menu?: string, dark?: bool}> $brandDefs
+     * @param array<string, string>|null                                      $brandMap
+     * @param string[]                                                        $devSuffixes
+     */
     public function __construct(
         private array $brandDefs,
         private ?array $brandMap,

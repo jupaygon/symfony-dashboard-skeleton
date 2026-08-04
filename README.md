@@ -385,6 +385,19 @@ The user's language preference is saved automatically when they switch languages
 | `app:user:change-password <email>` | Change a user's password interactively |
 | `app:assets:watch`                 | Watch assets and recompile on changes  |
 
+## Tests and static analysis
+
+```bash
+./vendor/bin/phpunit
+
+# PHPStan reads the compiled container, so warm it up first
+php bin/console cache:warmup --env=dev
+./vendor/bin/phpstan analyse
+```
+
+PHPStan runs at level 8 over `src/` and `tests/`. Both commands run on every push
+and pull request through `.github/workflows/ci.yml`.
+
 ## Stack
 
 - **Symfony 8.1** — Latest stable

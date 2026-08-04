@@ -13,46 +13,55 @@ class Log
         self::$logger = $logger;
     }
 
+    /** @param array<string, mixed> $context */
     public static function error(string $message, array $context = []): void
     {
         self::$logger?->error($message, $context);
     }
 
+    /** @param array<string, mixed> $context */
     public static function info(string $message, array $context = []): void
     {
         self::$logger?->info($message, $context);
     }
 
+    /** @param array<string, mixed> $context */
     public static function debug(string $message, array $context = []): void
     {
         self::$logger?->debug($message, $context);
     }
 
+    /** @param array<string, mixed> $context */
     public static function warning(string $message, array $context = []): void
     {
         self::$logger?->warning($message, $context);
     }
 
+    /** @param array<string, mixed> $context */
     public static function critical(string $message, array $context = []): void
     {
         self::$logger?->critical($message, $context);
     }
 
+    /** @param array<string, mixed> $context */
     public static function alert(string $message, array $context = []): void
     {
         self::$logger?->alert($message, $context);
     }
 
+    /** @param array<string, mixed> $context */
     public static function emergency(string $message, array $context = []): void
     {
         self::$logger?->emergency($message, $context);
     }
 
+    /** @param array<string, mixed> $context */
     public static function log(string $level, string $message, array $context = []): void
     {
         self::$logger?->log($level, $message, $context);
     }
 
+    /** @param array<string, mixed> $context */
     public static function notice(string $message, array $context = []): void
     {
         self::$logger?->notice($message, $context);

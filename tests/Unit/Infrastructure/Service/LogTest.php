@@ -16,7 +16,8 @@ class LogTest extends TestCase
 
     public function testNullLoggerDoesNotThrow(): void
     {
-        // Should not throw any exception
+        $this->expectNotToPerformAssertions();
+
         Log::error('test');
         Log::info('test');
         Log::debug('test');
@@ -26,8 +27,6 @@ class LogTest extends TestCase
         Log::emergency('test');
         Log::notice('test');
         Log::log('info', 'test');
-
-        $this->assertTrue(true); // If we got here, no exception
     }
 
     public function testErrorDelegatesToLogger(): void

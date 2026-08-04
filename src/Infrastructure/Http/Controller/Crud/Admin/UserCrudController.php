@@ -10,6 +10,7 @@ use App\Domain\Model\User;
 use App\Infrastructure\Http\Controller\Crud\BaseCrudController;
 use App\Infrastructure\Http\Controller\Trait\OrgAccessTrait;
 use Doctrine\DBAL\ArrayParameterType;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
@@ -39,11 +40,14 @@ class UserCrudController extends BaseCrudController
 
     protected static string $entityLabelSingular = 'Entity.User.Singular';
     protected static string $entityLabelPlural = 'Entity.User.Plural';
+
+    /** @var array<string, 'ASC'|'DESC'> */
     protected static array $defaultSort = ['name' => 'ASC'];
 
     public function __construct(
         private readonly UserPasswordHasherInterface $passwordHasher,
         private readonly PasswordPolicy $passwordPolicy,
+        private readonly EntityManagerInterface $entityManager,
     ) {
     }
 
@@ -202,45 +206,39 @@ class UserCrudController extends BaseCrudController
         return parent::edit($context);
     }
 
-    public function persistEntity($entityManager, $entityInstance): void
+    public function persistEntity(EntityManagerInterface $entityManager, object $entityInstance): void
     {
-        if ($entityInstance instanceof User) {
-            $this->passwordPolicy->assertAcceptable($entityInstance->getPassword());
-            $hashed = $this->passwordHasher->hashPassword($entityInstance, $entityInstance->getPassword());
-            $entityInstance->setPassword($hashed);
-        }
+        $this->passwordPolicy->assertAcceptable($entityInstance->getPassword());
+        $hashed = $this->passwordHasher->hashPassword($entityInstance, $entityInstance->getPassword());
+        $entityInstance->setPassword($hashed);
 
         parent::persistEntity($entityManager, $entityInstance);
     }
 
-    public function updateEntity($entityManager, $entityInstance): void
+    public function updateEntity(EntityManagerInterface $entityManager, object $entityInstance): void
     {
-        if ($entityInstance instanceof User && $entityInstance->isSuperAdmin() && !$this->isGranted('ROLE_SUPER_ADMIN')) {
+        if ($entityInstance->isSuperAdmin() && !$this->isGranted('ROLE_SUPER_ADMIN')) {
             throw new AccessDeniedHttpException('Only super admins can edit super admin users.');
         }
 
-        if ($entityInstance instanceof User && $entityInstance->getPlainPassword()) {
+        if ($entityInstance->getPlainPassword()) {
             $this->passwordPolicy->assertAcceptable($entityInstance->getPlainPassword());
             $hashed = $this->passwordHasher->hashPassword($entityInstance, $entityInstance->getPlainPassword());
             $entityInstance->setPassword($hashed);
         }
 
-        if ($entityInstance instanceof User) {
-            $this->preserveHiddenOrganizations($entityInstance);
-        }
+        $this->preserveHiddenOrganizations($entityInstance);
 
         parent::updateEntity($entityManager, $entityInstance);
     }
 
-    public function deleteEntity($entityManager, $entityInstance): void
+    public function deleteEntity(EntityManagerInterface $entityManager, object $entityInstance): void
     {
-        if ($entityInstance instanceof User && $entityInstance->isSuperAdmin()) {
+        if ($entityInstance->isSuperAdmin()) {
             throw new AccessDeniedHttpException('Super admin users cannot be deleted.');
         }
 
-        if ($entityInstance instanceof User) {
-            $this->denyUnlessUserSharesOrg($entityInstance);
-        }
+        $this->denyUnlessUserSharesOrg($entityInstance);
 
         parent::deleteEntity($entityManager, $entityInstance);
     }
@@ -271,8 +269,7 @@ class UserCrudController extends BaseCrudController
             return;
         }
 
-        $em = $this->container->get('doctrine')->getManager();
-        $currentOrgIdRows = $em->getConnection()->fetchFirstColumn(
+        $currentOrgIdRows = $this->entityManager->getConnection()->fetchFirstColumn(
             'SELECT organization_id FROM user_organization WHERE user_id = ?',
             [$user->getId()->toBinary()]
         );
@@ -281,7 +278,7 @@ class UserCrudController extends BaseCrudController
             return;
         }
 
-        $originalOrgs = $em->getRepository(Organization::class)->createQueryBuilder('o')
+        $originalOrgs = $this->entityManager->getRepository(Organization::class)->createQueryBuilder('o')
             ->where('o.id IN (:ids)')
             ->setParameter('ids', $currentOrgIdRows, ArrayParameterType::BINARY)
             ->getQuery()

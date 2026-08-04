@@ -6,6 +6,7 @@ namespace App\Infrastructure\Twig;
 
 use App\Application\Service\BrandContext;
 use App\Application\Service\UserPreferenceService;
+use App\Domain\Contract\BrandInterface;
 use App\Domain\Model\User;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
@@ -14,7 +15,7 @@ use Twig\TwigFunction;
 
 class UserPreferenceExtension extends AbstractExtension
 {
-    /** @param array<string, array{name: string, menu?: string}> $brandDefs */
+    /** @param array<string, array{name: string, menu?: string}> $brandDefsConfig */
     public function __construct(
         private readonly UserPreferenceService $preferenceService,
         private readonly Security $security,
@@ -49,7 +50,7 @@ class UserPreferenceExtension extends AbstractExtension
         return $this->brandDefsConfig;
     }
 
-    public function getCurrentBrand(): \App\Domain\ValueObject\Brand
+    public function getCurrentBrand(): BrandInterface
     {
         return $this->brandContext->get();
     }
