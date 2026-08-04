@@ -1,0 +1,59 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+permissions:
+  contents: read
+
+env:
+  APP_ENV: test
+  APP_SECRET: ci
+  DATABASE_URL: "mysql://app:app@127.0.0.1:3306/app?serverVersion=8.0.32&charset=utf8mb4"
+
+jobs:
+  tests:
+    name: PHPUnit
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.5'
+          extensions: ctype, iconv, intl, pdo_mysql
+          coverage: none
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress --no-interaction
+
+      - name: Run PHPUnit
+        run: vendor/bin/phpunit
+
+  static-analysis:
+    name: PHPStan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.5'
+          extensions: ctype, iconv, intl, pdo_mysql
+          coverage: none
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress --no-interaction
+
+      # PHPStan reads the compiled container to resolve Symfony services
+      - name: Warm up the dev container
+        run: php bin/console cache:warmup --env=dev
+
+      - name: Run PHPStan
+        run: vendor/bin/phpstan analyse --no-progress
