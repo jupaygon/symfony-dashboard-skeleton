@@ -8,7 +8,13 @@
         {% endblock %}
 
         {% block javascripts %}
-            {% block importmap %}{{ importmap('app') }}{% endblock %}
+            {# importmap() emits inline <script> tags. Where a CSP is enforced they need
+               the nonce, or the browser drops them as soon as any nonce is in play. #}
+            {% set script_nonce = null %}
+            {% guard function csp_nonce %}
+                {% set script_nonce = csp_nonce('script') %}
+            {% endguard %}
+            {% block importmap %}{{ importmap('app', script_nonce ? {nonce: script_nonce} : {}) }}{% endblock %}
         {% endblock %}
     </head>
     <body>
