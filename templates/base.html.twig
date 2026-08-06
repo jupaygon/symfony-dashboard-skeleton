@@ -8,8 +8,7 @@
         {% endblock %}
 
         {% block javascripts %}
-            {# importmap() emits inline <script> tags. Where a CSP is enforced they need
-               the nonce, or the browser drops them as soon as any nonce is in play. #}
+            {# importmap() emits inline scripts of its own; they need the nonce too. #}
             {% set script_nonce = null %}
             {% guard function csp_nonce %}
                 {% set script_nonce = csp_nonce('script') %}

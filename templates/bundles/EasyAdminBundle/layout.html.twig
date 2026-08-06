@@ -2,9 +2,7 @@
 
 {% set brand = current_brand() %}
 
-{# NelmioSecurityBundle only registers csp_nonce() where a CSP is configured.
-   Once any template asks for a nonce the browser ignores 'unsafe-inline', so every
-   inline script below must carry it or it is silently dropped. #}
+{# csp_nonce() only exists where a CSP is configured; without it inline scripts die. #}
 {% set script_nonce = null %}
 {% guard function csp_nonce %}
     {% set script_nonce = csp_nonce('script') %}
@@ -104,8 +102,7 @@
         });
     });
 
-    /* The search label sizes itself from data-value; a nonce cannot cover inline
-       event attributes, so the binding lives here instead of on the input. */
+    /* Bound here, not as an on-input attribute: no nonce covers event attributes. */
     document.querySelectorAll('.topnav-search-bar input[type="search"]').forEach(function(input) {
         input.addEventListener('input', function() {
             this.parentNode.dataset.value = this.value;
