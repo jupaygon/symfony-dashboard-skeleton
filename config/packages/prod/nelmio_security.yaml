@@ -1,9 +1,4 @@
-# Prod-only HTTPS enforcement.
-#
-# dj_nginx serves dev over plain HTTP on :81 — `forced_ssl` would redirect to a
-# non-existent HTTPS endpoint (ERR_SSL_PROTOCOL_ERROR). The CSP itself lives in
-# config/packages/nelmio_security.yaml and applies in every environment, so a
-# missing nonce breaks the page in dev instead of only in production.
+# Prod-only: dev is served over plain HTTP, so forced_ssl would redirect nowhere.
 nelmio_security:
     # Force HTTPS for one year. Subdomains included. Preload disabled until
     # the domain is registered with hstspreload.org — flipping preload before
