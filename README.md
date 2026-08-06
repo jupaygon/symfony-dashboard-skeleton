@@ -421,6 +421,28 @@ TRUSTED_PROXIES=private_ranges,REMOTE_ADDR
 
 `framework.yaml` already wires `trusted_proxies` and `trusted_headers`, so the env var is all you need on the consumer side. Leave it empty in dev.
 
+## Content Security Policy
+
+The CSP in `config/packages/nelmio_security.yaml` is **enforced in every environment**, dev included — a policy that only exists in production is a policy nobody tests. Only `forced_ssl` is prod-only, because dev is served over plain HTTP.
+
+NelmioSecurityBundle emits a per-response nonce as soon as any template calls `csp_nonce()`, and EasyAdmin's own templates do. Per the CSP spec, browsers **ignore `'unsafe-inline'` once a nonce is present**, so every inline `<script>` you add must carry the nonce or it is dropped without a console error:
+
+```twig
+{% set script_nonce = null %}
+{% guard function csp_nonce %}
+    {% set script_nonce = csp_nonce('script') %}
+{% endguard %}
+
+<script{% if script_nonce %} nonce="{{ script_nonce }}"{% endif %}>
+```
+
+The `guard` is what keeps the template working where no CSP is configured: Nelmio only registers `csp_nonce()` when one is.
+
+Two consequences worth remembering:
+
+- **Inline event attributes** (`onclick="…"`, `onInput="…"`) cannot take a nonce at all. Bind them with `addEventListener` from a nonced script.
+- **`importmap()`** renders inline scripts of its own — pass the nonce through: `{{ importmap('app', script_nonce ? {nonce: script_nonce} : {}) }}`.
+
 ## License
 
 MIT

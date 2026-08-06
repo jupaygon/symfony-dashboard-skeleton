@@ -2,6 +2,12 @@
 
 {% set brand = current_brand() %}
 
+{# csp_nonce() only exists where a CSP is configured; without it inline scripts die. #}
+{% set script_nonce = null %}
+{% guard function csp_nonce %}
+    {% set script_nonce = csp_nonce('script') %}
+{% endguard %}
+
 {% block head_favicon %}
     <link rel="icon" type="image/svg+xml" href="{{ asset('brands/' ~ brand.key ~ '/images/favicon/favicon.svg') }}">
 {% endblock head_favicon %}
@@ -72,7 +78,7 @@
     {{ parent() }}
 
     {% if current_brand().isTopnav() %}
-    <script>
+    <script{% if script_nonce %} nonce="{{ script_nonce }}"{% endif %}>
     /* Move modals to body root so they escape stacking context */
     document.querySelectorAll('.modal').forEach(function(modal) {
         document.body.appendChild(modal);
@@ -93,6 +99,13 @@
     document.addEventListener('click', function() {
         document.querySelectorAll('[data-topnav-dropdown].open').forEach(function(item) {
             item.classList.remove('open');
+        });
+    });
+
+    /* Bound here, not as an on-input attribute: no nonce covers event attributes. */
+    document.querySelectorAll('.topnav-search-bar input[type="search"]').forEach(function(input) {
+        input.addEventListener('input', function() {
+            this.parentNode.dataset.value = this.value;
         });
     });
     </script>
@@ -121,7 +134,7 @@
                         <div class="form-widget">
                             <twig:ea:Icon name="internal:search" class="content-search-icon" />
                             <label class="content-search-label" data-value="{{ app.request.query.get('query') }}">
-                                <input class="form-control {{ app.request.query.get('query') is null ? 'is-blank' }}" type="search" name="query" value="{{ app.request.query.get('query') ?? '' }}" placeholder="{{ t('action.search', ea.i18n.translationParameters, 'EasyAdminBundle')|trans }}" spellcheck="false" autocorrect="off" onInput="this.parentNode.dataset.value=this.value">
+                                <input class="form-control {{ app.request.query.get('query') is null ? 'is-blank' }}" type="search" name="query" value="{{ app.request.query.get('query') ?? '' }}" placeholder="{{ t('action.search', ea.i18n.translationParameters, 'EasyAdminBundle')|trans }}" spellcheck="false" autocorrect="off">
                             </label>
                             {% if app.request.query.get('query') %}
                                 {% set search_reset_url = ea_url().unset('query') %}
@@ -140,7 +153,7 @@
 {% block settings_dropdown_wrapper %}
     {% include 'bundles/EasyAdminBundle/includes/_settings_dropdown.html.twig' %}
 
-    <script>
+    <script{% if script_nonce %} nonce="{{ script_nonce }}"{% endif %}>
     document.querySelectorAll('.sidebar-pref-item').forEach(function(item) {
         item.addEventListener('click', function(e) {
             e.preventDefault();

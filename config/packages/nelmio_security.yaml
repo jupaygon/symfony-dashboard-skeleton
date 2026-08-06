@@ -1,6 +1,6 @@
 nelmio_security:
     # Block framing of the application (clickjacking).
-    # Modern browsers honour CSP frame-ancestors (set in prod). X-Frame-Options
+    # Modern browsers honour CSP frame-ancestors (set below). X-Frame-Options
     # is the legacy fallback for older user-agents and is enabled in every env
     # because it does not depend on TLS or nonces.
     clickjacking:
@@ -18,12 +18,44 @@ nelmio_security:
             - 'no-referrer'
             - 'strict-origin-when-cross-origin'
 
-    # forced_ssl (HTTP→HTTPS redirect + HSTS) and csp (Content Security Policy)
-    # live in config/packages/prod/nelmio_security.yaml only:
-    #   - dj_nginx serves dev over plain HTTP on :81; forced_ssl would redirect
-    #     to a non-existent HTTPS endpoint (ERR_SSL_PROTOCOL_ERROR).
-    #   - NelmioSecurityBundle auto-generates a nonce per response. Per CSP
-    #     spec, browsers ignore 'unsafe-inline' when a nonce is present —
-    #     EasyAdmin's inline scripts/styles don't carry it, so the admin UI
-    #     breaks in dev. Migrate EA5 templates to consume `csp_nonce()` before
-    #     enabling CSP outside prod.
+    # Content Security Policy, enforced in every environment on purpose: a CSP
+    # that only exists in prod is a CSP nobody tests. NelmioSecurityBundle emits
+    # a per-response nonce as soon as a template calls `csp_nonce()`, and per
+    # spec browsers then IGNORE 'unsafe-inline' — every inline <script> of ours
+    # must carry `nonce="{{ csp_nonce('script') }}"` or it dies silently.
+    csp:
+        enforce:
+            level1_fallback: true
+            browser_adaptive:
+                enabled: false
+            default-src:
+                - "'self'"
+            script-src:
+                # 'unsafe-inline' is a no-op for browsers that honour the nonce;
+                # it is kept as the CSP level 1 fallback for older user-agents.
+                # 'unsafe-eval' is required by Stimulus/Hotwire.
+                - "'self'"
+                - "'unsafe-inline'"
+                - "'unsafe-eval'"
+            style-src:
+                # EasyAdmin renders a handful of style="..." attributes, which no
+                # nonce can cover — dropping 'unsafe-inline' breaks colour and
+                # code-editor fields on browsers without the level 1 fallback.
+                - "'self'"
+                - "'unsafe-inline'"
+            img-src:
+                - "'self'"
+                - 'data:'
+            font-src:
+                - "'self'"
+                - 'data:'
+            connect-src:
+                - "'self'"
+            frame-ancestors:
+                - "'none'"
+            form-action:
+                - "'self'"
+            base-uri:
+                - "'self'"
+            object-src:
+                - "'none'"
